@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Recipe</string>
+    <string name="email">Email</string>
+    <string name="back">Back</string>
+    <string name="pass">Password</string>
+    <string name="register">Register</string>
 </resources>

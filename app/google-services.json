@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "534323118860",
+    "firebase_url": "https://recipe-mobileproject.firebaseio.com",
+    "project_id": "recipe-mobileproject",
+    "storage_bucket": "recipe-mobileproject.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:534323118860:android:7450f8fd27df4087",
+        "android_client_info": {
+          "package_name": "kmitl.it.recipe.recipe"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "534323118860-c10j5m6ioq5n43028com984hn819dei1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "kmitl.it.recipe.recipe",
+            "certificate_hash": "878d99c9ff4f74405482013a2b08d7215ae10334"
+          }
+        },
+        {
+          "client_id": "534323118860-evflfit3bs4j9p9uodnl89kpeso43s3g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBSrDjhAIkJEJjSpb-aha8tWHEL7pWmq9g"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "534323118860-evflfit3bs4j9p9uodnl89kpeso43s3g.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
