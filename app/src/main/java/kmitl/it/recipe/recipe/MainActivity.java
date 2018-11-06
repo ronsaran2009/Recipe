@@ -6,14 +6,18 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
 
     private DrawerLayout dl;
     private ActionBarDrawerToggle abdt;
     private NavigationView nv;
+    FirebaseAuth _auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,15 +43,31 @@ public class MainActivity extends AppCompatActivity {
 
                     Toast.makeText(MainActivity.this,"MYPROFILE",Toast.LENGTH_SHORT).show();
                     getSupportFragmentManager().beginTransaction().replace(R.id.main_view, new LoginFragment()).commit();
+                    Log.d("NAV_MENU", "GOTO PROFILE");
                     dl.closeDrawers();
                 }
-                else if (id == R.id.nav_menu_register){
-                    Toast.makeText(MainActivity.this,"REGISTER",Toast.LENGTH_SHORT).show();
+                else if (id == R.id.nav_menu_category){
+                    Toast.makeText(MainActivity.this,"CATEGORY",Toast.LENGTH_SHORT).show();
                     getSupportFragmentManager().beginTransaction().replace(R.id.main_view, new RegisterFragment()).commit();
+                    Log.d("NAV_MENU", "GOTO CATEGORY");
                     dl.closeDrawers();
                 }
                 else if (id == R.id.editprofile){
                     Toast.makeText(MainActivity.this,"EDITPROFILE",Toast.LENGTH_SHORT).show();
+                    Log.d("NAV_MENU", "GOTO EDITPROFILE");
+                    dl.closeDrawers();
+                }
+                else if (id == R.id.nav_menu_singout){
+                    if (_auth.getCurrentUser() == null){
+                        Toast.makeText(MainActivity.this,"ท่านไม่ได้อยู่ในระบบ",Toast.LENGTH_SHORT).show();
+                        Log.d("NAV_MENU", "SING OUT BUT NO CURRENT USER");
+                    }
+                    else{
+                        Toast.makeText(MainActivity.this,"ออกจากระบบเรียบร้อยแล้ว",Toast.LENGTH_SHORT).show();
+                        Log.d("NAV_MENU", "SING OUT COMPLETE");
+                        _auth.signOut();
+                    }
+
                     dl.closeDrawers();
                 }
 
@@ -55,10 +75,9 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
-//        if (savedInstanceState == null){
-//            getSupportFragmentManager().beginTransaction().replace(R.id.main_view, new LoginFragment()).commit();
-//
-//        }
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.main_view, new HomeFragment()).commit();      //Set home page(Start page)
+
     }
 
     @Override
