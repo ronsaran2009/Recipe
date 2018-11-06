@@ -52,7 +52,6 @@ public class RegisterFragment extends Fragment {
                     ).show();
                     Log.d("USER", "PASSWORD LENGHT < 6");
                 }else if (! _passwordStr.equals(_repasswordStr) ){
-
                     Toast.makeText(
                             getActivity(),
                             "Password ไม่ตรงกัน",
@@ -61,13 +60,15 @@ public class RegisterFragment extends Fragment {
                     Log.d("USER", "PASSWORD IS NOT EXIST");
                 }
                 else{
-
-
-
                     mailAuth.createUserWithEmailAndPassword(_emailStr,_passwordStr).addOnSuccessListener(new OnSuccessListener<AuthResult>(){
                         public void onSuccess(AuthResult authResult) {
                             sendVerifiedEmail(authResult.getUser());
                             mailAuth.signOut();
+                            Toast.makeText(
+                                    getActivity(),
+                                    "กรุณาตรวจสอบEMAIL",
+                                    Toast.LENGTH_SHORT
+                            ).show();
                             Log.d("USER", "GOTO login");
                             getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.main_view, new LoginFragment()).commit();
 
@@ -82,8 +83,6 @@ public class RegisterFragment extends Fragment {
                             Log.d("USER", "ERROR : " + e.getMessage());
                         }
                     });
-
-                    //
                 }
 
             }

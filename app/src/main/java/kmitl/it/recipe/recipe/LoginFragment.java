@@ -31,10 +31,13 @@ public class LoginFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
+        _auth = FirebaseAuth.getInstance();
         initLoginBtn();
         initRegisterBtn();
-
+//        TextView _profile = getActivity().findViewById(R.id.nav_menu_profile).;
+//        if (_auth.getCurrentUser() != null) {
+//            _profile.setText("USER");
+//        }
     }
 
     void initLoginBtn(){
@@ -46,12 +49,6 @@ public class LoginFragment extends Fragment {
                 EditText _password = getView().findViewById(R.id.login_pass);
                 String _userIdStr = _userId.getText().toString();
                 String _passwordStr = _password.getText().toString();
-
-                if (_auth.getCurrentUser() != null) { //check if user is already login
-                    Log.d("USER", "ALREADY LOGIN");
-                    Log.d("USER", "GOTO MENU");
-                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.main_view, new CategoryFragment()).commit();
-                }
                 if (_userIdStr.isEmpty() || _passwordStr.isEmpty()) { //check empty input
                     Toast.makeText(
                             getActivity(),
@@ -59,7 +56,13 @@ public class LoginFragment extends Fragment {
                             Toast.LENGTH_SHORT
                     ).show();
                     Log.d("USER", "USER OR PASSWORD IS EMPTY");
-                } else {
+                }
+//                else if (_auth.getCurrentUser() != null) { //check if user is already login
+//                    Log.d("USER", "ALREADY LOGIN");
+//                    Log.d("USER", "GOTO MENU");
+//                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.main_view, new CategoryFragment()).commit();
+//                }
+                else {
                     _auth.signInWithEmailAndPassword(_userIdStr, _passwordStr).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                         @Override
                         public void onSuccess(AuthResult authResult) {
@@ -94,6 +97,7 @@ public class LoginFragment extends Fragment {
                 }
             }
         });
+
     }
 
     void initRegisterBtn(){

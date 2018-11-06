@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -23,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        _auth = FirebaseAuth.getInstance();
         dl = findViewById(R.id.dl);
         abdt = new ActionBarDrawerToggle(this,dl,R.string.open,R.string.close);
         abdt.setDrawerIndicatorEnabled(true);
@@ -33,6 +35,10 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         NavigationView nav_view = findViewById(R.id.nav_view);
+//        TextView _profile = findViewById(R.id.nav_menu_profile);
+//        if (_auth.getCurrentUser() != null) {
+//            _profile.setText(_auth.getCurrentUser().getEmail());
+//        }
 
         nav_view.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -40,10 +46,15 @@ public class MainActivity extends AppCompatActivity {
                 int id = item.getItemId();
 
                 if (id == R.id.myprofile){
-
-                    Toast.makeText(MainActivity.this,"MYPROFILE",Toast.LENGTH_SHORT).show();
-                    getSupportFragmentManager().beginTransaction().replace(R.id.main_view, new LoginFragment()).commit();
-                    Log.d("NAV_MENU", "GOTO PROFILE");
+                    if (_auth.getCurrentUser() != null){
+                        Toast.makeText(MainActivity.this, "ALREADY_LOG_IN", Toast.LENGTH_SHORT).show();
+                        Log.d("NAV_MENU", "ALREADY_LOG_IN");
+                    }
+                    else {
+                        Toast.makeText(MainActivity.this, "MYPROFILE", Toast.LENGTH_SHORT).show();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.main_view, new LoginFragment()).commit();
+                        Log.d("NAV_MENU", "GOTO PROFILE");
+                    }
                     dl.closeDrawers();
                 }
                 else if (id == R.id.nav_menu_category){
@@ -54,22 +65,25 @@ public class MainActivity extends AppCompatActivity {
                 }
                 else if (id == R.id.editprofile){
                     Toast.makeText(MainActivity.this,"EDITPROFILE",Toast.LENGTH_SHORT).show();
-                    Log.d("NAV_MENU", "GOTO EDITPROFILE");
+                    Log.d("NAV_MENU", "GOTO EDIT_PROFILE");
                     dl.closeDrawers();
                 }
                 else if (id == R.id.nav_menu_singout){
-                    if (_auth.getCurrentUser() == null){
-                        Toast.makeText(MainActivity.this,"ท่านไม่ได้อยู่ในระบบ",Toast.LENGTH_SHORT).show();
-                        Log.d("NAV_MENU", "SING OUT BUT NO CURRENT USER");
-                    }
-                    else{
+                    Log.d("NAV_MENU", "elseif");
+                    if (_auth.getCurrentUser() != null){
                         Toast.makeText(MainActivity.this,"ออกจากระบบเรียบร้อยแล้ว",Toast.LENGTH_SHORT).show();
                         Log.d("NAV_MENU", "SING OUT COMPLETE");
                         _auth.signOut();
-                    }
 
+                    }
+                    else {
+
+                        Toast.makeText(MainActivity.this, "ท่านไม่ได้อยู่ในระบบ", Toast.LENGTH_SHORT).show();
+                        Log.d("NAV_MENU", "SING OUT BUT NO CURRENT USER");
+                    }
                     dl.closeDrawers();
                 }
+
 
 
                 return true;

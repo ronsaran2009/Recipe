@@ -4,4 +4,10 @@
     <string name="back">Back</string>
     <string name="pass">Password</string>
     <string name="register">Register</string>
+    <string name="recommended">Recommended</string>
+    <string name="category">Category</string>
+    <string name="singout">Sing out</string>
+
+    <string name="open">Open</string>
+    <string name="close">Close</string>
 </resources>
