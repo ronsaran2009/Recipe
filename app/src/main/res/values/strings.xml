@@ -10,4 +10,7 @@
 
     <string name="open">Open</string>
     <string name="close">Close</string>
+
+    <!-- Choose Menu -->
+    <string name="choose_menu_header">แกง</string>
 </resources>
