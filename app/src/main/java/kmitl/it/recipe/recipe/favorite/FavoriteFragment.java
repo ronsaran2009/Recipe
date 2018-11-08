@@ -29,7 +29,7 @@ public class FavoriteFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
+        getActivity().setTitle("FAVORITE");
         /* Get db
         _firestore = FirebaseFirestore.getInstance();
         _mAuth = FirebaseAuth.getInstance(); */

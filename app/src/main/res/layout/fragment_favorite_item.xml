@@ -13,7 +13,7 @@
             android:id="@+id/favorite_item_img"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:src="@drawable/login_pic"
+
             android:layout_alignParentLeft="true"/>
 
         <LinearLayout

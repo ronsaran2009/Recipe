@@ -26,6 +26,7 @@ public class RegisterFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_register, container, false);}
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        getActivity().setTitle("REGISTER");
         mailAuth = FirebaseAuth.getInstance();
         initRegisterBtn();
 

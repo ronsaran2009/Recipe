@@ -13,6 +13,8 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 
+import kmitl.it.recipe.recipe.favorite.FavoriteFragment;
+
 public class MainActivity extends AppCompatActivity {
 
     private DrawerLayout dl;
@@ -59,12 +61,13 @@ public class MainActivity extends AppCompatActivity {
                 }
                 else if (id == R.id.nav_menu_category){
                     Toast.makeText(MainActivity.this,"CATEGORY",Toast.LENGTH_SHORT).show();
-                    getSupportFragmentManager().beginTransaction().replace(R.id.main_view, new RegisterFragment()).commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.main_view, new CategoryFragment()).commit();
                     Log.d("NAV_MENU", "GOTO CATEGORY");
                     dl.closeDrawers();
                 }
                 else if (id == R.id.editprofile){
                     Toast.makeText(MainActivity.this,"EDITPROFILE",Toast.LENGTH_SHORT).show();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.main_view, new FavoriteFragment()).commit();
                     Log.d("NAV_MENU", "GOTO EDIT_PROFILE");
                     dl.closeDrawers();
                 }
