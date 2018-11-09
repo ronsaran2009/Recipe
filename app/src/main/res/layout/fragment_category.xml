@@ -9,21 +9,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
-
         <GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:padding="10dp">
+
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/category"
-                android:gravity="end"
-                android:textSize="25dp"
-                android:textColor="#ff0000"
-                />
+                style="@style/Title"
+                android:text="@string/category"/>
+
             <RelativeLayout>
 
                 <LinearLayout
@@ -32,61 +27,54 @@
                     android:orientation="vertical">
 
                     <ImageButton
-                        android:id="@+id/cat_img_catBoil"
-                        android:layout_width="120dp"
-                        android:layout_height="120dp"
+                        android:id="@+id/cat_boiled"
+                        style="@style/Category_Image"
                         android:layout_alignParentTop="true"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/cat_boil" />
+                        android:src="@drawable/cat_boiled" />
 
                     <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:text="String1" />
+                        style="@style/Category_Text"
+                        android:text="ต้ม - แกง" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_centerHorizontal="true">
+                    android:layout_centerHorizontal="true"
+                    android:orientation="vertical">
 
                     <ImageButton
-                        android:layout_width="120dp"
-                        android:layout_height="120dp"
+                        android:id="@+id/cat_fried1"
+                        style="@style/Category_Image"
                         android:layout_centerHorizontal="true"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/cat_boil" />
+                        android:src="@drawable/cat_fried1" />
 
                     <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_alignParentStart="true"
+                        style="@style/Category_Text"
                         android:layout_alignParentBottom="true"
-                        android:gravity="center"
-                        android:text="String2" />
+                        android:layout_alignParentStart="true"
+                        android:text="ผัด" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_alignParentEnd="true">
-                <ImageButton
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
-                    android:layout_alignParentRight="true"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/cat_boil" />
+                    android:layout_alignParentEnd="true"
+                    android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentBottom="true"
-                    android:gravity="center"
-                    android:text="String3" />
+                    <ImageButton
+                        android:id="@+id/cat_fried2"
+                        style="@style/Category_Image"
+                        android:layout_alignParentRight="true"
+                        android:src="@drawable/cat_fried2" />
+
+                    <TextView
+                        style="@style/Category_Text"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentStart="true"
+                        android:text="ทอด" />
                 </LinearLayout>
+
             </RelativeLayout>
 
             <RelativeLayout>
@@ -97,61 +85,167 @@
                     android:orientation="vertical">
 
                     <ImageButton
-
-                        android:layout_width="120dp"
-                        android:layout_height="120dp"
+                        android:id="@+id/cat_baked"
+                        style="@style/Category_Image"
                         android:layout_alignParentTop="true"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/cat_boil" />
+                        android:src="@drawable/cat_baked" />
 
                     <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:text="String1" />
+                        style="@style/Category_Text"
+                        android:text="อบ - ตุ๋น" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_centerHorizontal="true">
+                    android:layout_centerHorizontal="true"
+                    android:orientation="vertical">
 
                     <ImageButton
-                        android:layout_width="120dp"
-                        android:layout_height="120dp"
+                        android:id="@+id/cat_steamed"
+                        style="@style/Category_Image"
                         android:layout_centerHorizontal="true"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/cat_boil" />
+                        android:src="@drawable/cat_steamed" />
 
                     <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_alignParentStart="true"
+                        style="@style/Category_Text"
                         android:layout_alignParentBottom="true"
-                        android:gravity="center"
-                        android:text="String2" />
+                        android:layout_alignParentStart="true"
+                        android:text="นึ่ง" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_alignParentEnd="true">
+                    android:layout_alignParentEnd="true"
+                    android:orientation="vertical">
+
                     <ImageButton
-                        android:layout_width="120dp"
-                        android:layout_height="120dp"
+                        android:id="@+id/cat_grill"
+                        style="@style/Category_Image"
                         android:layout_alignParentRight="true"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/cat_boil" />
+                        android:src="@drawable/cat_grill" />
 
                     <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_alignParentStart="true"
+                        style="@style/Category_Text"
                         android:layout_alignParentBottom="true"
-                        android:gravity="center"
+                        android:layout_alignParentStart="true"
+                        android:text="ปิ้ง - ย่าง" />
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <ImageButton
+                        android:id="@+id/cat_yum"
+                        style="@style/Category_Image"
+                        android:layout_alignParentTop="true"
+                        android:src="@drawable/cat_yum" />
+
+                    <TextView
+                        style="@style/Category_Text"
+                        android:text="ยำ" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:orientation="vertical">
+
+                    <ImageButton
+                        android:id="@+id/cat_fastfood"
+                        style="@style/Category_Image"
+                        android:layout_centerHorizontal="true"
+                        android:src="@drawable/cat_fastfood" />
+
+                    <TextView
+                        style="@style/Category_Text"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentStart="true"
+                        android:text="อาหารจานเดียว" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:orientation="vertical">
+
+                    <ImageButton
+                        android:id="@+id/cat_String3"
+                        style="@style/Category_Image"
+                        android:layout_alignParentRight="true"
+                        android:src="@drawable/cat_fastfood" />
+
+                    <TextView
+                        style="@style/Category_Text"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentStart="true"
                         android:text="String3" />
                 </LinearLayout>
+
+            </RelativeLayout>
+
+            <!-- <RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <ImageButton
+                        style="@style/Category_Image"
+                        android:layout_alignParentTop="true"
+                        android:src="@drawable/cat_boil" />
+
+                    <TextView
+                        style="@style/Category_Text"
+                        android:text="String1" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:orientation="vertical">
+
+                    <ImageButton
+                        style="@style/Category_Image"
+                        android:layout_centerHorizontal="true"
+                        android:src="@drawable/cat_boil" />
+
+                    <TextView
+                        style="@style/Category_Text"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentStart="true"
+                        android:text="String2" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:orientation="vertical">
+
+                    <ImageButton
+                        style="@style/Category_Image"
+                        android:layout_alignParentRight="true"
+                        android:src="@drawable/cat_boil" />
+
+                    <TextView
+                        style="@style/Category_Text"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentStart="true"
+                        android:text="String3" />
+                </LinearLayout>
+
             </RelativeLayout>
 
             <RelativeLayout>
@@ -162,188 +256,55 @@
                     android:orientation="vertical">
 
                     <ImageButton
-
-                        android:layout_width="120dp"
-                        android:layout_height="120dp"
+                        style="@style/Category_Image"
                         android:layout_alignParentTop="true"
-                        android:scaleType="fitCenter"
                         android:src="@drawable/cat_boil" />
 
                     <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
+                        style="@style/Category_Text"
                         android:text="String1" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_centerHorizontal="true">
-
-                    <ImageButton
-                        android:layout_width="120dp"
-                        android:layout_height="120dp"
-                        android:layout_centerHorizontal="true"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/cat_boil" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_alignParentStart="true"
-                        android:layout_alignParentBottom="true"
-                        android:gravity="center"
-                        android:text="String2" />
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_alignParentEnd="true">
-                    <ImageButton
-                        android:layout_width="120dp"
-                        android:layout_height="120dp"
-                        android:layout_alignParentRight="true"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/cat_boil" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_alignParentStart="true"
-                        android:layout_alignParentBottom="true"
-                        android:gravity="center"
-                        android:text="String3" />
-                </LinearLayout>
-            </RelativeLayout>
-            <RelativeLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
                     android:orientation="vertical">
 
                     <ImageButton
-                        android:layout_width="120dp"
-                        android:layout_height="120dp"
-                        android:layout_alignParentTop="true"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/cat_boil" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:text="String1" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_centerHorizontal="true">
-
-                    <ImageButton
-                        android:layout_width="120dp"
-                        android:layout_height="120dp"
+                        style="@style/Category_Image"
                         android:layout_centerHorizontal="true"
-                        android:scaleType="fitCenter"
                         android:src="@drawable/cat_boil" />
 
                     <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_alignParentStart="true"
+                        style="@style/Category_Text"
                         android:layout_alignParentBottom="true"
-                        android:gravity="center"
+                        android:layout_alignParentStart="true"
                         android:text="String2" />
                 </LinearLayout>
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_alignParentEnd="true">
-                    <ImageButton
-                        android:layout_width="120dp"
-                        android:layout_height="120dp"
-                        android:layout_alignParentRight="true"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/cat_boil" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_alignParentStart="true"
-                        android:layout_alignParentBottom="true"
-                        android:gravity="center"
-                        android:text="String3" />
-                </LinearLayout>
-            </RelativeLayout>
-            <RelativeLayout>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
                     android:orientation="vertical">
 
                     <ImageButton
-                        android:layout_width="120dp"
-                        android:layout_height="120dp"
-                        android:layout_alignParentTop="true"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/cat_boil" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:text="String1" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_centerHorizontal="true">
-
-                    <ImageButton
-                        android:layout_width="120dp"
-                        android:layout_height="120dp"
-                        android:layout_centerHorizontal="true"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/cat_boil" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_alignParentStart="true"
-                        android:layout_alignParentBottom="true"
-                        android:gravity="center"
-                        android:text="String2" />
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_alignParentEnd="true">
-                    <ImageButton
-                        android:layout_width="120dp"
-                        android:layout_height="120dp"
+                        style="@style/Category_Image"
                         android:layout_alignParentRight="true"
-                        android:scaleType="fitCenter"
                         android:src="@drawable/cat_boil" />
 
                     <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_alignParentStart="true"
+                        style="@style/Category_Text"
                         android:layout_alignParentBottom="true"
-                        android:gravity="center"
+                        android:layout_alignParentStart="true"
                         android:text="String3" />
                 </LinearLayout>
-            </RelativeLayout>
+
+            </RelativeLayout> -->
+
         </GridLayout>
+
     </ScrollView>
+
 </android.support.constraint.ConstraintLayout>

@@ -26,20 +26,25 @@ public class CategoryFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        
         getActivity().setTitle("CATEGORY");
         clickImg();
 
     }
 
     void clickImg (){
-        ImageButton cat_boil = getView().findViewById(R.id.cat_img_catBoil);
+        ImageButton cat_boil = getView().findViewById(R.id.cat_boiled);
         cat_boil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                getActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .addToBackStack(null)
+                        .replace(R.id.main_view, new RecipeFragment())
+                        .commit();
                 Toast.makeText(
-                        getActivity(),"Click Image", Toast.LENGTH_SHORT
+                        getActivity(),"GOTO HOW TO COOK", Toast.LENGTH_SHORT
                 ).show();
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.main_view, new RecipeFragment()).commit();
             }
         });
     }
