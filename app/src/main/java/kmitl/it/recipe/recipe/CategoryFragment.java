@@ -26,7 +26,7 @@ public class CategoryFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
+        getActivity().setTitle("CATEGORY");
         clickImg();
 
     }
@@ -39,6 +39,7 @@ public class CategoryFragment extends Fragment {
                 Toast.makeText(
                         getActivity(),"Click Image", Toast.LENGTH_SHORT
                 ).show();
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.main_view, new RecipeFragment()).commit();
             }
         });
     }

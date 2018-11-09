@@ -31,6 +31,7 @@ public class LoginFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        getActivity().setTitle("LOGIN");
         _auth = FirebaseAuth.getInstance();
         initLoginBtn();
         initRegisterBtn();
