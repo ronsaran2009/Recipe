@@ -18,6 +18,7 @@ import kmitl.it.recipe.recipe.CategoryFragment;
 import kmitl.it.recipe.recipe.HomeFragment;
 import kmitl.it.recipe.recipe.LoginFragment;
 import kmitl.it.recipe.recipe.R;
+import kmitl.it.recipe.recipe.favorite.FavoriteFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -109,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 else if (id == R.id.editprofile){
                     Toast.makeText(MainActivity.this,"EDITPROFILE",Toast.LENGTH_SHORT).show();
-//                    getSupportFragmentManager().beginTransaction().replace(R.id.main_view, new FavoriteFragmen()).commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.main_view, new FavoriteFragment()).commit();
                     Log.d("NAV_MENU", "GOTO EDIT_PROFILE");
                     _drawMain.closeDrawers();
                 }
