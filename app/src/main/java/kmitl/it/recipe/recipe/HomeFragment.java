@@ -16,21 +16,22 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 public class HomeFragment extends Fragment {
+
+    private ArrayList<String> _menu = new ArrayList<>();
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_home, container, false);
     }
-    ArrayList<String> _menu = new ArrayList<>();
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        _menu.add("ข้่วผัดหมู");
+        _menu.add("ข้าวผัดหมู");
         _menu.add("กระเพราหมู");
         _menu.add("สุกกี้แห้ง");
         _menu.add("ข้าวป่าว?");
         _menu.add("อะไรก็ได้");
-
 
         final ArrayAdapter<String> _menuAdapter = new ArrayAdapter<>(
                 getActivity(),

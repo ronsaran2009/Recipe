@@ -1,5 +1,7 @@
-package kmitl.it.recipe.recipe;
+package kmitl.it.recipe.recipe.Activity;
 
+import android.content.Intent;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -8,38 +10,80 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 
+import kmitl.it.recipe.recipe.CategoryFragment;
+import kmitl.it.recipe.recipe.HomeFragment;
+import kmitl.it.recipe.recipe.LoginFragment;
+import kmitl.it.recipe.recipe.R;
+
 public class MainActivity extends AppCompatActivity {
 
-    private DrawerLayout dl;
-    private ActionBarDrawerToggle abdt;
-    private NavigationView nv;
-    FirebaseAuth _auth;
+    //for fade in & fade out
+    private int WELCOME_TIMEOUT = 0;
+    protected static boolean COUNT = true;
+
+    //Navigation
+    private FirebaseAuth _auth;
+    private DrawerLayout _drawMain;
+    private ActionBarDrawerToggle _abdt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        _auth = FirebaseAuth.getInstance();
-        dl = findViewById(R.id.dl);
-        abdt = new ActionBarDrawerToggle(this,dl,R.string.open,R.string.close);
-        abdt.setDrawerIndicatorEnabled(true);
+        fadeInOut(savedInstanceState);
+    }
 
-        dl.addDrawerListener(abdt);
-        abdt.syncState();
+    private void fadeInOut(Bundle savedInstanceState){
+        if (COUNT) {
+            COUNT = false;
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Intent welcome = new Intent();
+                    welcome.setClass(MainActivity.this, SecondActivity.class);
+                    startActivity(welcome);
+                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                    finish();
+                }
+            }, WELCOME_TIMEOUT);
+            Log.d("Main", "fade | count : " + COUNT);
+        }else {
+            if (savedInstanceState == null) {
+                callNavigationBar();
+                checkSelectNavigation();
+                goToHome();
+            }
+        }
+    }
+
+    private void callNavigationBar(){
+        _auth = FirebaseAuth.getInstance();
+        _drawMain = findViewById(R.id.drawMain);
+        _abdt = new ActionBarDrawerToggle(this, _drawMain, R.string.open, R.string.close);
+        _abdt.setDrawerIndicatorEnabled(true);
+
+        _drawMain.addDrawerListener(_abdt);
+        _abdt.syncState();
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        NavigationView nav_view = findViewById(R.id.nav_view);
-//        TextView _profile = findViewById(R.id.nav_menu_profile);
-//        if (_auth.getCurrentUser() != null) {
-//            _profile.setText(_auth.getCurrentUser().getEmail());
-//        }
+    }
 
+    private void goToHome(){
+        getSupportFragmentManager()
+                .beginTransaction()
+                .setCustomAnimations(R.anim.fade_out, R.anim.fade_in)
+                .replace(R.id.main_view, new HomeFragment())
+                .commit();
+        Log.d("Main", "Goto home fragment");
+    }
+
+    private void checkSelectNavigation(){
+        NavigationView nav_view = findViewById(R.id.nav_view);
         nav_view.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -55,18 +99,19 @@ public class MainActivity extends AppCompatActivity {
                         getSupportFragmentManager().beginTransaction().replace(R.id.main_view, new LoginFragment()).commit();
                         Log.d("NAV_MENU", "GOTO PROFILE");
                     }
-                    dl.closeDrawers();
+                    _drawMain.closeDrawers();
                 }
                 else if (id == R.id.nav_menu_category){
                     Toast.makeText(MainActivity.this,"CATEGORY",Toast.LENGTH_SHORT).show();
-                    getSupportFragmentManager().beginTransaction().replace(R.id.main_view, new RegisterFragment()).commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.main_view, new CategoryFragment()).commit();
                     Log.d("NAV_MENU", "GOTO CATEGORY");
-                    dl.closeDrawers();
+                    _drawMain.closeDrawers();
                 }
                 else if (id == R.id.editprofile){
                     Toast.makeText(MainActivity.this,"EDITPROFILE",Toast.LENGTH_SHORT).show();
+//                    getSupportFragmentManager().beginTransaction().replace(R.id.main_view, new FavoriteFragmen()).commit();
                     Log.d("NAV_MENU", "GOTO EDIT_PROFILE");
-                    dl.closeDrawers();
+                    _drawMain.closeDrawers();
                 }
                 else if (id == R.id.nav_menu_singout){
                     Log.d("NAV_MENU", "elseif");
@@ -81,25 +126,18 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(MainActivity.this, "ท่านไม่ได้อยู่ในระบบ", Toast.LENGTH_SHORT).show();
                         Log.d("NAV_MENU", "SING OUT BUT NO CURRENT USER");
                     }
-                    dl.closeDrawers();
+                    _drawMain.closeDrawers();
                 }
-
-
-
                 return true;
             }
         });
-
-        getSupportFragmentManager().beginTransaction().replace(R.id.main_view, new HomeFragment()).commit();      //Set home page(Start page)
-
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(abdt.onOptionsItemSelected(item))
+        if(_abdt.onOptionsItemSelected(item))
             return true;
 
         return super.onOptionsItemSelected(item);
-
     }
 }
