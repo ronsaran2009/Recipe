@@ -97,20 +97,32 @@ public class MainActivity extends AppCompatActivity {
                     }
                     else {
                         Toast.makeText(MainActivity.this, "MYPROFILE", Toast.LENGTH_SHORT).show();
-                        getSupportFragmentManager().beginTransaction().replace(R.id.main_view, new LoginFragment()).commit();
+                        getSupportFragmentManager()
+                                .beginTransaction()
+                                .addToBackStack(null)
+                                .replace(R.id.main_view, new LoginFragment())
+                                .commit();
                         Log.d("NAV_MENU", "GOTO PROFILE");
                     }
                     _drawMain.closeDrawers();
                 }
                 else if (id == R.id.nav_menu_category){
                     Toast.makeText(MainActivity.this,"CATEGORY",Toast.LENGTH_SHORT).show();
-                    getSupportFragmentManager().beginTransaction().replace(R.id.main_view, new CategoryFragment()).commit();
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .addToBackStack(null)
+                            .replace(R.id.main_view, new CategoryFragment())
+                            .commit();
                     Log.d("NAV_MENU", "GOTO CATEGORY");
                     _drawMain.closeDrawers();
                 }
                 else if (id == R.id.editprofile){
                     Toast.makeText(MainActivity.this,"EDITPROFILE",Toast.LENGTH_SHORT).show();
-                    getSupportFragmentManager().beginTransaction().replace(R.id.main_view, new FavoriteFragment()).commit();
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .addToBackStack(null)
+                            .replace(R.id.main_view, new FavoriteFragment())
+                            .commit();
                     Log.d("NAV_MENU", "GOTO EDIT_PROFILE");
                     _drawMain.closeDrawers();
                 }
@@ -120,10 +132,8 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(MainActivity.this,"ออกจากระบบเรียบร้อยแล้ว",Toast.LENGTH_SHORT).show();
                         Log.d("NAV_MENU", "SING OUT COMPLETE");
                         _auth.signOut();
-
                     }
                     else {
-
                         Toast.makeText(MainActivity.this, "ท่านไม่ได้อยู่ในระบบ", Toast.LENGTH_SHORT).show();
                         Log.d("NAV_MENU", "SING OUT BUT NO CURRENT USER");
                     }

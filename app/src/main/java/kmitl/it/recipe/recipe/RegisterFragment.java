@@ -26,12 +26,12 @@ public class RegisterFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_register, container, false);}
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
         getActivity().setTitle("REGISTER");
         mailAuth = FirebaseAuth.getInstance();
         initRegisterBtn();
 
     }
-
 
     void initRegisterBtn(){
         TextView _regBtn = getView().findViewById(R.id.register_registerbtn);
@@ -71,7 +71,11 @@ public class RegisterFragment extends Fragment {
                                     Toast.LENGTH_SHORT
                             ).show();
                             Log.d("USER", "GOTO login");
-                            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.main_view, new LoginFragment()).commit();
+                            getActivity().getSupportFragmentManager()
+                                    .beginTransaction()
+                                    .addToBackStack(null)
+                                    .replace(R.id.main_view, new LoginFragment())
+                                    .commit();
 
                         }
                     }).addOnFailureListener(new OnFailureListener(){

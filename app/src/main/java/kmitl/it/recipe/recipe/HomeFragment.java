@@ -29,7 +29,6 @@ public class HomeFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         getActivity().setTitle("HOME");
 
-
         _menu.add("ข้าวผัดหมู");
         _menu.add("กระเพราหมู");
         _menu.add("สุกกี้แห้ง");

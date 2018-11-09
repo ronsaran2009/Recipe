@@ -8,8 +8,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-
+        android:orientation="vertical"
+        android:padding="20dp">
 
         <EditText
             android:id="@+id/login_email"
@@ -30,10 +30,9 @@
 
         <Button
             android:id="@+id/login_loginbnt"
-            android:text="Login"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"/>
+            style="@style/Button"
+            android:text="Login" />
+
         <TextView
             android:id="@+id/login_register"
             android:text="@string/register"
@@ -41,9 +40,8 @@
             android:layout_width="162dp"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:gravity="center"
+            android:gravity="center"/>
 
-        />
     </LinearLayout>
 
 

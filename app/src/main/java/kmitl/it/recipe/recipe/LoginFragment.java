@@ -70,7 +70,11 @@ public class LoginFragment extends Fragment {
                             if (_auth.getCurrentUser().isEmailVerified()) {
                                 Log.d("USER", "LOGIN SUCCESS");
                                 Log.d("USER", "GOTO MENU");
-                                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.main_view, new CategoryFragment()).commit();
+                                getActivity().getSupportFragmentManager()
+                                        .beginTransaction()
+                                        .addToBackStack(null)
+                                        .replace(R.id.main_view, new CategoryFragment())
+                                        .commit();
                             } else {
                                 Toast.makeText(
                                         getActivity(),

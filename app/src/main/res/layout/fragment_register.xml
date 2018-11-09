@@ -1,60 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <!--<TextView-->
-        <!--android:text="@string/register"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:background="@color/colorPrimary"-->
-        <!--android:textAllCaps="true"-->
-        <!--android:textSize="30dp"-->
-        <!--android:padding="10dp"-->
-        <!--/>-->
+    <!--android:text="@string/register"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:background="@color/colorPrimary"-->
+    <!--android:textAllCaps="true"-->
+    <!--android:textSize="30dp"-->
+    <!--android:padding="10dp"-->
+    <!--/>-->
 
-        <LinearLayout
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <EditText
+            android:id="@+id/register_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="35dp">
-            <EditText
-                android:id="@+id/register_email"
-                android:hint="@string/email"
-                android:drawableLeft="@drawable/ic_action_email"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_action_email"
+            android:hint="@string/email" />
 
-                />
+        <EditText
+            android:id="@+id/register_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_action_password"
+            android:hint="@string/pass"
+            android:inputType="textPassword" />
 
-            <EditText
-                android:id="@+id/register_password"
-                android:hint="@string/pass"
-                android:drawableLeft="@drawable/ic_action_password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPassword"
-                />
+        <EditText
+            android:id="@+id/register_repassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_action_password"
+            android:hint="Re-password"
+            android:inputType="textPassword" />
 
-            <EditText
-                android:id="@+id/register_repassword"
-                android:hint="Re-password"
-                android:drawableLeft="@drawable/ic_action_password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPassword"
-                />
+        <Button
+            android:id="@+id/register_registerbtn"
+            style="@style/Button"
+            android:text="@string/register" />
 
-            <Button
-                android:id="@+id/register_registerbtn"
-                android:text="@string/register"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-
-                />
-
-        </LinearLayout>
-
-
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
