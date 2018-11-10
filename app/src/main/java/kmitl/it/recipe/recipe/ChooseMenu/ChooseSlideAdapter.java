@@ -20,12 +20,12 @@ public class ChooseSlideAdapter extends PagerAdapter {
     Context context;
     LayoutInflater inflater;
 
-    public ChooseSlideAdapter(Context context){
-        this.context=context;
+    public ChooseSlideAdapter(Context context) {
+        this.context = context;
     }
 
     //Array
-    public int[] list_images={
+    public int[] list_images = {
 
             0,
             R.drawable.cat_boiled,
@@ -33,7 +33,7 @@ public class ChooseSlideAdapter extends PagerAdapter {
             R.drawable.cat_boiled
     };
 
-    public String[] list_title={
+    public String[] list_title = {
 
             "แกง",
             "แกงส้ม",
@@ -41,7 +41,7 @@ public class ChooseSlideAdapter extends PagerAdapter {
             "แกงส้ม"
     };
 
-    public String[] list_description={
+    public String[] list_description = {
 
             "เลื่อน >",
             "แกงเขียวหวานนั่นแสนอร่อย",
@@ -63,26 +63,25 @@ public class ChooseSlideAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
 
-        inflater = (LayoutInflater)context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(R.layout.item_choose_menu,container,false);
+        inflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
+        View view = inflater.inflate(R.layout.item_choose_menu, container, false);
 
         LinearLayout linearLayout = view.findViewById(R.id.choosei_slide);
         ImageView img = view.findViewById(R.id.choosei_img);
-        TextView txt1 =  view.findViewById(R.id.choosei_title);
-        TextView txt2 =  view.findViewById(R.id.choosei_desc);
+        TextView txt1 = view.findViewById(R.id.choosei_title);
+        TextView txt2 = view.findViewById(R.id.choosei_desc);
 
-        if(position == 0) {
+        if (position == 0) {
             txt1.setText(list_title[position]);
             txt2.setText(list_description[position]);
             linearLayout.setBackgroundColor(Color.rgb(252, 214, 44));
-            img.setImageResource( list_images[position]);
+            img.setImageResource(list_images[position]);
             img.setScaleType(ImageView.ScaleType.FIT_CENTER);
 
-        }
-        else{
+        } else {
             txt1.setText(list_title[position]);
             txt2.setText(list_description[position]);
-            img.setImageResource( list_images[position]);
+            img.setImageResource(list_images[position]);
             img.setScaleType(ImageView.ScaleType.CENTER_CROP);
         }
 
@@ -94,6 +93,6 @@ public class ChooseSlideAdapter extends PagerAdapter {
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
-        container.removeView((LinearLayout)object);
+        container.removeView((LinearLayout) object);
     }
 }

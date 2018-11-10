@@ -1,59 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/choosei_slide"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
     android:layout_gravity="center_horizontal"
-    >
+    android:orientation="vertical">
 
-<RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="bottom"
-
-    >
-
-    <ImageView
-        android:id="@+id/choosei_img"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="250sp"
-
-         />
-    <LinearLayout
-        android:orientation="vertical"
-        android:background="@color/colorBlack_Header"
-        android:layout_width="match_parent"
-        android:layout_height="250sp"
+        android:layout_height="match_parent"
         android:gravity="bottom"
-        android:paddingBottom="25sp"
+
         >
 
-        <TextView
-            android:id="@+id/choosei_title"
+        <ImageView
+            android:id="@+id/choosei_img"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="monospace"
-            android:gravity="center"
-            android:hint="Title"
-            android:textAlignment="center"
-            android:textColor="@color/colorWhite"
-            android:textSize="60sp" />
-        <TextView
-            android:id="@+id/choosei_desc"
-            android:textAlignment="center"
+            android:layout_height="250sp"
+
+            />
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Description"
-            android:padding="5dp"
-            android:textSize="20sp"
-            android:gravity="center"
-            android:textColor="@color/colorWhite"
-            android:fontFamily="sans-serif-condensed"/>
+            android:layout_height="250sp"
+            android:background="@color/colorBlack_Header"
+            android:gravity="bottom"
+            android:orientation="vertical"
+            android:paddingBottom="25sp">
+
+            <TextView
+                android:id="@+id/choosei_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="monospace"
+                android:gravity="center"
+                android:hint="Title"
+                android:textAlignment="center"
+                android:textColor="@color/colorWhite"
+                android:textSize="60sp" />
+
+            <TextView
+                android:id="@+id/choosei_desc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-condensed"
+                android:gravity="center"
+                android:hint="Description"
+                android:padding="5dp"
+                android:textAlignment="center"
+                android:textColor="@color/colorWhite"
+                android:textSize="20sp" />
 
 
-    </LinearLayout>
+        </LinearLayout>
 
-</RelativeLayout>
+    </RelativeLayout>
 </LinearLayout>

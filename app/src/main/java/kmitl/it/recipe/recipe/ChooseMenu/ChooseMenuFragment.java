@@ -14,7 +14,7 @@ import android.widget.LinearLayout;
 
 import kmitl.it.recipe.recipe.R;
 
-public class ChooseMenuFragment extends  Fragment {
+public class ChooseMenuFragment extends Fragment {
 
     private ViewPager viewpager;
     private LinearLayout liner;
@@ -24,7 +24,6 @@ public class ChooseMenuFragment extends  Fragment {
 //
 //    final ListView _recipeList = getView().findViewById(R.id.favorite_list);
 //    final ChooseRecipeAdapter _recipeAdapter = new ChooseRecipeAdapter(getActivity(), R.layout.fragment_favorite_item, _recipe);
-
 
 
     @Nullable
@@ -43,11 +42,10 @@ public class ChooseMenuFragment extends  Fragment {
     }
 
 
-
-    private void showViewPager(ViewPager.OnPageChangeListener _menuListener ){
+    private void showViewPager(ViewPager.OnPageChangeListener _menuListener) {
         viewpager = getView().findViewById(R.id.choose_view_pager);
         viewpager = getView().findViewById(R.id.choose_view_pager);
-        viewpager =  getView().findViewById(R.id.choose_view_pager);
+        viewpager = getView().findViewById(R.id.choose_view_pager);
         liner = getView().findViewById(R.id.choose_dot);
 
 
@@ -58,16 +56,17 @@ public class ChooseMenuFragment extends  Fragment {
 
     }
 
-    private void  controlPath() {
+    private void controlPath() {
 
         ViewPager.OnPageChangeListener _menuListener = new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
             }
+
             @Override
             public void onPageSelected(int position) {
 
-               // mCurrentPage = position;
+                // mCurrentPage = position;
             }
 
             @Override
