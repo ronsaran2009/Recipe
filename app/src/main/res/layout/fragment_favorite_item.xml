@@ -13,7 +13,7 @@
             android:id="@+id/favorite_item_img"
             android:layout_width="80dp"
             android:layout_height="80dp"
-
+            android:src="@drawable/cat_boiled"
             android:layout_alignParentLeft="true"/>
 
         <LinearLayout
@@ -26,8 +26,10 @@
                 android:id="@+id/favorite_item_menu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="แกงมัสมั่น"
-                android:textColor="#cc6666"
+                android:text="ต้มยำกุ้ง"
+                android:textColor="@color/colorPrimaryDark"
+                android:textStyle="bold"
+                android:textSize="20dp"
                 android:layout_toRightOf="@id/favorite_item_img"
                 android:paddingLeft="10dp"
                 android:paddingTop="10dp"/>
@@ -36,7 +38,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="ประเภท : แกง"
-                android:textColor="#cc6666"
+                android:textColor="@color/colorPrimaryDark"
                 android:layout_toRightOf="@id/favorite_item_img"
                 android:layout_below="@id/favorite_item_menu"
                 android:paddingLeft="10dp"
