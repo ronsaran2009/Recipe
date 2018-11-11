@@ -35,7 +35,7 @@ public class ChooseSlideAdapter extends PagerAdapter {
 
     public String[] list_title = {
 
-            "แกง",
+            "เมนูแนะนำ",
             "แกงส้ม",
             "แกงส้ม",
             "แกงส้ม"

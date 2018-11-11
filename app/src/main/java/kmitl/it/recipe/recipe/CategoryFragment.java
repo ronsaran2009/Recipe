@@ -17,6 +17,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 
+import kmitl.it.recipe.recipe.ChooseMenu.ChooseMenuFragment;
 import kmitl.it.recipe.recipe.Menu.MenuFragment;
 
 public class CategoryFragment extends Fragment {
@@ -42,8 +43,8 @@ public class CategoryFragment extends Fragment {
                 getActivity().getSupportFragmentManager()
                         .beginTransaction()
                         .addToBackStack(null)
-                        .replace(R.id.main_view, new RecipeFragment())
-//                        .replace(R.id.main_view, new MenuFragment())
+//                        .replace(R.id.main_view, new RecipeFragment())
+                       .replace(R.id.main_view, new ChooseMenuFragment())
                         .commit();
                 Toast.makeText(
                         getActivity(),"GOTO HOW TO COOK", Toast.LENGTH_SHORT
