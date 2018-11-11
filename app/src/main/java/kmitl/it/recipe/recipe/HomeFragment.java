@@ -2,9 +2,12 @@ package kmitl.it.recipe.recipe;
 
 import android.os.Bundle;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +21,12 @@ import java.util.ArrayList;
 
 public class HomeFragment extends Fragment {
 
+    //Recycle View
+    private RecyclerView mRecyclerView;
+    private RecyclerView.LayoutManager mLayoutManager;
+    private RecyclerView.Adapter mAdapter;
+
+    //keep menu
     private ArrayList<String> _menu = new ArrayList<>();
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -29,66 +38,34 @@ public class HomeFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         getActivity().setTitle("HOME");
 
+        addItem();
+        loadItemRecommend();
+    }
+
+    private void addItem(){
         _menu.add("ข้าวผัดหมู");
         _menu.add("กระเพราหมู");
         _menu.add("สุกกี้แห้ง");
         _menu.add("ข้าวป่าว?");
-        _menu.add("อะไรก็ได้");
-
-        final ArrayAdapter<String> _menuAdapter = new ArrayAdapter<>(
-                getActivity(),
-                android.R.layout.simple_list_item_1,
-                _menu
-        );
-        ListView _menuList = getView().findViewById(R.id.menu_list);
-        _menuList.setAdapter(_menuAdapter);
-        _menuList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int i, long id) {
-                Log.d("text" , "Click on  " + _menu.get(i));
-
-                _menuAdapter.notifyDataSetChanged();
-                if (_menu.get(i).equals("ข้่วผัดหมู")){
-                    Log.d("USER", "GOTO ข้่วผัดหมูไม่ใส่ข้าว");
-                    Toast.makeText(
-                            getActivity(),
-                            "ข้่วผัดหมูไม่ใส่ข้าว",
-                            Toast.LENGTH_SHORT
-                    ).show();
-                }
-                else if (_menu.get(i).equals("กระเพราหมู")){
-                    Log.d("USER", "GOTO กระเพราหมูไม่ใส่หมูใส่ไก่แทน");
-                    Toast.makeText(
-                            getActivity(),
-                            "กระเพราหมูไม่ใส่หมูใส่ไก่แทน",
-                            Toast.LENGTH_SHORT
-                    ).show();
-                }
-                else if (_menu.get(i).equals("สุกกี้แห้ง")){
-                    Log.d("USER", "GOTO สุกกี้แห้งใส่น้ำ");
-                    Toast.makeText(
-                            getActivity(),
-                            "สุกกี้แห้งใส่น้ำ",
-                            Toast.LENGTH_SHORT
-                    ).show();
-                }
-                else if (_menu.get(i).equals("ข้าวป่าว?")){
-                    Log.d("USER", "GOTO ข้าวป่าว?");
-                    Toast.makeText(
-                            getActivity(),
-                            "ข้าวป่าว? ไม่รู้",
-                            Toast.LENGTH_SHORT
-                    ).show();
-                }
-                else if (_menu.get(i).equals("อะไรก็ได้")){
-                    Log.d("USER", "GOTO อะไรก็ได้");
-                    Toast.makeText(
-                            getActivity(),
-                            "อะไรก็ได้",
-                            Toast.LENGTH_SHORT
-                    ).show();
-                }
-            }
-        });
+        _menu.add("อะไรก็ได้1");
+        _menu.add("อะไรก็ได้2");
+        _menu.add("อะไรก็ได้3");
+        _menu.add("อะไรก็ได้4");
+        _menu.add("อะไรก็ได้5");
+        _menu.add("อะไรก็ได้6");
+        _menu.add("อะไรก็ได้7");
+        _menu.add("อะไรก็ได้8");
+        _menu.add("อะไรก็ได้9");
     }
+
+    private void loadItemRecommend(){
+        mRecyclerView = getView().findViewById(R.id.recycle_home);
+        Log.d("HOME", getView().findViewById(R.id.recycle_home).toString());
+        mRecyclerView.setHasFixedSize(true);
+        mLayoutManager = new LinearLayoutManager(this.getContext(), LinearLayoutManager.HORIZONTAL, false);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mAdapter = new MainAdapter(this.getContext(), _menu);
+        mRecyclerView.setAdapter(mAdapter);
+    }
+
 }
