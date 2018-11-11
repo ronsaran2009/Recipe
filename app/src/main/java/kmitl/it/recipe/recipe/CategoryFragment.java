@@ -17,6 +17,8 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 
+import kmitl.it.recipe.recipe.Menu.MenuFragment;
+
 public class CategoryFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -41,6 +43,7 @@ public class CategoryFragment extends Fragment {
                         .beginTransaction()
                         .addToBackStack(null)
                         .replace(R.id.main_view, new RecipeFragment())
+//                        .replace(R.id.main_view, new MenuFragment())
                         .commit();
                 Toast.makeText(
                         getActivity(),"GOTO HOW TO COOK", Toast.LENGTH_SHORT
