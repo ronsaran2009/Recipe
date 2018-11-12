@@ -1,11 +1,14 @@
 package kmitl.it.recipe.recipe;
 
+
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -35,9 +38,11 @@ public class LoginFragment extends Fragment {
         _auth = FirebaseAuth.getInstance();
         initLoginBtn();
         initRegisterBtn();
-//        TextView _profile = getActivity().findViewById(R.id.nav_menu_profile).;
+        TextView _profile = getActivity().findViewById(R.id.nav_head_text);
+        _profile.setText("User");
+//        MenuItem _profile = getActivity().findViewById(R.id.nav_menu_profile);
 //        if (_auth.getCurrentUser() != null) {
-//            _profile.setText("USER");
+//            _profile.setTitle("USER");
 //        }
     }
 
@@ -70,11 +75,9 @@ public class LoginFragment extends Fragment {
                             if (_auth.getCurrentUser().isEmailVerified()) {
                                 Log.d("USER", "LOGIN SUCCESS");
                                 Log.d("USER", "GOTO MENU");
-                                getActivity().getSupportFragmentManager()
-                                        .beginTransaction()
-                                        .addToBackStack(null)
-                                        .replace(R.id.main_view, new CategoryFragment())
-                                        .commit();
+                                TextView _profile = getActivity().findViewById(R.id.nav_head_text);
+                                _profile.setText("User");
+                                getActivity().getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.main_view, new HomeFragment()).commit();
                             } else {
                                 Toast.makeText(
                                         getActivity(),
@@ -115,4 +118,6 @@ public class LoginFragment extends Fragment {
             }
         });
     }
+
+
 }
