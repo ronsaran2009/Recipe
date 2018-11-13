@@ -1,62 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="0dp">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="300dp"
-                android:layout_height="300dp"
-                android:layout_gravity="center"
-                android:src="@drawable/cat_boiled" />
-
-
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="0dp"
-                android:text="ต้มยำกุ้งแม่น้ำมะพร้าวอ่อน"
-                android:textAlignment="center"
-                android:textSize="30dp" />
+                android:orientation="vertical">
 
-            <!--วิธีการเว้นบรรทัดใน Code-->
-            <!--TextView tv1 = (TextView) findViewById(R.id.text_view1);-->
-            <!--//define multiline by \n line separator-->
-            <!--tv1.setText("Line number 1 \nLine number 2 \nLine number 3");-->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingBottom="0dp"
-                android:padding="20dp"
-                android:text="สิ่งที่ต้องเตรียม"
-                android:textAlignment="textStart"
-                android:textSize="20dp" />
+                <!--Image profile-->
+                <ImageView
+                    android:id="@+id/profile_image_menu_recipe"
+                    android:layout_width="300dp"
+                    android:layout_height="300dp"
+                    android:layout_gravity="center"
+                    android:src="@mipmap/ic_launcher" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingBottom="0dp"
-                android:padding="20dp"
-                android:text="วิธีทำ"
-                android:textAlignment="textStart"
-                android:textSize="20dp" />
+                <!--Topic-->
+                <TextView
+                    android:id="@+id/menu_topic_recipe"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/sample_menu"
+                    android:textAlignment="center"
+                    android:textSize="30sp"/>
 
-        </LinearLayout>
+                <!--prepare-->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="0dp"
+                    android:text="@string/prepare_topic"
+                    android:textAlignment="center"
+                    android:textSize="20sp" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/sample_prepare_item"
+                    android:textAlignment="center"/>
 
-    </RelativeLayout>
-</ScrollView>
+                <!--Step-->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/step_topic"
+                    android:textSize="20sp"
+                    android:textAlignment="center"/>
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recycle_recipe"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp">
+                </android.support.v7.widget.RecyclerView>
+
+           </LinearLayout>
+    </ScrollView>
 </android.support.constraint.ConstraintLayout>
