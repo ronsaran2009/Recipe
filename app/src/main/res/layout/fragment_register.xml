@@ -18,6 +18,12 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="20dp">
+        <EditText
+            android:id="@+id/register_display"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_action_displayname"
+            android:hint="@string/display"/>
 
         <EditText
             android:id="@+id/register_email"
