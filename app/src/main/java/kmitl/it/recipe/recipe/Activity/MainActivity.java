@@ -19,6 +19,7 @@ import kmitl.it.recipe.recipe.CategoryFragment;
 import kmitl.it.recipe.recipe.HomeFragment;
 import kmitl.it.recipe.recipe.LoginFragment;
 import kmitl.it.recipe.recipe.R;
+import kmitl.it.recipe.recipe.Register.User;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -31,11 +32,16 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout _drawMain;
     private ActionBarDrawerToggle _abdt;
 
+
+    //username
+    User user;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         fadeInOut(savedInstanceState);
+        user = new User();
 
     }
 
@@ -83,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
                 .replace(R.id.main_view, new HomeFragment())
                 .commit();
         Log.d("Main", "Goto home fragment");
+        
 
     }
 
