@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -18,7 +19,6 @@ import kmitl.it.recipe.recipe.CategoryFragment;
 import kmitl.it.recipe.recipe.HomeFragment;
 import kmitl.it.recipe.recipe.LoginFragment;
 import kmitl.it.recipe.recipe.R;
-import kmitl.it.recipe.recipe.favorite.FavoriteFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         fadeInOut(savedInstanceState);
+
     }
 
     private void fadeInOut(Bundle savedInstanceState){
@@ -70,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
         _drawMain.addDrawerListener(_abdt);
         _abdt.syncState();
 
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
     }
@@ -81,16 +83,22 @@ public class MainActivity extends AppCompatActivity {
                 .replace(R.id.main_view, new HomeFragment())
                 .commit();
         Log.d("Main", "Goto home fragment");
+
     }
 
     private void checkSelectNavigation(){
         NavigationView nav_view = findViewById(R.id.nav_view);
+
+
+
         nav_view.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int id = item.getItemId();
 
-                if (id == R.id.myprofile){
+
+                if (id == R.id.nav_menu_mymenu){
                     if (_auth.getCurrentUser() != null){
                         Toast.makeText(MainActivity.this, "ALREADY_LOG_IN", Toast.LENGTH_SHORT).show();
                         Log.d("NAV_MENU", "ALREADY_LOG_IN");
@@ -106,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                     _drawMain.closeDrawers();
                 }
-                else if (id == R.id.nav_menu_category){
+                else if (id == R.id.nav_menu_addmenu){
                     Toast.makeText(MainActivity.this,"CATEGORY",Toast.LENGTH_SHORT).show();
                     getSupportFragmentManager()
                             .beginTransaction()
@@ -116,22 +124,24 @@ public class MainActivity extends AppCompatActivity {
                     Log.d("NAV_MENU", "GOTO CATEGORY");
                     _drawMain.closeDrawers();
                 }
-                else if (id == R.id.editprofile){
-                    Toast.makeText(MainActivity.this,"EDITPROFILE",Toast.LENGTH_SHORT).show();
-                    getSupportFragmentManager()
-                            .beginTransaction()
-                            .addToBackStack(null)
-                            .replace(R.id.main_view, new FavoriteFragment())
-                            .commit();
-                    Log.d("NAV_MENU", "GOTO EDIT_PROFILE");
-                    _drawMain.closeDrawers();
-                }
+//                else if (id == R.id.editprofile){
+//                    Toast.makeText(MainActivity.this,"EDITPROFILE",Toast.LENGTH_SHORT).show();
+//                    getSupportFragmentManager()
+//                            .beginTransaction()
+//                            .addToBackStack(null)
+//                            .replace(R.id.main_view, new FavoriteFragment())
+//                            .commit();
+//                    Log.d("NAV_MENU", "GOTO EDIT_PROFILE");
+//                    _drawMain.closeDrawers();
+//                }
                 else if (id == R.id.nav_menu_singout){
                     Log.d("NAV_MENU", "elseif");
                     if (_auth.getCurrentUser() != null){
                         Toast.makeText(MainActivity.this,"ออกจากระบบเรียบร้อยแล้ว",Toast.LENGTH_SHORT).show();
                         Log.d("NAV_MENU", "SING OUT COMPLETE");
                         _auth.signOut();
+                        TextView _profile = findViewById(R.id.nav_head_text);
+                        _profile.setText("Guest");
                     }
                     else {
                         Toast.makeText(MainActivity.this, "ท่านไม่ได้อยู่ในระบบ", Toast.LENGTH_SHORT).show();

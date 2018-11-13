@@ -2,37 +2,23 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
 
-        android:id="@+id/nav_menu_profile"
-        android:title="Guest"
+        android:id="@+id/nav_menu_mymenu"
+        android:title="My Menu"
         android:icon="@drawable/ic_android_black_24dp"
         >
     </item>
 
     <item
 
-    android:id="@+id/myprofile"
-    android:title="My Profile"
+    android:id="@+id/nav_menu_addmenu"
+    android:title="Add Menu"
     android:icon="@drawable/ic_android_black_24dp"
     >
-</item>
-    <item
-
-        android:id="@+id/nav_menu_category"
-        android:title="@string/category"
-        android:icon="@drawable/ic_android_black_24dp"
-        >
-    </item>
-    <item
-
-        android:id="@+id/editprofile"
-        android:title="Edit Profile"
-        android:icon="@drawable/ic_android_black_24dp"
-        >
     </item>
     <item
 
         android:id="@+id/nav_menu_singout"
-        android:title="@string/singout"
+        android:title="@string/logout"
         android:icon="@drawable/ic_android_black_24dp"
         >
     </item>

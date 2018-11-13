@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Photo -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp">
+
+            <ImageView
+                android:id="@+id/add_recipe_img"
+                android:layout_width="250dp"
+                android:layout_height="100dp"
+                android:src="@drawable/ic_photo"/>
+
+            <Button
+                android:id="@+id/add_recipe_img_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="+ Add Photo"
+                android:layout_toRightOf="@id/add_recipe_img"
+                android:layout_alignBottom="@id/add_recipe_img"/>
+        </RelativeLayout>
+
+        <!-- Food's name -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ชื่ออาหาร"
+                android:textSize="22dp"
+                android:textStyle="bold"
+                android:layout_alignBaseline="@id/add_recipe_name"/>
+
+            <EditText
+                android:id="@+id/add_recipe_name"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:hint="ต้มยำกุ้ง"
+                android:textAlignment="textEnd"
+                android:layout_alignParentRight="true"/>
+        </RelativeLayout>
+
+        <!-- Food's description -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="รายละเอียด"
+                android:textSize="22dp"
+                android:textStyle="bold"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="max 3 lines"
+                android:inputType="textMultiLine"
+                android:minLines="1"
+                android:maxLines="3"
+                android:scrollbars="horizontal"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"/>
+        </LinearLayout>
+
+        <!-- Food's type -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="ประเภทอาหาร"
+                android:textSize="22dp"
+                android:textStyle="bold"/>
+
+            <Spinner
+                android:id="@+id/add_recipe_spinner_type"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true">
+            </Spinner>
+        </RelativeLayout>
+
+        <!-- Times to Cook -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="เวลาในการทำ"
+                android:textSize="22dp"
+                android:textStyle="bold"
+                android:layout_alignBaseline="@id/add_recipe_time"/>
+
+            <EditText
+                android:id="@+id/add_recipe_time"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:hint="XX:XX hrs"
+                android:textAlignment="textEnd"
+                android:layout_alignParentRight="true"/>
+        </RelativeLayout>
+
+        <!-- Ingredients -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="วัตถุดิบ"
+                android:textSize="22dp"
+                android:textStyle="bold"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="textMultiLine"
+                android:hint="max 5 lines"
+                android:minLines="1"
+                android:maxLines="5"
+                android:scrollbars="horizontal"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"/>
+
+        </LinearLayout>
+
+        <!-- Button NEXT -->
+        <Button
+            android:id="@+id/add_recipe_next_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Next Step >"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_gravity="right"/>
+
+    </LinearLayout>
+
+</ScrollView>

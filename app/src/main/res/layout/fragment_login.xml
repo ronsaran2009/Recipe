@@ -31,7 +31,7 @@
         <Button
             android:id="@+id/login_loginbnt"
             style="@style/Button"
-            android:text="Login" />
+            android:text="@string/login" />
 
         <TextView
             android:id="@+id/login_register"

@@ -44,7 +44,7 @@ public class CategoryFragment extends Fragment {
                         .beginTransaction()
                         .addToBackStack(null)
 //                        .replace(R.id.main_view, new RecipeFragment())
-                       .replace(R.id.main_view, new ChooseMenuFragment())
+                       .replace(R.id.main_view, new AddMenuFragment())
                         .commit();
                 Toast.makeText(
                         getActivity(),"GOTO HOW TO COOK", Toast.LENGTH_SHORT
