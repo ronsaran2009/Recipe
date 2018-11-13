@@ -1,6 +1,6 @@
 <resources>
 
-    <!-- Base application theme. -->
+    <!--//Base application theme.-->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -8,7 +8,7 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    //Login and Register
+    <!--//Login and Register-->
 
     <style name="Button">
         <item name="android:layout_width">match_parent</item>
@@ -19,7 +19,7 @@
         <item name="android:textColor">#FFFFFF</item>
     </style>
 
-    //Title Menu
+    <!--//Title Menu-->
 
     <style name="Title">
         <item name="android:layout_width">match_parent</item>
@@ -30,7 +30,7 @@
         <item name="android:textStyle">bold</item>
     </style>
 
-    //Category Page
+    <!--//Category Page-->
 
     <style name="Category_Image">
         <item name="android:layout_width">120dp</item>
@@ -48,12 +48,17 @@
         <item name="android:textStyle">bold</item>
     </style>
 
-    //Food's Type
+    <!--//Food's Type-->
     <string-array name="type">
         <item></item>
         <item>ต้ม-แกง</item>
         <item>ผัด-ทอด</item>
         <item>อาหารจานเดียว</item>
     </string-array>
+
+    <style name="MyToolbarTheme" parent="@style/ThemeOverlay.AppCompat.Dark">
+        <item name="colorControlNormal">@color/colorWhite</item>
+        <item name="titleTextColor">@color/colorWhite</item>
+    </style>
 
 </resources>
