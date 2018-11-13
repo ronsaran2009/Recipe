@@ -1,21 +1,22 @@
 package kmitl.it.recipe.recipe.model;
 
 import java.sql.Array;
+import java.util.ArrayList;
 
 public class Menu {
     private String menuName;
-    private String step;
-    private  int picture;
+    private ArrayList<String> step;
+    private ArrayList<String> picture;
     private String ingredient;
     private String description;
     private String category;
     private String time;
-    private int profileMenu;
+    private String profileMenu;
 
     public Menu(){
 
     }
-    public Menu(String menuName, String step, int picture, String ingredient, String description, String category, String time, int profileMenu) {
+    public Menu(String menuName, ArrayList<String> step, ArrayList<String> picture, String ingredient, String description, String category, String time, String profileMenu) {
         this.menuName = menuName;
         this.step = step;
         this.picture = picture;
@@ -34,19 +35,19 @@ public class Menu {
         this.menuName = menuName;
     }
 
-    public String getstep() {
+    public ArrayList<String> getstep() {
         return step;
     }
 
-    public void setstep(String step) {
+    public void setstep(ArrayList<String> step) {
         this.step = step;
     }
 
-    public int getPicture() {
+    public ArrayList<String> getPicture() {
         return picture;
     }
 
-    public void setPicture(int picture) {
+    public void setPicture(ArrayList<String> picture) {
         this.picture = picture;
     }
 
@@ -82,11 +83,11 @@ public class Menu {
         this.time = time;
     }
 
-    public int getProfileMenu() {
+    public String getProfileMenu() {
         return profileMenu;
     }
 
-    public void setProfileMenu(int profileMenu) {
+    public void setProfileMenu(String profileMenu) {
         this.profileMenu = profileMenu;
     }
 }
