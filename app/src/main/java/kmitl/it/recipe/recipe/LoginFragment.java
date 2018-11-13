@@ -4,7 +4,9 @@ package kmitl.it.recipe.recipe;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,6 +36,13 @@ public class LoginFragment extends Fragment {
     String _uid;
     User user;
 
+    //Category
+    private TabAdapter tabAdapter;
+    private TabLayout tabLayout;
+    private ViewPager viewPager;
+
+
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -47,13 +56,20 @@ public class LoginFragment extends Fragment {
         _auth = FirebaseAuth.getInstance();
 
         _firestore = FirebaseFirestore.getInstance();
+        Log.d("Login", "START_LOGIN");
+        if (_auth.getCurrentUser() != null) {
+            Log.d("Login", "ALREADY LOGIN");
+            Log.d("Login", "GOTO MENU");
+            _uid  = _auth.getUid();
+            getData();
 
 
+        } else {
 
-        initLoginBtn();
-        initRegisterBtn();
-        TextView _profile = getActivity().findViewById(R.id.nav_head_text);
-        _profile.setText("User");
+
+            initLoginBtn();
+            initRegisterBtn();
+        }
 
 //        MenuItem _profile = getActivity().findViewById(R.id.nav_menu_profile);
 //        if (_auth.getCurrentUser() != null) {
@@ -94,8 +110,9 @@ public class LoginFragment extends Fragment {
                                 getData();
 
 
-                                getActivity().getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.main_view, new HomeFragment()).commit();
+//                                getActivity().getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.main_view, new CategoryFragment()).commit();
                                 Log.d("Login", "GOTO MENU");
+
                             } else {
                                 Toast.makeText(
                                         getActivity(),
@@ -137,6 +154,7 @@ public class LoginFragment extends Fragment {
         });
     }
     void getData(){
+        Log.d("Login" ,  "GETDATA()  :  " + _uid);
         _firestore.collection("User")
             .document(_uid)
             .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -144,9 +162,12 @@ public class LoginFragment extends Fragment {
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if(task.isSuccessful()){
                     user = task.getResult().toObject(User.class);
+                    Log.d("Login" , user.getEmail()+ "  :  " + user.getDisplayname());
                     TextView name = getActivity().findViewById(R.id.nav_head_text);
                     name.setText(user.getDisplayname());
-                    Log.d("Login" , user.getEmail()+ "  :  " + user.getDisplayname());
+                    Log.d("Login" ,  "GETDATA()  :  SETNAME   " + user.getDisplayname());
+                    //callCate();
+                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.main_view, new HomeFragment()).commit();///ชั่วคราว
                 }
             }
         }).addOnFailureListener(new OnFailureListener() {
@@ -155,6 +176,19 @@ public class LoginFragment extends Fragment {
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.main_view, new RegisterFragment()).commit();
             }
         });
+    }
+    void callCate(){
+        getActivity().setContentView(R.layout.category_main);
+        viewPager = getActivity().findViewById(R.id.viewPager);
+        tabLayout = getActivity().findViewById(R.id.tabLayout);
+        tabAdapter = new TabAdapter(getActivity().getSupportFragmentManager());
+        tabAdapter.addFragment(new Tab1Fragment(), " ต้ม - แกง ");
+        tabAdapter.addFragment(new Tab1Fragment(), " ผัด - ทอด ");
+        tabAdapter.addFragment(new Tab1Fragment(), " อบ - ตุ๋น ");
+        tabAdapter.addFragment(new Tab1Fragment(), " ปิ้ง - ย่าง ");
+        tabAdapter.addFragment(new Tab1Fragment(), " อาหารจานเดียว");
+        viewPager.setAdapter(tabAdapter);
+        tabLayout.setupWithViewPager(viewPager);
     }
 
 

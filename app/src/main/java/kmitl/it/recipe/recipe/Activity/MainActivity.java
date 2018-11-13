@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
         getSupportFragmentManager()
                 .beginTransaction()
                 .setCustomAnimations(R.anim.fade_out, R.anim.fade_in)
-                .replace(R.id.main_view, new HomeFragment())
+                .replace(R.id.main_view, new LoginFragment())
                 .commit();
         Log.d("Main", "Goto home fragment");
 
@@ -103,24 +103,9 @@ public class MainActivity extends AppCompatActivity {
                 int id = item.getItemId();
 
 
-                if (id == R.id.nav_menu_mymenu) {
-                    if (_auth.getCurrentUser() != null) {
-                        Toast.makeText(MainActivity.this, "ALREADY_LOG_IN", Toast.LENGTH_SHORT).show();
-                        Log.d("NAV_MENU", "ALREADY_LOG_IN");
-                    } else {
-                        Toast.makeText(MainActivity.this, "MYPROFILE", Toast.LENGTH_SHORT).show();
-                        getSupportFragmentManager()
-                                .beginTransaction()
-                                .addToBackStack(null)
-                                .replace(R.id.main_view, new LoginFragment())
-                                .commit();
-                        Log.d("NAV_MENU", "GOTO PROFILE");
-                    }
-                    _drawMain.closeDrawers();
-                } else if (id == R.id.nav_menu_addmenu) {
-                    Toast.makeText(MainActivity.this, "CATEGORY", Toast.LENGTH_SHORT).show();
+                if (id == R.id.nav_menu_category) {
 
-                    //Category Tabs
+                        Toast.makeText(MainActivity.this, "CATEGORY", Toast.LENGTH_SHORT).show();
                     setContentView(R.layout.category_main);
                     viewPager = findViewById(R.id.viewPager);
                     tabLayout = findViewById(R.id.tabLayout);
@@ -132,32 +117,36 @@ public class MainActivity extends AppCompatActivity {
                     tabAdapter.addFragment(new Tab1Fragment(), " อาหารจานเดียว");
                     viewPager.setAdapter(tabAdapter);
                     tabLayout.setupWithViewPager(viewPager);
+                        Log.d("NAV_MENU", "GOTO_CATEGORY");
 
-                    Log.d("NAV_MENU", "GOTO CATEGORY");
                     _drawMain.closeDrawers();
                 }
-//                else if (id == R.id.editprofile){
-//                    Toast.makeText(MainActivity.this,"EDITPROFILE",Toast.LENGTH_SHORT).show();
-//                    getSupportFragmentManager()
-//                            .beginTransaction()
-//                            .addToBackStack(null)
-//                            .replace(R.id.main_view, new FavoriteFragment())
-//                            .commit();
-//                    Log.d("NAV_MENU", "GOTO EDIT_PROFILE");
-//                    _drawMain.closeDrawers();
-//                }
+                else if (id == R.id.nav_menu_mymenu) {
+                        Toast.makeText(MainActivity.this, "MYMENU", Toast.LENGTH_SHORT).show();
+
+                        Log.d("NAV_MENU", "GOTO MYMENU");
+
+                    _drawMain.closeDrawers();
+                } else if (id == R.id.nav_menu_addmenu) {
+                    Toast.makeText(MainActivity.this, "ADDMENU", Toast.LENGTH_SHORT).show();
+
+                    //Category Tabs
+
+
+                    Log.d("NAV_MENU", "GOTO_ADDMENU");
+                    _drawMain.closeDrawers();
+                }
                 else if (id == R.id.nav_menu_singout) {
                     Log.d("NAV_MENU", "elseif");
-                    if (_auth.getCurrentUser() != null) {
                         Toast.makeText(MainActivity.this, "ออกจากระบบเรียบร้อยแล้ว", Toast.LENGTH_SHORT).show();
                         Log.d("NAV_MENU", "SING OUT COMPLETE");
                         _auth.signOut();
-                        TextView _profile = findViewById(R.id.nav_head_text);
-                        _profile.setText("Guest");
-                    } else {
-                        Toast.makeText(MainActivity.this, "ท่านไม่ได้อยู่ในระบบ", Toast.LENGTH_SHORT).show();
-                        Log.d("NAV_MENU", "SING OUT BUT NO CURRENT USER");
-                    }
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .setCustomAnimations(R.anim.fade_out, R.anim.fade_in)
+                            .replace(R.id.main_view, new LoginFragment())
+                            .commit();
+
                     _drawMain.closeDrawers();
                 }
                 return true;
