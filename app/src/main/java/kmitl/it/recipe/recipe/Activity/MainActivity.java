@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
                 int id = item.getItemId();
 
 
-                if (id == R.id.myprofile){
+                if (id == R.id.nav_menu_mymenu){
                     if (_auth.getCurrentUser() != null){
                         Toast.makeText(MainActivity.this, "ALREADY_LOG_IN", Toast.LENGTH_SHORT).show();
                         Log.d("NAV_MENU", "ALREADY_LOG_IN");
@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                     _drawMain.closeDrawers();
                 }
-                else if (id == R.id.nav_menu_category){
+                else if (id == R.id.nav_menu_addmenu){
                     Toast.makeText(MainActivity.this,"CATEGORY",Toast.LENGTH_SHORT).show();
                     getSupportFragmentManager()
                             .beginTransaction()

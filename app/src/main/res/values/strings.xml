@@ -7,7 +7,8 @@
     <string name="recommended">Recommended</string>
     <string name="category">Category</string>
     <string name="favorite">Favorite</string>
-    <string name="singout">Sing out</string>
+    <string name="logout">Log out</string>
+    <string name="login">Log in</string>
 
     <string name="open">Open</string>
     <string name="close">Close</string>
