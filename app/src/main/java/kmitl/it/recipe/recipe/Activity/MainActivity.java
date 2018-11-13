@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 
+import kmitl.it.recipe.recipe.AddMenu.AddMenuFragment;
 import kmitl.it.recipe.recipe.CategoryFragment;
 import kmitl.it.recipe.recipe.HomeFragment;
 import kmitl.it.recipe.recipe.LoginFragment;
@@ -132,6 +133,11 @@ public class MainActivity extends AppCompatActivity {
 
                     //Category Tabs
 
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.main_view, new AddMenuFragment())
+                            .addToBackStack(null)
+                            .commit();
 
                     Log.d("NAV_MENU", "GOTO_ADDMENU");
                     _drawMain.closeDrawers();
