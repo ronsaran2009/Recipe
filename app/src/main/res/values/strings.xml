@@ -16,4 +16,9 @@
 
     <!-- Choose Menu -->
     <string name="choose_menu_header">แกง</string>
+
+    <!--recipe-->
+    <string name="sample_menu">ต้มยำกุ้งแม่น้ำมะพร้าวอ่อน</string>
+    <string name="prepare_topic">สิ่งที่ต้องเตรียม</string>
+    <string name="step_topic">ขั้นตอน</string>
 </resources>

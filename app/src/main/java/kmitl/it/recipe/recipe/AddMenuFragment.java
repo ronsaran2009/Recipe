@@ -14,55 +14,65 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
+
+import kmitl.it.recipe.recipe.RecyclerView.HomeFragment;
 import kmitl.it.recipe.recipe.model.Menu;
 
 
 public class AddMenuFragment extends Fragment {
 
-    Menu _menu = new Menu("น้ำส้ม","คั่รน้ำส้มด้วยมือเรา", 1 , "เนื้อ เกลือ น้ำปลา","กินแแล้วอร่่อยสุดใจ","ของกินสุดอร่อย","15:50",5);
-
+    ArrayList<String> _step = new ArrayList<>();
+    ArrayList<String> _picture = new ArrayList<>();
+    Menu _menu;
 
     FirebaseFirestore _fbfs = FirebaseFirestore.getInstance();
     FirebaseAuth _muth = FirebaseAuth.getInstance();
 
-
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_add_menu, container, false);
+    }
 
     @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-            return inflater.inflate(R.layout.fragment_add_menu, container, false);
-        }
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        getActivity().setTitle("Add Menu");
 
-        @Override
-        public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-            super.onActivityCreated(savedInstanceState);
-            getActivity().setTitle("Add Menu");
-            upToFireBase();
-            initSubmitBtn();
-//
-//         public Menu(String menuName, String step, int picture, String ingredient, String description, String category, String time, int profileMenu) {
+        _step.add("1. tom");
+        _step.add("2. yumyum");
+        _picture.add("https://firebasestorage.googleapis.com/v0/b/recipe-mobileproject.appspot.com/o/%E0%B8%95%E0%B9%89%E0%B8%A1%E0%B8%A2%E0%B8%B3.jpg?alt=media&token=39bd44b0-77f6-4cba-93d5-bf76b08635ac");
+        _picture.add("https://firebasestorage.googleapis.com/v0/b/recipe-mobileproject.appspot.com/o/%E0%B8%95%E0%B9%89%E0%B8%A1%E0%B8%A2%E0%B8%B3.jpg?alt=media&token=39bd44b0-77f6-4cba-93d5-bf76b08635ac");
 
-            }
+        //Menu(String menuName, ArrayList<String> step, ArrayList<String> picture, String ingredient, String description, String category, String time, String profileMenu)
+        _menu = new Menu("ต้มยำจุ้ง",_step, _picture , "เนื้อ เกลือ น้ำปลา","กินแแล้วอร่่อยสุดใจ","ต้ม","15:50","https://firebasestorage.googleapis.com/v0/b/recipe-mobileproject.appspot.com/o/%E0%B8%95%E0%B9%89%E0%B8%A1%E0%B8%A2%E0%B8%B3.jpg?alt=media&token=39bd44b0-77f6-4cba-93d5-bf76b08635ac");
+        upToFireBase();
+        initSubmitBtn();
+
+    }
 
     //up data to firebase
     private void upToFireBase()
     {
-         Log.d("RECORD", "Up to firebase"+_fbfs);
-        _fbfs.collection("USER")
-//                .document(_muth.getCurrentUser().getUid())
-                .document(_muth.getUid())
+         Log.d("ADD_MENU", "Up to firebase"+_fbfs);
+        _fbfs.collection("Menu")
+                .document(_menu.getCategory())
+                .collection(_menu.getMenuName())
+                .document(_menu.getMenuName())
                 .set(_menu)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        Log.d("RECORD", "SUCCESS");
+                        Log.d("ADD_MENU", "SUCCESS");
 
                     }
                 }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Log.d("RECORD", "FAILED");
+                Log.d("ADD_MENU", "FAILED");
                 Toast.makeText(getActivity(), "Not found", Toast.LENGTH_SHORT).show();
             }
         });
