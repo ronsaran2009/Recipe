@@ -12,17 +12,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 
 import kmitl.it.recipe.recipe.AddMenu.AddMenuFragment;
-import kmitl.it.recipe.recipe.CategoryFragment;
-import kmitl.it.recipe.recipe.HomeFragment;
+import kmitl.it.recipe.recipe.ChooseMenu.ChooseMenuFragment;
 import kmitl.it.recipe.recipe.LoginFragment;
 import kmitl.it.recipe.recipe.R;
-import kmitl.it.recipe.recipe.Tab1Fragment;
 import kmitl.it.recipe.recipe.TabAdapter;
 
 public class MainActivity extends AppCompatActivity {
@@ -105,20 +102,25 @@ public class MainActivity extends AppCompatActivity {
 
 
                 if (id == R.id.nav_menu_category) {
+                    Toast.makeText(MainActivity.this, "CATEGORY", Toast.LENGTH_SHORT).show();
 
-                        Toast.makeText(MainActivity.this, "CATEGORY", Toast.LENGTH_SHORT).show();
                     setContentView(R.layout.category_main);
+
                     viewPager = findViewById(R.id.viewPager);
                     tabLayout = findViewById(R.id.tabLayout);
+
                     tabAdapter = new TabAdapter(getSupportFragmentManager());
-                    tabAdapter.addFragment(new Tab1Fragment(), " ต้ม - แกง ");
-                    tabAdapter.addFragment(new Tab1Fragment(), " ผัด - ทอด ");
-                    tabAdapter.addFragment(new Tab1Fragment(), " อบ - ตุ๋น ");
-                    tabAdapter.addFragment(new Tab1Fragment(), " ปิ้ง - ย่าง ");
-                    tabAdapter.addFragment(new Tab1Fragment(), " อาหารจานเดียว");
+
+                    tabAdapter.addFragment(new ChooseMenuFragment(), " ต้ม - แกง ");
+                    tabAdapter.addFragment(new ChooseMenuFragment(), " ผัด - ทอด ");
+                    tabAdapter.addFragment(new ChooseMenuFragment(), " อบ - ตุ๋น ");
+                    tabAdapter.addFragment(new ChooseMenuFragment(), " ปิ้ง - ย่าง ");
+                    tabAdapter.addFragment(new ChooseMenuFragment(), " อาหารจานเดียว");
+
                     viewPager.setAdapter(tabAdapter);
                     tabLayout.setupWithViewPager(viewPager);
-                        Log.d("NAV_MENU", "GOTO_CATEGORY");
+
+                    Log.d("NAV_MENU", "GOTO_CATEGORY");
 
                     _drawMain.closeDrawers();
                 }

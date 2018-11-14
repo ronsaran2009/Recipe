@@ -26,6 +26,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 
+import kmitl.it.recipe.recipe.ChooseMenu.ChooseMenuFragment;
 import kmitl.it.recipe.recipe.Register.RegisterFragment;
 import kmitl.it.recipe.recipe.Register.User;
 
@@ -40,8 +41,6 @@ public class LoginFragment extends Fragment {
     private TabAdapter tabAdapter;
     private TabLayout tabLayout;
     private ViewPager viewPager;
-
-
 
     @Nullable
     @Override
@@ -60,7 +59,7 @@ public class LoginFragment extends Fragment {
         if (_auth.getCurrentUser() != null) {
             Log.d("Login", "ALREADY LOGIN");
             Log.d("Login", "GOTO MENU");
-            _uid  = _auth.getUid();
+            _uid = _auth.getUid();
             getData();
 
 
@@ -77,7 +76,7 @@ public class LoginFragment extends Fragment {
 //        }
     }
 
-    void initLoginBtn(){
+    void initLoginBtn() {
         Button _loginBtn = getView().findViewById(R.id.login_loginbnt);
         _loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,24 +92,16 @@ public class LoginFragment extends Fragment {
                             Toast.LENGTH_SHORT
                     ).show();
                     Log.d("Login", "USER OR PASSWORD IS EMPTY");
-                }
-//                else if (_auth.getCurrentUser() != null) { //check if user is already login
-//                    Log.d("USER", "ALREADY LOGIN");
-//                    Log.d("USER", "GOTO MENU");
-//                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.main_view, new CategoryFragment()).commit();
-//                }
-                else {
+                } else {
                     _auth.signInWithEmailAndPassword(_userIdStr, _passwordStr).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                         @Override
                         public void onSuccess(AuthResult authResult) {
                             if (_auth.getCurrentUser().isEmailVerified()) {
                                 Log.d("Login", "LOGIN SUCCESS");
 
-                                _uid  = _auth.getUid();
+                                _uid = _auth.getUid();
                                 getData();
 
-
-//                                getActivity().getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.main_view, new CategoryFragment()).commit();
                                 Log.d("Login", "GOTO MENU");
 
                             } else {
@@ -143,9 +134,9 @@ public class LoginFragment extends Fragment {
 
     }
 
-    void initRegisterBtn(){
+    void initRegisterBtn() {
         TextView _regBtn = getView().findViewById(R.id.login_register);
-        _regBtn.setOnClickListener(new View.OnClickListener(){
+        _regBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d("Login", "GOTO REGISTER");
@@ -153,19 +144,20 @@ public class LoginFragment extends Fragment {
             }
         });
     }
-    void getData(){
-        Log.d("Login" ,  "GETDATA()  :  " + _uid);
+
+    void getData() {
+        Log.d("Login", "GETDATA()  :  " + _uid);
         _firestore.collection("User")
-            .document(_uid)
-            .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                .document(_uid)
+                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if(task.isSuccessful()){
+                if (task.isSuccessful()) {
                     user = task.getResult().toObject(User.class);
-                    Log.d("Login" , user.getEmail()+ "  :  " + user.getDisplayname());
+                    Log.d("Login", user.getEmail() + "  :  " + user.getDisplayname());
                     TextView name = getActivity().findViewById(R.id.nav_head_text);
                     name.setText(user.getDisplayname());
-                    Log.d("Login" ,  "GETDATA()  :  SETNAME   " + user.getDisplayname());
+                    Log.d("Login", "GETDATA()  :  SETNAME   " + user.getDisplayname());
                     //callCate();
                     getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.main_view, new HomeFragment()).commit();///ชั่วคราว
                 }
@@ -177,16 +169,17 @@ public class LoginFragment extends Fragment {
             }
         });
     }
-    void callCate(){
+
+    void callCate() {
         getActivity().setContentView(R.layout.category_main);
         viewPager = getActivity().findViewById(R.id.viewPager);
         tabLayout = getActivity().findViewById(R.id.tabLayout);
         tabAdapter = new TabAdapter(getActivity().getSupportFragmentManager());
-        tabAdapter.addFragment(new Tab1Fragment(), " ต้ม - แกง ");
-        tabAdapter.addFragment(new Tab1Fragment(), " ผัด - ทอด ");
-        tabAdapter.addFragment(new Tab1Fragment(), " อบ - ตุ๋น ");
-        tabAdapter.addFragment(new Tab1Fragment(), " ปิ้ง - ย่าง ");
-        tabAdapter.addFragment(new Tab1Fragment(), " อาหารจานเดียว");
+        tabAdapter.addFragment(new ChooseMenuFragment(), " ต้ม - แกง ");
+        tabAdapter.addFragment(new ChooseMenuFragment(), " ผัด - ทอด ");
+        tabAdapter.addFragment(new ChooseMenuFragment(), " อบ - ตุ๋น ");
+        tabAdapter.addFragment(new ChooseMenuFragment(), " ปิ้ง - ย่าง ");
+        tabAdapter.addFragment(new ChooseMenuFragment(), " อาหารจานเดียว");
         viewPager.setAdapter(tabAdapter);
         tabLayout.setupWithViewPager(viewPager);
     }
