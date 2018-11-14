@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.List;
 
 import kmitl.it.recipe.recipe.R;
@@ -29,10 +31,11 @@ public class MyMenuAdapter extends RecyclerView.Adapter<MymenuViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull MymenuViewHolder mymenuViewHolder, int i) {
+
         Menu _menu = _menus.get(i);
         mymenuViewHolder.setMenu(_menu);
-        mymenuViewHolder._menuImg.setImageResource(R.drawable.cat_baked);
         mymenuViewHolder._menuTitle.setText(_menu.getMenuName());
+        Glide.with(mymenuViewHolder.getCtx()).load(_menu.getProfileMenu()).into(mymenuViewHolder._menuImg);
     }
 
 
@@ -40,7 +43,7 @@ public class MyMenuAdapter extends RecyclerView.Adapter<MymenuViewHolder> {
     public MymenuViewHolder onCreateViewHolder(ViewGroup viewGroup, int i){
         View itemView = LayoutInflater.
                 from(viewGroup.getContext()).
-                inflate(R.layout.item_my_menu, viewGroup, false);
+                inflate(R.layout.item_show_menu, viewGroup, false);
         return new MymenuViewHolder(itemView, myMenuItemClickListener);
     }
 
@@ -66,8 +69,9 @@ class MymenuViewHolder extends RecyclerView.ViewHolder{
         super(v);
         this.myMenuItemClickListener = myMenuItemClickListener;
         ctx = v.getContext();
-        _menuImg = v.findViewById(R.id.mymeu_img);
-        _menuTitle = v.findViewById(R.id.mymeu_title);
+
+        _menuImg = v.findViewById(R.id.show_menu_img);
+        _menuTitle = v.findViewById(R.id.show_menu_name);
 
         v.setOnClickListener(new View.OnClickListener(){
             @Override
