@@ -16,6 +16,11 @@ public class Menu {
     public Menu(){
 
     }
+
+    public Menu(String menuName) {
+        this.menuName = menuName;
+    }
+
     public Menu(String menuName, ArrayList<String> step, ArrayList<String> picture, String ingredient, String description, String category, String time, String profileMenu) {
         this.menuName = menuName;
         this.step = step;
