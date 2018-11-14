@@ -19,6 +19,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import kmitl.it.recipe.recipe.AddMenu.AddMenuFragment;
 import kmitl.it.recipe.recipe.ChooseMenu.ChooseMenuFragment;
 import kmitl.it.recipe.recipe.LoginFragment;
+import kmitl.it.recipe.recipe.MyMenu.MyMenuFragment;
 import kmitl.it.recipe.recipe.R;
 import kmitl.it.recipe.recipe.TabAdapter;
 
@@ -127,6 +128,11 @@ public class MainActivity extends AppCompatActivity {
                 else if (id == R.id.nav_menu_mymenu) {
                         Toast.makeText(MainActivity.this, "MYMENU", Toast.LENGTH_SHORT).show();
 
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.main_view, new MyMenuFragment())
+                            .addToBackStack(null)
+                            .commit();
                         Log.d("NAV_MENU", "GOTO MYMENU");
 
                     _drawMain.closeDrawers();
