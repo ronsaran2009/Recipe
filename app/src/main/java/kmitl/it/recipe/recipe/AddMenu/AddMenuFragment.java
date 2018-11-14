@@ -43,11 +43,8 @@ public class AddMenuFragment extends Fragment{
     Button _imgBtn, _nextBtn;
     Spinner _typeSpin;
 
-    FirebaseFirestore mdb;
-    SQLiteDatabase myDB;
-
-    Menu menu;
-    ContentValues _row;
+    FirebaseFirestore mDB;
+    SQLiteDatabase mySQL;
 
     @Nullable
     @Override
@@ -60,11 +57,11 @@ public class AddMenuFragment extends Fragment{
         super.onActivityCreated(savedInstanceState);
 
         //get FirebaseFirestore
-        mdb = FirebaseFirestore.getInstance();
+        mDB = FirebaseFirestore.getInstance();
 
         //create SQLite
-        myDB = getActivity().openOrCreateDatabase("my.db", MODE_PRIVATE, null);
-        myDB.execSQL(
+        mySQL = getActivity().openOrCreateDatabase("my.db", MODE_PRIVATE, null);
+        mySQL.execSQL(
                 "CREATE TABLE IF NOT EXISTS menu (" +
                         "_id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR(50), description VARCHAR(255), " +
                         "type VARCHAR(20), time VARCHAR(20), ingredient VARCHAR(255), image VARCHAR(255))");
@@ -74,7 +71,7 @@ public class AddMenuFragment extends Fragment{
         _imgBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onGalleryClick(_imgBtn);
+                onGalleryClick();
             }
         });
 
@@ -119,36 +116,31 @@ public class AddMenuFragment extends Fragment{
                 _timeStr = _time.getText().toString();
                 _ingStr = _ing.getText().toString();
 
-                //ดักเคสชื่อเมนูอาหารห้ามซ้ำ
-                if(true){
-                    storeSql();
-                } else {
+                ContentValues _row = new ContentValues();
+                _row.put("name", _nameStr);
+                _row.put("description", _descStr);
+                _row.put("type", _typeStr);
+                _row.put("time", _timeStr);
+                _row.put("ingredient", _ingStr);
+                _row.put("image", _imgStr);
 
-                }
+                mySQL.insert("menu", null, _row);
+
+                Log.d("ADD RECIPE", "INSERT ALREADY");
+
+                getActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.main_view, new AddStepFragment())
+                        .addToBackStack(null)
+                        .commit();
+
+                Log.d("ADD RECIPE", "GOTO STEP");
             }
         });
     }
 
-    //buffer data
-    void storeSql(){
-        menu = new Menu();
-        menu.setMenu(_nameStr, _descStr, _typeStr, _timeStr, _ingStr, _imgStr);
-        _row = menu.getContent();
-
-        myDB.insert("menu", null, _row);
-
-        Log.d("ADD RECIPE", "INSERT ALREADY");
-
-        getActivity().getSupportFragmentManager()
-                .beginTransaction()
-//                .replace(R.id.main_view, new AddRecipeFragment())
-                .addToBackStack(null)
-                .commit();
-        Log.d("ADD RECIPE", "GOTO STEP");
-    }
-
     //get Photo's path
-    public void onGalleryClick(View v){
+    public void onGalleryClick(){
         Intent intent = new Intent(Intent.ACTION_PICK);
 
         File _picDirect = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);

@@ -13,6 +13,10 @@ public class Menu {
     private String time;
     private String profileMenu;
 
+    String _writer;
+    String _step;
+    String _link;
+
     public Menu(){
 
     }
@@ -30,6 +34,19 @@ public class Menu {
         this.category = category;
         this.time = time;
         this.profileMenu = profileMenu;
+    }
+
+    //test ของอายเอง
+    public Menu(String profileMenu, String menuName, String description, String category, String time, String ingredient, String writer, String step, String link) {
+        this.profileMenu = profileMenu;
+        this.menuName = menuName;
+        this.description = description;
+        this.category = category;
+        this.time = time;
+        this.ingredient = ingredient;
+        this._writer = writer;
+        _step = step;
+        _link = link;
     }
 
     public String getMenuName() {
@@ -95,4 +112,8 @@ public class Menu {
     public void setProfileMenu(String profileMenu) {
         this.profileMenu = profileMenu;
     }
+
+    public String getWriter() { return _writer; }
+
+    public void setWriter(String writer) { this._writer = writer; }
 }
