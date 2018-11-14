@@ -1,48 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    android:background="@color/colorPrimaryDark">
+
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="52dp"
+        android:layout_marginEnd="24dp"
+        android:src="@drawable/loginlogo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/login_email"
+        android:layout_width="293dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="45dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="45dp"
+        android:background="@drawable/rounded"
+        android:ems="10"
+        android:fontFamily="@font/lamoon"
+        android:hint="  อีเมล"
+        android:inputType="textPersonName"
+        android:textSize="24dp"
+        app:layout_constraintCircleRadius="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+    <EditText
+        android:id="@+id/login_pass"
+        android:layout_width="293dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="45dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="45dp"
+        android:background="@drawable/rounded"
+        android:ems="10"
+        android:fontFamily="@font/lamoon"
+        android:hint="  รหัสผ่าน"
+        android:inputType="textPassword"
+        android:textSize="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/login_email" />
+
+    <Button
+        android:id="@+id/login_loginbnt"
+        android:layout_width="293dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="45dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="45dp"
+        android:fontFamily="@font/lamoon"
+        android:text="ลงชื่อเข้าใช้"
+        android:textColor="#FFFFFF"
+        android:textSize="24dp"
+        android:background="@drawable/button_ok"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/login_pass" />
+
+    <TextView
+        android:id="@+id/login_register"
+        android:layout_width="94dp"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="20dp">
-
-        <EditText
-            android:id="@+id/login_email"
-            android:hint="@string/email"
-            android:drawableLeft="@drawable/ic_action_email"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-             />
-
-        <EditText
-            android:id="@+id/login_pass"
-            android:inputType="textPassword"
-            android:hint="@string/pass"
-            android:drawableLeft="@drawable/ic_action_password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-             />
-
-        <Button
-            android:id="@+id/login_loginbnt"
-            style="@style/Button"
-            android:text="@string/login" />
-
-        <TextView
-            android:id="@+id/login_register"
-            android:text="@string/register"
-            android:layout_marginTop="10dp"
-            android:layout_width="162dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:gravity="center"/>
-
-    </LinearLayout>
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="45dp"
+        android:fontFamily="@font/lamoon"
+        android:text="สมัครสมาชิก"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/login_loginbnt" />
 
 
 </android.support.constraint.ConstraintLayout>
