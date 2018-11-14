@@ -5,5 +5,7 @@
     <color name="colorAccent">#F3B15A</color>
 
     <color name="colorWhite_Header">#90FFFFFF</color>
+    <color name="colorBlack_Header">#90000000</color>
+
     <color name="colorWhite">#fff</color>
 </resources>
