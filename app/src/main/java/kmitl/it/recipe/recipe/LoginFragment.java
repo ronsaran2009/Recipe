@@ -162,7 +162,7 @@ public class LoginFragment extends Fragment {
                         Log.d("Login", "time : "+ i);
                     }
                     //callCate();
-                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.main_view, new HomeFragment()).commit();///ชั่วคราว
+                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.main_view, new ChooseMenuFragment()).commit();///ชั่วคราว
                 }
             }
         }).addOnFailureListener(new OnFailureListener() {

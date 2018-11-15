@@ -17,8 +17,6 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 
-import kmitl.it.recipe.recipe.AddMenuFragment;
-import kmitl.it.recipe.recipe.CategoryFragment;
 import kmitl.it.recipe.recipe.AddMenu.AddMenuFragment;
 import kmitl.it.recipe.recipe.ChooseMenu.ChooseMenuFragment;
 import kmitl.it.recipe.recipe.LoginFragment;
