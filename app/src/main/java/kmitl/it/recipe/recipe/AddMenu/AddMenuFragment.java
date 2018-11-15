@@ -43,6 +43,7 @@ public class AddMenuFragment extends Fragment{
     String _nameStr, _descStr, _typeStr, _timeStr, _ingStr;
 
     ImageView _imgBtn;
+//    Button _imgBtn;
     Button  _nextBtn;
     Spinner _typeSpin;
 
