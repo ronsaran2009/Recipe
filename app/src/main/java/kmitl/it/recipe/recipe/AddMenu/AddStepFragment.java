@@ -1,8 +1,12 @@
 package kmitl.it.recipe.recipe.AddMenu;
 
+import android.app.ProgressDialog;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -23,27 +27,41 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import kmitl.it.recipe.recipe.MyMenu.MyMenuFragment;
 import kmitl.it.recipe.recipe.R;
+import kmitl.it.recipe.recipe.model.Image;
 import kmitl.it.recipe.recipe.model.Menu;
 import kmitl.it.recipe.recipe.model.Mymenu;
 
 import static android.content.Context.MODE_PRIVATE;
 
 public class AddStepFragment  extends Fragment{
+
+    private static final int select = 100;
+    ProgressDialog progressDialog;
+    UploadTask uploadTask;
+
     FirebaseAuth mAuth;
     FirebaseFirestore myDB;
+    FirebaseStorage storage;
+    StorageReference storageRef, imgRef;
 
     SQLiteDatabase mySQL;
 
     String _imgStr, _nameStr, _descStr, _typeStr, _timeStr, _ingStr, uidUser, stepStr, linkStr, _writer;
     Button _submitBtn;
 
-    Menu menu;
+    Image image;
 
     @Nullable
     @Override
@@ -58,28 +76,27 @@ public class AddStepFragment  extends Fragment{
         //get UID
         mAuth = FirebaseAuth.getInstance();
         uidUser = mAuth.getUid();
-        Log.d("ADD STEP", uidUser);
 
         //open firebase
         myDB = FirebaseFirestore.getInstance();
+        storage = FirebaseStorage.getInstance();
+        storageRef = storage.getReference();
 
         //query data
         mySQL = getActivity().openOrCreateDatabase("my.db", MODE_PRIVATE, null);
         Cursor myCursor = mySQL.rawQuery("SELECT * FROM menu", null);
 
         while (myCursor.moveToNext()) {
-
             _nameStr = myCursor.getString(1);
             _descStr = myCursor.getString(2);
             _typeStr = myCursor.getString(3);
             _timeStr = myCursor.getString(4);
             _ingStr = myCursor.getString(5);
-            _imgStr = myCursor.getString(6);
-
-            getWriter(uidUser);
-
-            initSubmitBtn();
         }
+
+        getWriter(uidUser);
+
+        initSubmitBtn();
     }
 
     void initSubmitBtn() {
@@ -95,11 +112,12 @@ public class AddStepFragment  extends Fragment{
                 stepStr = step.getText().toString();
                 linkStr = link.getText().toString();
 
+                Log.d("ADD RECIPE", _nameStr + _descStr
+                        + _typeStr + _timeStr + _ingStr + _writer + _imgStr + stepStr + linkStr);
+
+                Log.d("ADD STEP", "GOTO MY_MENU");
                 //Set data to Mymenu
                 setMyMenu();
-
-                Log.d("ADD RECIPE", _nameStr + _descStr
-                        + _typeStr + _timeStr + _ingStr + _imgStr + _writer + stepStr + linkStr);
             }
         });
     }
@@ -138,8 +156,8 @@ public class AddStepFragment  extends Fragment{
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.d("ADD STEP", "insert MyMenu");
-                        Log.d("ADD STEP", "GOTO insert Menu");
-                        setMenu();
+                        Log.d("ADD STEP", "GOTO set IMAGE");
+                        uploadImage();
                     }
                 }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -149,20 +167,83 @@ public class AddStepFragment  extends Fragment{
         });
     }
 
+    //Get URL image
+    void uploadImage(){
+
+        Bundle bundle = getArguments();
+        if(bundle != null){
+            image = (Image) bundle.getSerializable("uriImage");
+            Log.d("ADD STEP", "Bundle");
+        } else {
+            Log.d("ADD STEP", "Bundle Null");
+        }
+
+        Uri uriImage = image.getUriImage();
+
+        imgRef = storageRef.child("recipes/"+_typeStr+"/"+_nameStr); //+ typeFood + nameFood
+
+        Bitmap bmp = null;
+        try {
+            bmp = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), uriImage);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.JPEG, 20, baos); //resize image
+        byte[] data = baos.toByteArray();
+
+        progressDialog = new ProgressDialog(getContext());
+        progressDialog.setMax(100);
+        progressDialog.setMessage("Uploading...");
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        progressDialog.show();
+        progressDialog.setCancelable(false);
+
+        uploadTask = imgRef.putBytes(data);
+
+        uploadTask.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                double progress = (100 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+                progressDialog.incrementProgressBy((int) progress);
+            }
+        });
+
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(getActivity(), "FAIL", Toast.LENGTH_SHORT).show();
+                progressDialog.dismiss();
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Uri downloadUrl = taskSnapshot.getUploadSessionUri();
+                String urlImage = downloadUrl.toString();
+                progressDialog.dismiss();
+
+                _imgStr = urlImage; //get URL image
+                setMenu();
+            }
+        });
+    }
+
     //Set data to Menu
     void setMenu(){
 
-        menu = new Menu(_nameStr, _descStr, _typeStr, _timeStr, _ingStr, _imgStr, _writer, stepStr, linkStr);
+        Menu menu = new Menu(_imgStr, _nameStr, _descStr, _typeStr, _timeStr, _ingStr, _writer, stepStr, linkStr);
 
         myDB.collection("Menu")
                 .document(_typeStr)
-                .collection(_nameStr)
+                .collection("menu")
                 .document(_nameStr)
                 .set(menu)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Toast.makeText(getActivity(), "SAVE", Toast.LENGTH_SHORT).show();
+                        Log.d("ADD STEP", "GOTO MY_MENU");
                         getActivity().getSupportFragmentManager()
                                 .beginTransaction()
                                 .replace(R.id.main_view, new MyMenuFragment())
