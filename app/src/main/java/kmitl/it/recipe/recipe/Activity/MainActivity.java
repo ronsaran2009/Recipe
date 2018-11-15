@@ -18,7 +18,6 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 
 import kmitl.it.recipe.recipe.CategoryFragment;
-import kmitl.it.recipe.recipe.HomeFragment;
 import kmitl.it.recipe.recipe.LoginFragment;
 import kmitl.it.recipe.recipe.R;
 import kmitl.it.recipe.recipe.Tab1Fragment;
@@ -61,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
             if (savedInstanceState == null) {
                 callNavigationBar();
                 checkSelectNavigation();
-                goToHome();
+                goToNextPage();
             }
         }
     }
@@ -79,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void goToHome() {
+    private void goToNextPage() {
         getSupportFragmentManager()
                 .beginTransaction()
                 .setCustomAnimations(R.anim.fade_out, R.anim.fade_in)
