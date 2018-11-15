@@ -13,9 +13,9 @@ public class Menu {
     private String time;
     private String profileMenu;
 
-    String _writer;
-    String _step;
-    String _link;
+    String writer;
+    String stepStr;
+    String link;
 
     public Menu(){
 
@@ -44,9 +44,9 @@ public class Menu {
         this.category = category;
         this.time = time;
         this.ingredient = ingredient;
-        this._writer = writer;
-        _step = step;
-        _link = link;
+        this.writer = writer;
+        this.stepStr = step;
+        this.link = link;
     }
 
     public String getMenuName() {
@@ -113,7 +113,4 @@ public class Menu {
         this.profileMenu = profileMenu;
     }
 
-    public String getWriter() { return _writer; }
-
-    public void setWriter(String writer) { this._writer = writer; }
 }
