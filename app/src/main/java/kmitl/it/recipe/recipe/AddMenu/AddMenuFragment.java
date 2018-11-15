@@ -42,7 +42,8 @@ public class AddMenuFragment extends Fragment{
     EditText _name, _desc, _time, _ing;
     String _nameStr, _descStr, _typeStr, _timeStr, _ingStr;
 
-    Button _imgBtn, _nextBtn;
+    ImageView _imgBtn;
+    Button  _nextBtn;
     Spinner _typeSpin;
 
     FirebaseFirestore mDB;
