@@ -133,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
                     _drawMain.closeDrawers();
 
                 } else if (id == R.id.nav_menu_mymenu) {
-                    Toast.makeText(MainActivity.this, "MYMENU", Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(MainActivity.this, "MYMENU", Toast.LENGTH_SHORT).show();
 
                     getSupportFragmentManager()
                             .beginTransaction()
@@ -150,7 +150,7 @@ public class MainActivity extends AppCompatActivity {
 
                     getSupportFragmentManager()
                             .beginTransaction()
-                            .replace(R.id.main_view, new AddMenuFragment())
+                            .replace(R.id.main_view, new kmitl.it.recipe.recipe.AddMenu.AddMenuFragment())
                             .addToBackStack(null)
                             .commit();
 
