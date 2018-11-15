@@ -17,10 +17,13 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 
+import kmitl.it.recipe.recipe.AddMenuFragment;
 import kmitl.it.recipe.recipe.CategoryFragment;
+import kmitl.it.recipe.recipe.AddMenu.AddMenuFragment;
+import kmitl.it.recipe.recipe.ChooseMenu.ChooseMenuFragment;
 import kmitl.it.recipe.recipe.LoginFragment;
+import kmitl.it.recipe.recipe.MyMenu.MyMenuFragment;
 import kmitl.it.recipe.recipe.R;
-import kmitl.it.recipe.recipe.Tab1Fragment;
 import kmitl.it.recipe.recipe.TabAdapter;
 
 public class MainActivity extends AppCompatActivity {
@@ -101,29 +104,45 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int id = item.getItemId();
 
-
+            if (_auth.getCurrentUser() == null){
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .setCustomAnimations(R.anim.fade_out, R.anim.fade_in)
+                        .replace(R.id.main_view, new LoginFragment())
+                        .commit();
+                _drawMain.closeDrawers();
+            }else {
                 if (id == R.id.nav_menu_category) {
+                    Toast.makeText(MainActivity.this, "CATEGORY", Toast.LENGTH_SHORT).show();
 
-                        Toast.makeText(MainActivity.this, "CATEGORY", Toast.LENGTH_SHORT).show();
                     setContentView(R.layout.category_main);
+
                     viewPager = findViewById(R.id.viewPager);
                     tabLayout = findViewById(R.id.tabLayout);
+
                     tabAdapter = new TabAdapter(getSupportFragmentManager());
-                    tabAdapter.addFragment(new Tab1Fragment(), " ต้ม - แกง ");
-                    tabAdapter.addFragment(new Tab1Fragment(), " ผัด - ทอด ");
-                    tabAdapter.addFragment(new Tab1Fragment(), " อบ - ตุ๋น ");
-                    tabAdapter.addFragment(new Tab1Fragment(), " ปิ้ง - ย่าง ");
-                    tabAdapter.addFragment(new Tab1Fragment(), " อาหารจานเดียว");
+
+                    tabAdapter.addFragment(new ChooseMenuFragment(), " ต้ม - แกง ");
+                    tabAdapter.addFragment(new ChooseMenuFragment(), " ผัด - ทอด ");
+                    tabAdapter.addFragment(new ChooseMenuFragment(), " อบ - ตุ๋น ");
+                    tabAdapter.addFragment(new ChooseMenuFragment(), " ปิ้ง - ย่าง ");
+                    tabAdapter.addFragment(new ChooseMenuFragment(), " อาหารจานเดียว");
+
                     viewPager.setAdapter(tabAdapter);
                     tabLayout.setupWithViewPager(viewPager);
-                        Log.d("NAV_MENU", "GOTO_CATEGORY");
 
+                    Log.d("NAV_MENU", "GOTO_CATEGORY");
                     _drawMain.closeDrawers();
-                }
-                else if (id == R.id.nav_menu_mymenu) {
-                        Toast.makeText(MainActivity.this, "MYMENU", Toast.LENGTH_SHORT).show();
 
-                        Log.d("NAV_MENU", "GOTO MYMENU");
+                } else if (id == R.id.nav_menu_mymenu) {
+                    Toast.makeText(MainActivity.this, "MYMENU", Toast.LENGTH_SHORT).show();
+
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.main_view, new MyMenuFragment())
+                            .addToBackStack(null)
+                            .commit();
+                    Log.d("NAV_MENU", "GOTO MYMENU");
 
                     _drawMain.closeDrawers();
                 } else if (id == R.id.nav_menu_addmenu) {
@@ -131,15 +150,21 @@ public class MainActivity extends AppCompatActivity {
 
                     //Category Tabs
 
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.main_view, new AddMenuFragment())
+                            .addToBackStack(null)
+                            .commit();
 
                     Log.d("NAV_MENU", "GOTO_ADDMENU");
                     _drawMain.closeDrawers();
-                }
-                else if (id == R.id.nav_menu_singout) {
+                } else if (id == R.id.nav_menu_singout) {
                     Log.d("NAV_MENU", "elseif");
-                        Toast.makeText(MainActivity.this, "ออกจากระบบเรียบร้อยแล้ว", Toast.LENGTH_SHORT).show();
-                        Log.d("NAV_MENU", "SING OUT COMPLETE");
-                        _auth.signOut();
+                    Toast.makeText(MainActivity.this, "ออกจากระบบเรียบร้อยแล้ว", Toast.LENGTH_SHORT).show();
+                    Log.d("NAV_MENU", "SING OUT COMPLETE");
+                    TextView name = findViewById(R.id.nav_head_text);
+                    name.setText("Guest");
+                    _auth.signOut();
                     getSupportFragmentManager()
                             .beginTransaction()
                             .setCustomAnimations(R.anim.fade_out, R.anim.fade_in)
@@ -148,7 +173,8 @@ public class MainActivity extends AppCompatActivity {
 
                     _drawMain.closeDrawers();
                 }
-                return true;
+            }return true;
+
             }
         });
     }

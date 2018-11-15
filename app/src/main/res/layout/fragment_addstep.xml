@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="10dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="วิธีทำ"
+            android:textSize="22dp"
+            android:textStyle="bold"/>
+
+        <EditText
+            android:id="@+id/step"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine"
+            android:minLines="1"
+            android:maxLines="5"
+            android:scrollbars="horizontal"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ลิ้งวิดีโอ"
+            android:textSize="22dp"
+            android:textStyle="bold"
+            android:layout_marginTop="10dp"/>
+
+        <EditText
+            android:id="@+id/step_link"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine"
+            android:minLines="1"
+            android:maxLines="5"
+            android:scrollbars="horizontal"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"/>
+
+        <Button
+            android:id="@+id/step_submit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="submit"
+            android:layout_gravity="center"/>
+
+    </LinearLayout>
+
+</LinearLayout>

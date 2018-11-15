@@ -1,11 +1,19 @@
 package kmitl.it.recipe.recipe.Register;
 
+
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+
 import android.support.v4.app.Fragment;
+
+
+import android.support.v4.widget.DrawerLayout;
+
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.util.Log;
 import android.view.LayoutInflater;
+
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -25,7 +33,8 @@ import kmitl.it.recipe.recipe.R;
 public class RegisterFragment extends Fragment {
     private FirebaseAuth mailAuth;
     FirebaseFirestore _firestore;
-
+    private ActionBarDrawerToggle _abdt;
+    private DrawerLayout _drawMain;
 
     @Nullable
     @Override
@@ -33,6 +42,11 @@ public class RegisterFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_register, container, false);}
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        _drawMain = getActivity().findViewById(R.id.drawMain);
+        _abdt = new ActionBarDrawerToggle(getActivity(), _drawMain, R.string.open, R.string.close);
+        _abdt.setDrawerIndicatorEnabled(false);
+
+
 
         getActivity().setTitle("REGISTER");
         _firestore = FirebaseFirestore.getInstance();
@@ -160,7 +174,6 @@ public class RegisterFragment extends Fragment {
             }
         });
     }
-
 
 
 

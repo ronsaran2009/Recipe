@@ -11,20 +11,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ListView;
+
+import java.util.ArrayList;
 
 import kmitl.it.recipe.recipe.R;
+import kmitl.it.recipe.recipe.model.Menu;
 
 public class ChooseMenuFragment extends Fragment {
 
     private ViewPager viewpager;
     private LinearLayout liner;
     private ChooseSlideAdapter myadapter;
-
-//    private ArrayList<Favorite> _recipe = new ArrayList<>();
-//
-//    final ListView _recipeList = getView().findViewById(R.id.favorite_list);
-//    final ChooseRecipeAdapter _recipeAdapter = new ChooseRecipeAdapter(getActivity(), R.layout.fragment_favorite_item, _recipe);
-
 
     @Nullable
     @Override
@@ -36,8 +34,7 @@ public class ChooseMenuFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-
-//        showListView();
+        showListView();
         controlPath();
     }
 
@@ -47,7 +44,6 @@ public class ChooseMenuFragment extends Fragment {
         viewpager = getView().findViewById(R.id.choose_view_pager);
         viewpager = getView().findViewById(R.id.choose_view_pager);
         liner = getView().findViewById(R.id.choose_dot);
-
 
         myadapter = new ChooseSlideAdapter(getActivity());
         viewpager.setAdapter(myadapter);
@@ -77,10 +73,14 @@ public class ChooseMenuFragment extends Fragment {
         showViewPager(_menuListener);
     }
 
-//    private void showListView() {
-//
-//        ListView _menuList = getView().findViewById(R.id.menu_list);
-//        _menuList.setAdapter(_recipeAdapter);
-//
-//    }
+    ArrayList<Menu> _menu = new ArrayList<>();
+
+    private void showListView() {
+
+        ListView choos_menu_list = getView().findViewById(R.id.choose_menu_list);
+        final ChooseMenuAdapter _menuAdapter = new ChooseMenuAdapter(getActivity(), R.layout.item_show_menu, _menu);
+        choos_menu_list.setAdapter(_menuAdapter);
+        _menuAdapter.clear();
+
+    }
 }
