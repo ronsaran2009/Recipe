@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -26,6 +27,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import kmitl.it.recipe.recipe.MyMenu.MyMenuFragment;
 import kmitl.it.recipe.recipe.R;
 import kmitl.it.recipe.recipe.model.Menu;
 import kmitl.it.recipe.recipe.model.Mymenu;
@@ -74,23 +76,10 @@ public class AddStepFragment  extends Fragment{
             _ingStr = myCursor.getString(5);
             _imgStr = myCursor.getString(6);
 
-            prepareData();
+            getWriter(uidUser);
+
+            initSubmitBtn();
         }
-    }
-
-    void prepareData() {
-        EditText step = getView().findViewById(R.id.step);
-        EditText link = getView().findViewById(R.id.step_link);
-
-        //Step info
-        stepStr = step.getText().toString();
-        linkStr = link.getText().toString();
-
-        //Writer's name
-//        getWriter(uidUser);
-        _writer = "Eye";
-
-        initSubmitBtn();
     }
 
     void initSubmitBtn() {
@@ -98,33 +87,38 @@ public class AddStepFragment  extends Fragment{
         _submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Step info
+                EditText step = getView().findViewById(R.id.step);
+                EditText link = getView().findViewById(R.id.step_link);
+
+                //Step info
+                stepStr = step.getText().toString();
+                linkStr = link.getText().toString();
+
                 //Set data to Mymenu
                 setMyMenu();
 
-                //Set data to Menu
-                setMenu();
-
                 Log.d("ADD RECIPE", _nameStr + _descStr
-                        + _typeStr + _timeStr + _ingStr + _imgStr + _writer);
+                        + _typeStr + _timeStr + _ingStr + _imgStr + _writer + stepStr + linkStr);
             }
         });
     }
 
     //Writer's name
     void getWriter(final String uidUser) {
-        myDB.collection("User")
-                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+        myDB.collection("User").document(uidUser)
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
-                    public void onEvent(@javax.annotation.Nullable QuerySnapshot queryDocumentSnapshots, @javax.annotation.Nullable FirebaseFirestoreException e) {
-
-                        for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
-                            if (doc.get("Uid").equals(uidUser)) { //error อาจต้องเปลี่ยนในตาราง
-                                _writer = doc.get("displayname").toString();
-                                Log.d("ADD STEP", _writer);
-                            }
-                        }
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        _writer = documentSnapshot.get("displayname").toString();
                     }
-                });
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("ADD STEP", "ERROR");
+            }
+        });
     }
 
     //Set data to Mymenu
@@ -144,6 +138,8 @@ public class AddStepFragment  extends Fragment{
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.d("ADD STEP", "insert MyMenu");
+                        Log.d("ADD STEP", "GOTO insert Menu");
+                        setMenu();
                     }
                 }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -169,7 +165,7 @@ public class AddStepFragment  extends Fragment{
                         Toast.makeText(getActivity(), "SAVE", Toast.LENGTH_SHORT).show();
                         getActivity().getSupportFragmentManager()
                                 .beginTransaction()
-                                .replace(R.id.main_view, new AddMenuFragment())
+                                .replace(R.id.main_view, new MyMenuFragment())
                                 .addToBackStack(null)
                                 .commit();
                     }
