@@ -101,7 +101,14 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int id = item.getItemId();
 
-
+            if (_auth.getCurrentUser() == null){
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .setCustomAnimations(R.anim.fade_out, R.anim.fade_in)
+                        .replace(R.id.main_view, new LoginFragment())
+                        .commit();
+                _drawMain.closeDrawers();
+            }else {
                 if (id == R.id.nav_menu_category) {
                     Toast.makeText(MainActivity.this, "CATEGORY", Toast.LENGTH_SHORT).show();
 
@@ -124,16 +131,15 @@ public class MainActivity extends AppCompatActivity {
                     Log.d("NAV_MENU", "GOTO_CATEGORY");
 
                     _drawMain.closeDrawers();
-                }
-                else if (id == R.id.nav_menu_mymenu) {
-                        Toast.makeText(MainActivity.this, "MYMENU", Toast.LENGTH_SHORT).show();
+                } else if (id == R.id.nav_menu_mymenu) {
+                    Toast.makeText(MainActivity.this, "MYMENU", Toast.LENGTH_SHORT).show();
 
                     getSupportFragmentManager()
                             .beginTransaction()
                             .replace(R.id.main_view, new MyMenuFragment())
                             .addToBackStack(null)
                             .commit();
-                        Log.d("NAV_MENU", "GOTO MYMENU");
+                    Log.d("NAV_MENU", "GOTO MYMENU");
 
                     _drawMain.closeDrawers();
                 } else if (id == R.id.nav_menu_addmenu) {
@@ -149,12 +155,11 @@ public class MainActivity extends AppCompatActivity {
 
                     Log.d("NAV_MENU", "GOTO_ADDMENU");
                     _drawMain.closeDrawers();
-                }
-                else if (id == R.id.nav_menu_singout) {
+                } else if (id == R.id.nav_menu_singout) {
                     Log.d("NAV_MENU", "elseif");
-                        Toast.makeText(MainActivity.this, "ออกจากระบบเรียบร้อยแล้ว", Toast.LENGTH_SHORT).show();
-                        Log.d("NAV_MENU", "SING OUT COMPLETE");
-                        _auth.signOut();
+                    Toast.makeText(MainActivity.this, "ออกจากระบบเรียบร้อยแล้ว", Toast.LENGTH_SHORT).show();
+                    Log.d("NAV_MENU", "SING OUT COMPLETE");
+                    _auth.signOut();
                     getSupportFragmentManager()
                             .beginTransaction()
                             .setCustomAnimations(R.anim.fade_out, R.anim.fade_in)
@@ -163,7 +168,8 @@ public class MainActivity extends AppCompatActivity {
 
                     _drawMain.closeDrawers();
                 }
-                return true;
+            }return true;
+
             }
         });
     }
