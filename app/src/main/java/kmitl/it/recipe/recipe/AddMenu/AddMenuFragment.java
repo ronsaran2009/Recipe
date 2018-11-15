@@ -107,9 +107,9 @@ public class AddMenuFragment extends Fragment{
             @Override
             public void onClick(View v) {
                 _name = getView().findViewById(R.id.add_recipe_name);
-                _desc = getView().findViewById(R.id.add_recipe_desc);
+//                _desc = getView().findViewById(R.id.add_recipe_desc);
                 _time = getView().findViewById(R.id.add_recipe_time);
-                _ing = getView().findViewById(R.id.add_recipe_ing);
+//                _ing = getView().findViewById(R.id.add_recipe_ing);
 
                 _nameStr = _name.getText().toString();
                 _descStr = _desc.getText().toString();

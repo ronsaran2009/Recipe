@@ -19,6 +19,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 
+import kmitl.it.recipe.recipe.MyMenu.MyMenuFragment;
 import kmitl.it.recipe.recipe.model.Menu;
 
 
@@ -83,7 +84,7 @@ public class AddMenuFragment extends Fragment {
             public void onClick(View view) {
                 getActivity().getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.main_view, new HomeFragment())
+                        .replace(R.id.main_view, new MyMenuFragment())
                         .addToBackStack(null).commit();
             }
         });

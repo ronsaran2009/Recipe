@@ -18,8 +18,7 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 
 import kmitl.it.recipe.recipe.AddMenuFragment;
-import kmitl.it.recipe.recipe.CategoryFragment;
-import kmitl.it.recipe.recipe.AddMenu.AddMenuFragment;
+
 import kmitl.it.recipe.recipe.ChooseMenu.ChooseMenuFragment;
 import kmitl.it.recipe.recipe.LoginFragment;
 import kmitl.it.recipe.recipe.MyMenu.MyMenuFragment;
@@ -135,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
                     _drawMain.closeDrawers();
 
                 } else if (id == R.id.nav_menu_mymenu) {
-                    Toast.makeText(MainActivity.this, "MYMENU", Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(MainActivity.this, "MYMENU", Toast.LENGTH_SHORT).show();
 
                     getSupportFragmentManager()
                             .beginTransaction()

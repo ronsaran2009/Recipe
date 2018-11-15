@@ -63,7 +63,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
 
         public ViewHolder(View itemView){
             super(itemView);
-            mTextView = itemView.findViewById(R.id.title_recipe_item);
+            //mTextView = itemView.findViewById(R.id.title_recipe_item);
             parentLayout = itemView.findViewById(R.id.parentLayout);
         }
     }

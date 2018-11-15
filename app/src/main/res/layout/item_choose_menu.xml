@@ -19,7 +19,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="250sp"
-            android:background="@color/colorBlack_Header"
+            android:background="@color/colorWhite_Header"
             android:gravity="bottom"
             android:orientation="vertical"
             android:paddingBottom="25sp">

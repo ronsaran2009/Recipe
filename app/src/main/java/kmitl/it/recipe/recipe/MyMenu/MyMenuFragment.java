@@ -25,7 +25,7 @@ import java.util.List;
 
 import kmitl.it.recipe.recipe.AddMenu.AddMenuFragment;
 import kmitl.it.recipe.recipe.R;
-import kmitl.it.recipe.recipe.RecipeFragment;
+import kmitl.it.recipe.recipe.RecyclerView.RecipeFragment;
 import kmitl.it.recipe.recipe.model.Menu;
 import kmitl.it.recipe.recipe.model.Mymenu;
 
