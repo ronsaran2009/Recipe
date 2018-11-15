@@ -15,7 +15,9 @@ import android.widget.ListView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -24,6 +26,7 @@ import java.util.List;
 
 import kmitl.it.recipe.recipe.R;
 import kmitl.it.recipe.recipe.model.Menu;
+import kmitl.it.recipe.recipe.model.Mymenu;
 
 public class ChooseMenuFragment extends Fragment {
 
@@ -94,14 +97,29 @@ public class ChooseMenuFragment extends Fragment {
 
     private void getObjOnFirebase(){
 
-        category = "ต้ม - แกง";
-        menuName = "ต้มยำกุ้ง";
+        category = "อบ - ตุ๋น";
+//        menuName = "ต้มยำกุ้ง";
 
         //get data
         _fbfs.collection("Menu")
                 .document(category)
                 .collection("menu")
-                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@javax.annotation.Nullable QuerySnapshot queryDocumentSnapshots, @javax.annotation.Nullable FirebaseFirestoreException e) {
+                        for(QueryDocumentSnapshot doc : queryDocumentSnapshots) {
+
+                            _menuList.add(new Menu(doc.get("menuName").toString(), doc.get("writer").toString()));
+
+                            ListView _menuView = getView().findViewById(R.id.choose_menu_list);
+                            _menuAdapter = new ChooseMenuAdapter(getActivity(), R.layout.item_show_menu, _menuList);
+                            _menuView.setAdapter(_menuAdapter);
+                        }
+                    }
+                });
+
+
+                /*.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 List<String> list = new ArrayList<>();
@@ -120,6 +138,6 @@ public class ChooseMenuFragment extends Fragment {
                     Log.d("CHOOSE_MENU", "Error getting documents: ", task.getException());
                 }
             }
-        });
+        }); */
     }
 }

@@ -39,14 +39,14 @@ public class ChooseMenuAdapter extends ArrayAdapter<Menu> {
         //TextView _image = _menuItem.findViewById(R.id.show_menu_img);
         //TextView _profile = _menuItem.findViewById(R.id.show_menu_profile);
         TextView _menuName = _menuItem.findViewById(R.id.show_menu_name);
-        //TextView _user = _menuItem.findViewById(R.id.show_menu_username);
+        TextView _user = _menuItem.findViewById(R.id.show_menu_username);
 
         Menu _row = _menu.get(position);
         Log.d("MENU_ADAP", "menu in adap : " + _row);
         //_image.setText(_row.getProfileMenu());
         //_profile.setText(_row.getProfileMenu()); //แก้เป็นภาพของคนเขียน
-        _menuName.setText("ต้มยำกุ้ง");
-        //_user.setText("Aal");
+        _menuName.setText(_row.getMenuName());
+        _user.setText("written by "+_row.getWriter());
 
         return _menuItem;
     }

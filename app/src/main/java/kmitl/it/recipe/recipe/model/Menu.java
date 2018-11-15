@@ -21,8 +21,9 @@ public class Menu {
 
     }
 
-    public Menu(String menuName) {
+    public Menu(String menuName, String writer) {
         this.menuName = menuName;
+        this.writer = writer;
     }
 
     public Menu(String menuName, ArrayList<String> step, ArrayList<String> picture, String ingredient, String description, String category, String time, String profileMenu) {
@@ -113,4 +114,7 @@ public class Menu {
         this.profileMenu = profileMenu;
     }
 
+    public String getWriter() { return writer; }
+
+    public void setWriter(String writer) { this.writer = writer; }
 }
