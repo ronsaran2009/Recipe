@@ -1,6 +1,5 @@
 package kmitl.it.recipe.recipe.ChooseMenu;
 
-
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,18 +10,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import kmitl.it.recipe.recipe.R;
 import kmitl.it.recipe.recipe.model.Menu;
@@ -94,45 +92,34 @@ public class ChooseMenuFragment extends Fragment {
         showViewPager(_menuListener);
     }
 
-    private void showListView() {
-
-        Log.d("CHOOSE_MENU", "list : "+_menuList);
-        ListView choos_menu_list = getView().findViewById(R.id.choose_menu_list);
-        _menuAdapter = new ChooseMenuAdapter(getActivity(), R.layout.item_show_menu, _menuList);
-        Log.d("CHOOSE_MENU", "list : "+choos_menu_list+"\n Adap: "+_menuAdapter);
-        choos_menu_list.setAdapter(_menuAdapter);
-        _menuAdapter.clear();
-
-    }
-
     private void getObjOnFirebase(){
 
-        showListView();
-
         category = "ต้ม - แกง";
-        menuName = "ต้มยำจุ้ง";
+        menuName = "ต้มยำกุ้ง";
 
         //get data
         _fbfs.collection("Menu")
                 .document(category)
-                .collection("foodname")
-                .document("foodname")
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        documentSnapshot.getData();
-                        _menuList.add(documentSnapshot.toObject(Menu.class));
-                        Log.d("CHOOSE_MENU", "SUCCESS _menu list : "+_menuList);
-                        _menuAdapter.notifyDataSetChanged();
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
+                .collection("menu")
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.d("CHOOSE_MENU", "Get data from firebase FAILED!!");
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                List<String> list = new ArrayList<>();
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        list.add(document.getId());
+                        _menuList.add((Menu) document.get("menu"));
+                        _menuAdapter = new ChooseMenuAdapter(getActivity(), R.layout.item_show_menu, _menuList);
+                        ListView choos_menu_list = getView().findViewById(R.id.choose_menu_list);
+                        choos_menu_list.setAdapter(_menuAdapter);
+                    }
+                    if (list.isEmpty()) {
+                        Log.d("CHOOSE_MENU", "MENU_EMPTY");
+                    }
+                } else {
+                    Log.d("CHOOSE_MENU", "Error getting documents: ", task.getException());
+                }
             }
         });
-
-
     }
 }
