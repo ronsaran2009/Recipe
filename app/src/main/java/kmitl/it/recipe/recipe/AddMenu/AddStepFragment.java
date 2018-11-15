@@ -129,10 +129,10 @@ public class AddStepFragment  extends Fragment{
 
         Mymenu myMenu = new Mymenu(_nameStr, _typeStr, date.split("_")[0], _writer);
 
-        myDB.collection("Mymenu")
+        myDB.collection("User")
                 .document(uidUser)
-                .collection("menu")
-                .document(date)
+                .collection("Mymenu")
+                .document(_nameStr)
                 .set(myMenu)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
