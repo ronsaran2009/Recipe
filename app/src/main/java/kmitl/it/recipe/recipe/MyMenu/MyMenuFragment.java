@@ -10,38 +10,37 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import kmitl.it.recipe.recipe.Activity.MainActivity;
+import kmitl.it.recipe.recipe.AddMenu.AddMenuFragment;
 import kmitl.it.recipe.recipe.R;
 import kmitl.it.recipe.recipe.RecipeFragment;
 import kmitl.it.recipe.recipe.model.Menu;
+import kmitl.it.recipe.recipe.model.Mymenu;
 
 public class MyMenuFragment extends Fragment
         implements MyMenuItemClickListener {
 
     RecyclerView recyclerView;
-    private RecyclerView.LayoutManager mLayoutManager;
-    private RecyclerView.Adapter mAdapter;
 
     private FirebaseFirestore _fbfs = FirebaseFirestore.getInstance();
-    private FirebaseAuth _mAuth = FirebaseAuth.getInstance();
 
-
+    FirebaseAuth mAuth;
+    String uidUser;
     MyMenuAdapter myMenuAdapter;
 
-    private ArrayList<Menu> _menus = new ArrayList<>();
-
+    private ArrayList<Mymenu> _menus = new ArrayList<>();
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_my_menu, container, false);
@@ -58,90 +57,78 @@ public class MyMenuFragment extends Fragment
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(llm);
 
+        mAuth = FirebaseAuth.getInstance();
+        //uidUser = mAuth.getUid();
+        uidUser = "2MhZA4yBJtPmVO0WhTlub6Zdb922";
+        Log.d("MyMenuFragment", uidUser);
+
         getDataResults();
+        initAddBtn();
 
     }
 
 
     @Override
     public void onMyMenuItemClick(String _recipeId) {
-
-       getActivity().getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.main_view, new RecipeFragment())
-                .addToBackStack(null)
-                .commit();
-        Log.d("MyMenuFragment", "goto RecipeFragment" + _recipeId);
+        if (_recipeId == "ยังไม่มีข้อมูล") {
+            Toast.makeText(getActivity(), "เมนูยังว่างอยู่", Toast.LENGTH_LONG).show();
+            Log.d("MyMenuFragment", "goto RecipeFragment " + _recipeId);
+        } else {
+            getActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.main_view, new RecipeFragment())
+                    .addToBackStack(null)
+                    .commit();
+            Log.d("MyMenuFragment", "goto RecipeFragment" + _recipeId);
+        }
     }
 
     public void getDataResults() {
+        Log.d("MyMenuFragment", "GO TO DB");
 
 
-        String category = "ต้ม";
-        String menuName = "ต้มยำจุ้ง";
-
-        String name;
-
-        Log.d("MyMenuFragment", "GET F DB");
-
-
-        _fbfs.collection("Menu")
-                .document(category)
-                .collection(menuName)
-                .document(menuName)
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        documentSnapshot.getData();
-                        _menus.add(documentSnapshot.toObject(Menu.class));
-                        Log.d("MyMenuFragment", "inside" + String.valueOf(_menus.size()));
-                        setMyMenuAdapter( _menus);
-                        //set data
-                        Log.d("MyMenuFragment", "Menu = " + _menus);
-                        if (_menus != null) {
-
-                        }
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
+        _fbfs.collection("User")
+                .document(uidUser)
+                .collection("Mymenu")
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.d("MyMenuFragment", "Get data from firebase FAILED!!");
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                List<String> list = new ArrayList<>();
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        list.add(document.getId());
+                        _menus.add((document.toObject(Mymenu.class)));
+                        Log.d("MyMenuFragment", "" + _menus);
+                        Log.d("MyMenuFragment", "+" + document.toObject(Menu.class));
+                        setMyMenuAdapter(_menus);
+                    }
+                    if (list.isEmpty()) {
+                        Log.d("MyMenuFragment", "MYMENU_EMPTY");
+                    }
+                    setMyMenuAdapter(_menus);
+                } else {
+                    Log.d("MyMenuFragment", "Error getting documents: ", task.getException());
+                }
             }
         });
-
-        //Log.d("MyMenuFragment", String.valueOf(myMenuAdapter.getItemCount()));
-
     }
 
-//
-//        _fbfs.collection("Menu")
-//                .document(category)
-//                .collection(menuName)
-//                .get()
-//                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-//                        for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
-//                            if (doc != null) {
-//                                _menus.add(doc.toObject(Menu.class));
-//                                Log.d("MY_FRG", "SUCCES!!");
-//                            }
-//                            else
-//                                Log.d("MY_FRG", "FAIL!!");
-//                        }
-//                    }
-//                }).addOnFailureListener(new OnFailureListener() {
-//            @Override
-//            public void onFailure(@NonNull Exception e) {
-//                Log.d("MY_FRG", "e FAIL!!");
-//            }
-//        });
-
-
-    private void setMyMenuAdapter( ArrayList<Menu> _menus) {
+    private void setMyMenuAdapter(ArrayList<Mymenu> _menus) {
         myMenuAdapter = new MyMenuAdapter(_menus, MyMenuFragment.this);
         recyclerView.setAdapter(myMenuAdapter);
     }
 
+    private void initAddBtn() {
+        Button addBtn = getView().findViewById(R.id.mymenu_addBtn);
+        addBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            getActivity().getSupportFragmentManager().beginTransaction()
+                                                  .replace(R.id.main_view, new AddMenuFragment())
+                                                  .addToBackStack(null)
+                                                  .commit();
+                                      }
+                                  }
+        );
+    }
 }
