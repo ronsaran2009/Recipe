@@ -158,6 +158,9 @@ public class LoginFragment extends Fragment {
                     TextView name = getActivity().findViewById(R.id.nav_head_text);
                     name.setText(user.getDisplayname());
                     Log.d("Login", "GETDATA()  :  SETNAME   " + user.getDisplayname());
+                    for (int i = 0 ; i<=100;i++){
+                        Log.d("Login", "time : "+ i);
+                    }
                     //callCate();
                     getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.main_view, new HomeFragment()).commit();///ชั่วคราว
                 }
