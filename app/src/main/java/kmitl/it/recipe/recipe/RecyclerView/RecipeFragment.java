@@ -1,4 +1,4 @@
-package kmitl.it.recipe.recipe;
+package kmitl.it.recipe.recipe.RecyclerView;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -21,6 +21,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 
+import kmitl.it.recipe.recipe.R;
 import kmitl.it.recipe.recipe.RecyclerView.MainAdapter;
 import kmitl.it.recipe.recipe.model.Menu;
 
