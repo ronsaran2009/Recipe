@@ -151,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
 
                     getSupportFragmentManager()
                             .beginTransaction()
-                            .replace(R.id.main_view, new AddMenuFragment())
+                            .replace(R.id.main_view, new kmitl.it.recipe.recipe.AddMenu.AddMenuFragment())
                             .addToBackStack(null)
                             .commit();
 

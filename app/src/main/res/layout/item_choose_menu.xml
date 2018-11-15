@@ -44,7 +44,7 @@
                 android:hint="Description"
                 android:padding="5dp"
                 android:textAlignment="center"
-                android:textColor="@color/colorWhite"
+                android:textColor="@color/colorBlack_Header"
                 android:textSize="20sp" />
 
         </LinearLayout>
