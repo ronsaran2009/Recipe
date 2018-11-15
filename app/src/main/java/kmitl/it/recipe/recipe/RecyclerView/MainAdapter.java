@@ -1,4 +1,4 @@
-package kmitl.it.recipe.recipe;
+package kmitl.it.recipe.recipe.RecyclerView;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -13,15 +13,17 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import kmitl.it.recipe.recipe.R;
+
 public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
 
-    private ArrayList<String> _menu = new ArrayList<>();
+    private ArrayList<String> _dataset = new ArrayList<>();
     private Context mContext;
 
 
-    public MainAdapter(Context context, ArrayList<String> _menu){
+    public MainAdapter(Context context, ArrayList<String> _dataset){
         mContext = context;
-        this._menu = _menu;
+        this._dataset = _dataset;
     }
 
     @NonNull
@@ -38,20 +40,20 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull MainAdapter.ViewHolder viewHolder, final int position) {
         Log.d("MAIN_ADAPTER", "onBindViewHolder: called.");
-        viewHolder.mTextView.setText(_menu.get(position));
+        viewHolder.mTextView.setText(_dataset.get(position));
 
         viewHolder.parentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("MAIN_ADAPTER", "onClick: clicked on: " + _menu.get(position));
-                Toast.makeText(mContext, _menu.get(position), Toast.LENGTH_SHORT).show();
+                Log.d("MAIN_ADAPTER", "onClick: clicked on: " + _dataset.get(position));
+                Toast.makeText(mContext, _dataset.get(position), Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return _menu.size();
+        return _dataset.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
@@ -61,7 +63,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
 
         public ViewHolder(View itemView){
             super(itemView);
-            mTextView = itemView.findViewById(R.id.title_home_item);
+            mTextView = itemView.findViewById(R.id.title_recipe_item);
             parentLayout = itemView.findViewById(R.id.parentLayout);
         }
     }

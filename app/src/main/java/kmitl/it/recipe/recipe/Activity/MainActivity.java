@@ -12,10 +12,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 
+import kmitl.it.recipe.recipe.AddMenuFragment;
+import kmitl.it.recipe.recipe.CategoryFragment;
 import kmitl.it.recipe.recipe.AddMenu.AddMenuFragment;
 import kmitl.it.recipe.recipe.ChooseMenu.ChooseMenuFragment;
 import kmitl.it.recipe.recipe.LoginFragment;
@@ -60,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
             if (savedInstanceState == null) {
                 callNavigationBar();
                 checkSelectNavigation();
-                goToHome();
+                goToNextPage();
             }
         }
     }
@@ -78,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void goToHome() {
+    private void goToNextPage() {
         getSupportFragmentManager()
                 .beginTransaction()
                 .setCustomAnimations(R.anim.fade_out, R.anim.fade_in)
@@ -129,8 +132,8 @@ public class MainActivity extends AppCompatActivity {
                     tabLayout.setupWithViewPager(viewPager);
 
                     Log.d("NAV_MENU", "GOTO_CATEGORY");
-
                     _drawMain.closeDrawers();
+
                 } else if (id == R.id.nav_menu_mymenu) {
                     Toast.makeText(MainActivity.this, "MYMENU", Toast.LENGTH_SHORT).show();
 
@@ -159,6 +162,8 @@ public class MainActivity extends AppCompatActivity {
                     Log.d("NAV_MENU", "elseif");
                     Toast.makeText(MainActivity.this, "ออกจากระบบเรียบร้อยแล้ว", Toast.LENGTH_SHORT).show();
                     Log.d("NAV_MENU", "SING OUT COMPLETE");
+                    TextView name = findViewById(R.id.nav_head_text);
+                    name.setText("Guest");
                     _auth.signOut();
                     getSupportFragmentManager()
                             .beginTransaction()
