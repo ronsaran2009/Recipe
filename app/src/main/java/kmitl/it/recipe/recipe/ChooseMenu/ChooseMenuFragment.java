@@ -112,7 +112,7 @@ public class ChooseMenuFragment extends Fragment {
         _menuAdapter = new ChooseMenuAdapter(getActivity(), R.layout.item_show_menu, _menuList);
         Log.d("CHOOSE_MENU", "list : "+choos_menu_list+"\n Adap: "+_menuAdapter);
         choos_menu_list.setAdapter(_menuAdapter);
-        _menuAdapter.clear();
+
 
     }
 
@@ -122,8 +122,6 @@ public class ChooseMenuFragment extends Fragment {
         cate = cate();
         Toast.makeText(getActivity(),cate,Toast.LENGTH_SHORT).show();
         Log.d("NAV_MENU", "GOTO_CATEGORY mPgaer "+ cate);
-
-
 
         menuName = "ต้มยำจุ้ง";
         _menuAdapter.clear();
