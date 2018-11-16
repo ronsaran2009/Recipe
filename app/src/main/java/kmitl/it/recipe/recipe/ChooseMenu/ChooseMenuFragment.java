@@ -1,6 +1,5 @@
 package kmitl.it.recipe.recipe.ChooseMenu;
 
-
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,16 +10,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -30,9 +25,6 @@ import java.util.List;
 
 import kmitl.it.recipe.recipe.R;
 import kmitl.it.recipe.recipe.model.Menu;
-import kmitl.it.recipe.recipe.model.Mymenu;
-
-import static android.content.Intent.getIntent;
 
 public class ChooseMenuFragment extends Fragment {
 
@@ -40,16 +32,13 @@ public class ChooseMenuFragment extends Fragment {
     private LinearLayout liner;
     private ChooseSlideAdapter myadapter;
 
-    //keep menu
-    private String menuName, cate;
-
-    private ArrayList<Menu> _menuList = new ArrayList<>();
-
     //firebase
     private FirebaseFirestore _fbfs = FirebaseFirestore.getInstance();
 
+    //Tab Category Show Data
+    private String cate;
+    private ArrayList<Menu> _menuList = new ArrayList<>();
     ChooseMenuAdapter _menuAdapter;
-
 
     @Nullable
     @Override
@@ -60,15 +49,10 @@ public class ChooseMenuFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-        _menuList = new ArrayList<>();
-
         controlPath();
-
-
-        getObjOnFirebase();
+        showMenu();
+        //getObjOnFirebase();
     }
-
 
     private void showViewPager(ViewPager.OnPageChangeListener _menuListener) {
         viewpager = getView().findViewById(R.id.choose_view_pager);
@@ -80,53 +64,66 @@ public class ChooseMenuFragment extends Fragment {
         viewpager.setAdapter(myadapter);
 
         viewpager.addOnPageChangeListener(_menuListener);
-
     }
 
     private void controlPath() {
-
         ViewPager.OnPageChangeListener _menuListener = new ViewPager.OnPageChangeListener() {
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) { }
 
             @Override
             public void onPageSelected(int position) {
-
                 // mCurrentPage = position;
             }
 
             @Override
-            public void onPageScrollStateChanged(int i) {
-            }
-
+            public void onPageScrollStateChanged(int i) { }
         };
         showViewPager(_menuListener);
     }
 
-    private void showListView() {
+    private void showMenu () {
 
-        Log.d("CHOOSE_MENU", "list : "+_menuList);
-        ListView choos_menu_list = getView().findViewById(R.id.choose_menu_list);
-        _menuAdapter = new ChooseMenuAdapter(getActivity(), R.layout.item_show_menu, _menuList);
-        Log.d("CHOOSE_MENU", "list : "+choos_menu_list+"\n Adap: "+_menuAdapter);
-        choos_menu_list.setAdapter(_menuAdapter);
-        _menuAdapter.clear();
+        String[] cate = {"ต้ม - แกง", "ผัด - ทอด", "อบ - ตุ๋น", "ปิ้ง - ย่าง", "อาหารจานเดียว"};
 
+        //get data
+        for (int i=0; i<cate.length; i++) {
+            _fbfs.collection("Menu")
+                    .document(cate[i])
+                    .collection("menu")
+                    .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    List<String> list = new ArrayList<>();
+                    if (task.isSuccessful()) {
+                        ListView _menuView = getView().findViewById(R.id.choose_menu_list);
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            list.add(document.getId());
+                            _menuList.add(document.toObject(Menu.class));
+
+                            _menuAdapter = new ChooseMenuAdapter(getActivity(), R.layout.item_show_menu, _menuList);
+                        }
+                        _menuView.setAdapter(_menuAdapter);
+                        Log.d("CHOOSE_MENU", "+" +list.toString());
+
+                        if (list.isEmpty()) {
+                            Log.d("CHOOSE_MENU", "MYMENU_EMPTY");
+                        }
+                    } else {
+                        Log.d("CHOOSE_MENU", "Error getting documents: ", task.getException());
+                    }
+                }
+            });
+        }
     }
 
+    //มี Tabs
     private void getObjOnFirebase(){
-        showListView();
 
         cate = cate();
         Toast.makeText(getActivity(),cate,Toast.LENGTH_SHORT).show();
         Log.d("NAV_MENU", "GOTO_CATEGORY mPgaer "+ cate);
 
-
-
-        menuName = "ต้มยำจุ้ง";
-        _menuAdapter.clear();
         //get data
         _fbfs.collection("Menu")
                 .document(cate)
@@ -136,27 +133,25 @@ public class ChooseMenuFragment extends Fragment {
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 List<String> list = new ArrayList<>();
                 if (task.isSuccessful()) {
+                    ListView _menuView = getView().findViewById(R.id.choose_menu_list);
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         list.add(document.getId());
                         _menuList.add(document.toObject(Menu.class));
-                        ListView _menuView = getView().findViewById(R.id.choose_menu_list);
 
                         _menuAdapter = new ChooseMenuAdapter(getActivity(), R.layout.item_show_menu, _menuList);
-                        _menuView.setAdapter(_menuAdapter);
-
-//                        Log.d("MyMenuFragment", "" + _menuList);
-                        Log.d("CHOOSE_MENU", "+" +list.toString());
                     }
+                    _menuView.setAdapter(_menuAdapter);
+                    Log.d("CHOOSE_MENU", "+" +list.toString());
+
                     if (list.isEmpty()) {
                         Log.d("CHOOSE_MENU", "MYMENU_EMPTY");
                     }
                 } else {
-                    Log.d("MyMenuFragment", "Error getting documents: ", task.getException());
+                    Log.d("CHOOSE_MENU", "Error getting documents: ", task.getException());
                 }
             }
         });
     }
-
     private String cate(){
 
         int i = TabAdapter.menu_type;
@@ -172,7 +167,7 @@ public class ChooseMenuFragment extends Fragment {
                 return   "อบ - ตุ๋น";
 
             case 3:
-                return   "ปิ้ง - ย่าง ";
+                return   "ปิ้ง - ย่าง";
 
             case 4:
                 return   "อาหารจานเดียว";

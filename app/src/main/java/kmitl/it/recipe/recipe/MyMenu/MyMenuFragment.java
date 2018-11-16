@@ -119,6 +119,9 @@ public class MyMenuFragment extends Fragment
     }
 
     private void initAddBtn() {
+        if(!_menus.isEmpty()){
+            _menus.clear();
+        }
         Button addBtn = getView().findViewById(R.id.mymenu_addBtn);
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override

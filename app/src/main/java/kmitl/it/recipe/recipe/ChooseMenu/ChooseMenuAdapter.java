@@ -42,11 +42,12 @@ public class ChooseMenuAdapter extends ArrayAdapter<Menu> {
         TextView _user = _menuItem.findViewById(R.id.show_menu_username);
 
         Menu _row = _menu.get(position);
-        Log.d("MENU_ADAP", "menu in adap : " + _row);
         //_image.setText(_row.getProfileMenu());
         //_profile.setText(_row.getProfileMenu()); //แก้เป็นภาพของคนเขียน
         _menuName.setText(_row.getMenuName());
-        _user.setText("written by "+_row.getWriter());
+        _user.setText("Written by "+_row.getWriter());
+
+        //Log.d("MENU_ADAP", "menu in adap : " + _row);
 
         return _menuItem;
     }
