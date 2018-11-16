@@ -21,10 +21,12 @@ import kmitl.it.recipe.recipe.model.Menu;
 public class MyMenuAdapter extends RecyclerView.Adapter<MymenuViewHolder> {
     private List<Menu> _menus;
     private MyMenuItemClickListener myMenuItemClickListener;
+    private String profileImg;
 
-    public MyMenuAdapter(List<Menu> _menus, MyMenuItemClickListener myMenuItemClickListener) {
+    public MyMenuAdapter(List<Menu> _menus,String profileImg, MyMenuItemClickListener myMenuItemClickListener) {
         this._menus = _menus;
         this.myMenuItemClickListener = myMenuItemClickListener;
+        this.profileImg = profileImg;
     }
 
     @Override
@@ -39,7 +41,11 @@ public class MyMenuAdapter extends RecyclerView.Adapter<MymenuViewHolder> {
         Glide.with(mymenuViewHolder._menuImg.getContext())
                 .load(_menu.getProfileMenu())
                 .into(mymenuViewHolder._menuImg);
-    }
+        Glide.with(mymenuViewHolder._writerImg.getContext())
+                .load(profileImg)
+                .into(mymenuViewHolder._writerImg);
+
+ }
 
     @Override
     public MymenuViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
@@ -59,7 +65,7 @@ class MymenuViewHolder extends RecyclerView.ViewHolder {
 
     private MyMenuItemClickListener myMenuItemClickListener;
     private Menu menu;
-    protected ImageView _menuImg;
+    protected ImageView _menuImg , _writerImg;
     protected TextView _menuTitle, _menuWriter;
 
     private Context ctx;
@@ -78,6 +84,7 @@ class MymenuViewHolder extends RecyclerView.ViewHolder {
             _menuImg = v.findViewById(R.id.show_menu_img);
             _menuTitle = v.findViewById(R.id.show_menu_name);
             _menuWriter = v.findViewById(R.id.show_menu_username);
+            _writerImg = v.findViewById(R.id.show_menu_profile);
 
         v.setOnClickListener(new View.OnClickListener() {
             @Override
