@@ -64,6 +64,7 @@ public class AddMenuFragment extends Fragment{
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        getActivity().setTitle("Add Menu");
 
         //get FirebaseFirestore
         mDB = FirebaseFirestore.getInstance();

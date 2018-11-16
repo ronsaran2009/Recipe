@@ -85,12 +85,10 @@ public class RegisterFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_register, container, false);}
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
+        getActivity().setTitle("Register");
         Log.d("REGISTER", "1");
 
-        _drawMain = getActivity().findViewById(R.id.drawMain);
-        _abdt = new ActionBarDrawerToggle(getActivity(), _drawMain, R.string.open, R.string.close);
-        _abdt.setDrawerIndicatorEnabled(false);
+
         Log.d("REGISTER", "2");
 
         getActivity().setTitle("REGISTER");
