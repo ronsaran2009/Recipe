@@ -3,12 +3,18 @@ package kmitl.it.recipe.recipe.Register;
 public class User {
     String email;
     String displayname;
+    String pic;
     public User(){
 
     }
-    public User(String email, String displayname){
+
+
+
+    public User(String email, String displayname, String pic){
         this.email = email;
         this.displayname = displayname;
+        this.pic = pic;
+
     }
 
     public String getDisplayname() {
@@ -25,5 +31,12 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+    public String getPic() {
+        return pic;
+    }
+
+    public void setPic(String pic) {
+        this.pic = pic;
     }
 }
