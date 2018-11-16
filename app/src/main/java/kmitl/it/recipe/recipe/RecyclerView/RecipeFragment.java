@@ -71,29 +71,34 @@ public class RecipeFragment extends Fragment {
         }
 
         //get data
-        _fbfs.collection("Menu")
-                .document(menuType)
-                .collection("menu")
-                .document(menuName)
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        documentSnapshot.getData();
-                        _menu = documentSnapshot.toObject(Menu.class);
-                        //Log.d("RECIPE", "SUCCESS : "+documentSnapshot.toObject(Menu.class).getMenuName());
-                        //set data
-                        Log.d("RECIPE", "Menu = "+_menu);
-                        if(_menu != null){
-                            setPage();
+        try {
+            _fbfs.collection("Menu")
+                    .document(menuType)
+                    .collection("menu")
+                    .document(menuName)
+                    .get()
+                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                        @Override
+                        public void onSuccess(DocumentSnapshot documentSnapshot) {
+                            documentSnapshot.getData();
+                            _menu = documentSnapshot.toObject(Menu.class);
+                            //Log.d("RECIPE", "SUCCESS : "+documentSnapshot.toObject(Menu.class).getMenuName());
+                            //set data
+                            Log.d("RECIPE", "Menu = "+_menu);
+                            if(_menu != null){
+                                setPage();
+                            }
                         }
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.d("RECIPE", "Get data from firebase FAILED!!");
-            }
-        });
+                    }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.d("RECIPE", "Get data from firebase FAILED!!");
+                }
+            });
+        }catch (Exception e){
+            e.printStackTrace();
+            Toast.makeText(getActivity(), "ทำการไม่ถูกต้อง", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void setPage(){

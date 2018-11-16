@@ -125,10 +125,12 @@ public class ChooseMenuFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 id = _menuView.getItemIdAtPosition(position);
-                Log.d("CHOOSE_MENU", "Position = " + id + "_id = " + (id+1));
+                Log.d("CHOOSE_MENU", "Position = " + id + "_id = " + (id+1)
+                        +"\n menu : "+_menuList.get(position).getMenuName());
 
                 Bundle bundle = new Bundle();
-                bundle.putInt("id", position);
+                bundle.putString("myMenuName", _menuList.get(position).getMenuName());
+                bundle.putString("myMenuType", _menuList.get(position).getCategory());
 
                 RecipeFragment fragment = new RecipeFragment();
                 fragment.setArguments(bundle);

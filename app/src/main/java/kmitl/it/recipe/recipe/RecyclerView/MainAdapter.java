@@ -30,7 +30,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
     @Override
     public MainAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
-               .inflate(R.layout.fragment_home_item,
+               .inflate(R.layout.fragment_recipe_item,
                        parent, false);
 
        ViewHolder vh = new ViewHolder(v);
@@ -40,15 +40,19 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull MainAdapter.ViewHolder viewHolder, final int position) {
         Log.d("MAIN_ADAPTER", "onBindViewHolder: called. + dataset : "+_dataset);
-        viewHolder.mTextView.setText(_dataset.get(position));
-
-        viewHolder.parentLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d("MAIN_ADAPTER", "onClick: clicked on: " + _dataset.get(position));
-                Toast.makeText(mContext, _dataset.get(position), Toast.LENGTH_SHORT).show();
-            }
-        });
+        try{
+            viewHolder.mTitle.setText("ขั้นตอนที่ "+(position+1));
+            viewHolder.mStep.setText(_dataset.get(position));
+            viewHolder.parentLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.d("MAIN_ADAPTER", "onClick: clicked on: " + _dataset.get(position));
+                    Toast.makeText(mContext, _dataset.get(position), Toast.LENGTH_SHORT).show();
+                }
+            });
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -58,12 +62,14 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        public TextView mTextView;
+        public TextView mTitle;
+        public TextView mStep;
         public CardView parentLayout;
 
         public ViewHolder(View itemView){
             super(itemView);
-            mTextView = itemView.findViewById(R.id.title_recipe_item);
+            mTitle = itemView.findViewById(R.id.title_recipe_item);
+            mStep = itemView.findViewById(R.id.step_recipe_item);
             parentLayout = itemView.findViewById(R.id.parentLayout);
         }
     }
