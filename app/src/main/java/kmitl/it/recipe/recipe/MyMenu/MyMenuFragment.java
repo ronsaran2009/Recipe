@@ -58,8 +58,8 @@ public class MyMenuFragment extends Fragment
         recyclerView.setLayoutManager(llm);
 
         mAuth = FirebaseAuth.getInstance();
-        //uidUser = mAuth.getUid();
-        uidUser = "2MhZA4yBJtPmVO0WhTlub6Zdb922";
+        uidUser = mAuth.getUid();
+        //uidUser = "2MhZA4yBJtPmVO0WhTlub6Zdb922";
         Log.d("MyMenuFragment", uidUser);
 
         getDataResults();
