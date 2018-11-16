@@ -200,7 +200,7 @@ public class AddStepFragment  extends Fragment{
         progressDialog.show();
         progressDialog.setCancelable(false);
 
-        uploadTask = imgRef.putBytes(data);
+        UploadTask uploadTask = imgRef.putBytes(data);
 
         uploadTask.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
             @Override
@@ -219,12 +219,27 @@ public class AddStepFragment  extends Fragment{
         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                /*
                 Uri downloadUrl = taskSnapshot.getUploadSessionUri();
                 String urlImage = downloadUrl.toString();
                 progressDialog.dismiss();
-
-                _imgStr = urlImage; //get URL image
-                setMenu();
+                */
+                storageRef.child("recipes/"+_typeStr+"/"+_nameStr).getDownloadUrl()
+                        .addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                _imgStr = uri.toString(); //get URL image
+                                progressDialog.dismiss();
+                                Log.d("ADD STEP", _imgStr);
+                                Log.d("ADD STEP", "GOTO SET MENU");
+                                setMenu();
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getActivity(), "downloadUrl FAIL", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
     }
@@ -242,7 +257,6 @@ public class AddStepFragment  extends Fragment{
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        Toast.makeText(getActivity(), "SAVE", Toast.LENGTH_SHORT).show();
                         Log.d("ADD STEP", "GOTO MY_MENU");
                         getActivity().getSupportFragmentManager()
                                 .beginTransaction()
