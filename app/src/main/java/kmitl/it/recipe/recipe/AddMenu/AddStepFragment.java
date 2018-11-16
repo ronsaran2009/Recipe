@@ -122,7 +122,7 @@ public class AddStepFragment  extends Fragment{
                 EditText link = getView().findViewById(R.id.step_link);
                 for(int i = 1; i <= _dynamicView.getTotal(); i++){
                     _step.add(((EditText)(getView().findViewById(i))).getText().toString());
-                    Log.d("ADD RECIPE", "id : "+i+"\n step : "+_step);
+                    Log.d("ADD RECIPE", "id : "+i+"\n step : "+_step.get(_step.size()-1));
                 }
                 //Step info
                 linkStr = link.getText().toString();
@@ -251,11 +251,6 @@ public class AddStepFragment  extends Fragment{
         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                /*
-                Uri downloadUrl = taskSnapshot.getUploadSessionUri();
-                String urlImage = downloadUrl.toString();
-                progressDialog.dismiss();
-                */
                 storageRef.child("recipes/"+_typeStr+"/"+_nameStr).getDownloadUrl()
                         .addOnSuccessListener(new OnSuccessListener<Uri>() {
                             @Override
@@ -279,7 +274,7 @@ public class AddStepFragment  extends Fragment{
     //Set data to Menu
     void setMenu(){
 
-        Menu menu = new Menu(_imgStr, _nameStr, _descStr, _typeStr, _timeStr, _ingStr, _writer, stepStr, linkStr);
+        Menu menu = new Menu(_imgStr, _nameStr, _descStr, _typeStr, _timeStr, _ingStr, _writer, _step, linkStr);
 
         myDB.collection("Menu")
                 .document(_typeStr)
