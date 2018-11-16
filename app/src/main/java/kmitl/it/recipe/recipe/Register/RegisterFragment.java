@@ -225,61 +225,24 @@ public class RegisterFragment extends Fragment {
                                 }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                                     @Override
                                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                        Uri downloadUrl = taskSnapshot.getUploadSessionUri();
-                                        String urlImage = downloadUrl.toString();
-                                        progressDialog.dismiss();
-
-                                        _imgStr = urlImage; //get URL image
-                                        Log.d("REGISTER", "URL imageUser = " + _imgStr);
-                                        Log.d("REGISTER", "Detail" + _displayStr + _emailStr);
-                                        if(mailAuth.getCurrentUser() != null){
-                                        _uidStr = mailAuth.getCurrentUser().getUid();
-                                        User user = new User(_uidStr,_emailStr, _displayStr, _imgStr);
-
-
-
-                                        //uploadImage();
-                                        _firestore.collection("User")
-                                                .document(_uidStr)
-                                                .set(user)
-                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        storageRef.child("profile/" + _emailStr + "/" + "pic").getDownloadUrl()
+                                                .addOnSuccessListener(new OnSuccessListener<Uri>() {
                                                     @Override
-                                                    public void onSuccess(Void aVoid) {
-                                                        Log.d("REGISTER", "RECORD_database");
+                                                    public void onSuccess(Uri uri) {
+                                                        _imgStr = uri.toString();
+                                                        Log.d("REGISTER", "URL imageUser = " + _imgStr);
 
-                                                        Toast.makeText(getActivity(), "SAVE", Toast.LENGTH_SHORT).show();
-
-                                                        mailAuth.signOut();
-
-                                                        Toast.makeText(getActivity(), "กรุณาตรวจสอบEMAIL", Toast.LENGTH_SHORT).show();
-
-                                                        Log.d("REGISTER", "GOTO LOGIN");
-                                                        getActivity().getSupportFragmentManager()
-                                                                .beginTransaction()
-                                                                .addToBackStack(null)
-                                                                .replace(R.id.main_view, new LoginFragment())
-                                                                .commit();
+                                                        progressDialog.dismiss();
+                                                        Log.d("REGISTER", "REGISTERING...");
+                                                        registerUser();
                                                     }
                                                 }).addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
+                                                    @Override
+                                                    public void onFailure(@NonNull Exception e) {
+                                                        Toast.makeText(getActivity(), "Fail", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                });
 
-                                                Toast.makeText(getActivity(), "ERROR = " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                                                Log.d("REGISTER", "ERROR = " + e.getMessage());
-
-                                            }
-                                        });
-                                        }
-                                        else {
-                                            getActivity().getSupportFragmentManager()
-                                                    .beginTransaction()
-                                                    .addToBackStack(null)
-                                                    .replace(R.id.main_view, new RegisterFragment())
-                                                    .commit();
-                                            Toast.makeText(getActivity(), "Fail", Toast.LENGTH_SHORT).show();
-                                        }
-
-                                        Log.d("REGISTER", "after");
                                     }
                                 });
 
@@ -288,6 +251,55 @@ public class RegisterFragment extends Fragment {
                     });
                 }
         }
+    }
+
+    void registerUser(){
+        if(mailAuth.getCurrentUser() != null){
+            _uidStr = mailAuth.getCurrentUser().getUid();
+            Log.d("REGISTER", _uidStr + _emailStr + _displayStr + _imgStr);
+
+            User user = new User(_uidStr,_emailStr, _displayStr, _imgStr);
+
+            //uploadImage();
+            _firestore.collection("User")
+                    .document(_uidStr)
+                    .set(user)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d("REGISTER", "RECORD_database");
+
+                            Toast.makeText(getActivity(), "SAVE", Toast.LENGTH_SHORT).show();
+
+                            mailAuth.signOut();
+
+                            Toast.makeText(getActivity(), "กรุณาตรวจสอบEMAIL", Toast.LENGTH_SHORT).show();
+
+                            Log.d("REGISTER", "GOTO LOGIN");
+                            getActivity().getSupportFragmentManager()
+                                    .beginTransaction()
+                                    .addToBackStack(null)
+                                    .replace(R.id.main_view, new LoginFragment())
+                                    .commit();
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(getActivity(), "ERROR = " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Log.d("REGISTER", "ERROR = " + e.getMessage());
+                }
+            });
+        } else {
+            getActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .addToBackStack(null)
+                    .replace(R.id.main_view, new RegisterFragment())
+                    .commit();
+            Toast.makeText(getActivity(), "Fail", Toast.LENGTH_SHORT).show();
+        }
+
+        Log.d("REGISTER", "after");
+
     }
 
     void sendVerifiedEmail() {

@@ -23,10 +23,16 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 
 import kmitl.it.recipe.recipe.R;
 import kmitl.it.recipe.recipe.model.Image;
@@ -36,19 +42,21 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class AddMenuFragment extends Fragment{
 
-    final  static int IMG_GALLERY_REQUEST = 1;
+//    final  static int IMG_GALLERY_REQUEST = 1;
     ImageView _imageView;
 
     EditText _name, _desc, _time, _ing;
     String _nameStr, _descStr, _typeStr, _timeStr, _ingStr;
 
     ImageView _imgBtn;
-//    Button _imgBtn;
     Button  _nextBtn;
     Spinner _typeSpin;
 
     FirebaseFirestore mDB;
     SQLiteDatabase mySQL;
+
+    //Att. for checkMenuName
+    List allMenu = new ArrayList();
 
     private static final int select = 100;
     Uri uriImage;
@@ -69,14 +77,14 @@ public class AddMenuFragment extends Fragment{
         //get FirebaseFirestore
         mDB = FirebaseFirestore.getInstance();
 
+        checkMenuName();
+
         //create SQLite
         mySQL = getActivity().openOrCreateDatabase("my.db", MODE_PRIVATE, null);
         mySQL.execSQL(
                 "CREATE TABLE IF NOT EXISTS menu (" +
                         "_id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR(50), description VARCHAR(255), " +
                         "type VARCHAR(20), time VARCHAR(20), ingredient VARCHAR(255))");
-
-//        mySQL.execSQL("DROP TABLE menu");
 
         _imgBtn = getView().findViewById(R.id.add_recipe_img_btn);
         _imageView = getView().findViewById(R.id.add_recipe_img);
@@ -158,32 +166,55 @@ public class AddMenuFragment extends Fragment{
                             _timeStr = _time.getText().toString();
                             _ingStr = _ing.getText().toString();
 
-                            ContentValues _row = new ContentValues();
-                            _row.put("name", _nameStr);
-                            _row.put("description", _descStr);
-                            _row.put("type", _typeStr);
-                            _row.put("time", _timeStr);
-                            _row.put("ingredient", _ingStr);
+                            if(allMenu.contains(_nameStr)){
+                                Toast.makeText(getActivity(), "ชื่อเมนูนี้ มีผู้ใช้แล้ว", Toast.LENGTH_SHORT).show();
+                            } else if(_nameStr.isEmpty() || _descStr.isEmpty() || _typeStr.isEmpty() || _timeStr.isEmpty() || _ingStr.isEmpty()){
+                                Toast.makeText(getActivity(), "กรุณากรอกข้อมูลให้ครบ", Toast.LENGTH_SHORT).show();
+                            } else {
+                                ContentValues _row = new ContentValues();
+                                _row.put("name", _nameStr);
+                                _row.put("description", _descStr);
+                                _row.put("type", _typeStr);
+                                _row.put("time", _timeStr);
+                                _row.put("ingredient", _ingStr);
 
-                            mySQL.insert("menu", null, _row);
+                                mySQL.insert("menu", null, _row);
 
-                            Log.d("ADD RECIPE", "INSERT ALREADY");
+                                Log.d("ADD RECIPE", "INSERT ALREADY");
 
-                            //create Bundle
-                            Bundle bundle = new Bundle();
-                            bundle.putSerializable("uriImage", image); //Uri Image
+                                //create Bundle
+                                Bundle bundle = new Bundle();
+                                bundle.putSerializable("uriImage", image); //Uri Image
 
-                            AddStepFragment obj = new AddStepFragment();
-                            obj.setArguments(bundle);
+                                AddStepFragment obj = new AddStepFragment();
+                                obj.setArguments(bundle);
 
-                            Log.d("ADD RECIPE", "GOTO STEP");
-                            getActivity().getSupportFragmentManager()
-                                    .beginTransaction()
-                                    .replace(R.id.main_view, obj)
-                                    .commit();
+                                Log.d("ADD RECIPE", "GOTO STEP");
+                                getActivity().getSupportFragmentManager()
+                                        .beginTransaction()
+                                        .replace(R.id.main_view, obj)
+                                        .commit();
+                            }
+
                         }
                     });
                 }
+        }
+    }
+
+    void checkMenuName(){
+        String[] cate = {"ต้ม - แกง", "ผัด - ทอด", "อบ - ตุ๋น", "ปิ้ง - ย่าง", "อาหารจานเดียว"};
+
+        for(int i=0; i<cate.length; i++){
+            mDB.collection("Menu").document(cate[i]).collection("menu")
+                    .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                        @Override
+                        public void onEvent(@javax.annotation.Nullable QuerySnapshot queryDocumentSnapshots, @javax.annotation.Nullable FirebaseFirestoreException e) {
+                            for(QueryDocumentSnapshot doc : queryDocumentSnapshots){
+                                allMenu.add(doc.get("menuName").toString());
+                            }
+                        }
+                    });
         }
     }
 }

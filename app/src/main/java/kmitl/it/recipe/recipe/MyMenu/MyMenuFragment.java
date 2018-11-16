@@ -11,13 +11,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -43,7 +41,6 @@ public class MyMenuFragment extends Fragment
     MyMenuAdapter myMenuAdapter;
 
     private ArrayList<Mymenu> _menus = new ArrayList<>();
-    public Mymenu mymenu;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_my_menu, container, false);
@@ -78,24 +75,6 @@ public class MyMenuFragment extends Fragment
             Toast.makeText(getActivity(), "เมนูยังว่างอยู่", Toast.LENGTH_LONG).show();
             Log.d("MyMenuFragment", "goto RecipeFragment " + _recipeId);
         } else {
-
-            _fbfs.collection("User")
-                    .document(uidUser)
-                    .collection("Mymenu")
-                    .document(_recipeId)
-                    .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    if (task.isSuccessful()) {
-                        mymenu = task.getResult().toObject(Mymenu.class);
-
-
-                        Log.d("RECIPE", "Menu = " + mymenu.getMenu());
-                    }
-
-
-
-                }});
             getActivity().getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.main_view, new RecipeFragment())
@@ -122,7 +101,6 @@ public class MyMenuFragment extends Fragment
                         _menus.add((document.toObject(Mymenu.class)));
                         Log.d("MyMenuFragment", "" + _menus);
                         Log.d("MyMenuFragment", "+" + document.toObject(Menu.class));
-
                         setMyMenuAdapter(_menus);
                     }
                     if (list.isEmpty()) {
