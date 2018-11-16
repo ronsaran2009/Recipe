@@ -45,8 +45,6 @@ public class RecipeFragment extends Fragment {
     //firebase
     private FirebaseFirestore _fbfs = FirebaseFirestore.getInstance();
 
-    //youtube
-    Button youtubeBtn;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -59,7 +57,6 @@ public class RecipeFragment extends Fragment {
         getActivity().setTitle("Recipe");
         getObjOnFirebase();
     }
-
 
     private void getObjOnFirebase(){
         Log.d("Recipe", "get Bundle");
