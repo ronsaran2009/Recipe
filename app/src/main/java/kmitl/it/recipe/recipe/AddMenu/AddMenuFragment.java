@@ -29,22 +29,31 @@ import java.io.File;
 import java.io.FileNotFoundException;
 
 import kmitl.it.recipe.recipe.R;
+import kmitl.it.recipe.recipe.model.Image;
 
+import static android.app.Activity.RESULT_OK;
 import static android.content.Context.MODE_PRIVATE;
 
 public class AddMenuFragment extends Fragment{
 
     final  static int IMG_GALLERY_REQUEST = 1;
-    ImageView imageView;
+    ImageView _imageView;
 
     EditText _name, _desc, _time, _ing;
-    String _imgStr, _nameStr, _descStr, _typeStr, _timeStr, _ingStr;
+    String _nameStr, _descStr, _typeStr, _timeStr, _ingStr;
 
-    Button _imgBtn, _nextBtn;
+    ImageView _imgBtn;
+//    Button _imgBtn;
+    Button  _nextBtn;
     Spinner _typeSpin;
 
     FirebaseFirestore mDB;
     SQLiteDatabase mySQL;
+
+    private static final int select = 100;
+    Uri uriImage;
+
+    Image image = new Image();
 
     @Nullable
     @Override
@@ -64,10 +73,15 @@ public class AddMenuFragment extends Fragment{
         mySQL.execSQL(
                 "CREATE TABLE IF NOT EXISTS menu (" +
                         "_id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR(50), description VARCHAR(255), " +
-                        "type VARCHAR(20), time VARCHAR(20), ingredient VARCHAR(255), image VARCHAR(255))");
+                        "type VARCHAR(20), time VARCHAR(20), ingredient VARCHAR(255))");
+
+//        mySQL.execSQL("DROP TABLE menu");
+
+        _imgBtn = getView().findViewById(R.id.add_recipe_img_btn);
+        _imageView = getView().findViewById(R.id.add_recipe_img);
+        _nextBtn = getView().findViewById(R.id.add_recipe_next_btn);
 
         //click Add Photo
-        _imgBtn = getView().findViewById(R.id.add_recipe_img_btn);
         _imgBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,48 +109,6 @@ public class AddMenuFragment extends Fragment{
                 Log.d("ADD RECIPE", "ERROR");
             }
         });
-
-        //click Next Step
-        initNextBtn();
-    }
-
-    //store data into SQLite
-    public void initNextBtn(){
-        _nextBtn = getView().findViewById(R.id.add_recipe_next_btn);
-        _nextBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                _name = getView().findViewById(R.id.add_recipe_name);
-//                _desc = getView().findViewById(R.id.add_recipe_desc);
-                _time = getView().findViewById(R.id.add_recipe_time);
-//                _ing = getView().findViewById(R.id.add_recipe_ing);
-
-                _nameStr = _name.getText().toString();
-                _descStr = _desc.getText().toString();
-                _timeStr = _time.getText().toString();
-                _ingStr = _ing.getText().toString();
-
-                ContentValues _row = new ContentValues();
-                _row.put("name", _nameStr);
-                _row.put("description", _descStr);
-                _row.put("type", _typeStr);
-                _row.put("time", _timeStr);
-                _row.put("ingredient", _ingStr);
-                _row.put("image", _imgStr);
-
-                mySQL.insert("menu", null, _row);
-
-                Log.d("ADD RECIPE", "INSERT ALREADY");
-
-                getActivity().getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.main_view, new AddStepFragment())
-                        .addToBackStack(null)
-                        .commit();
-
-                Log.d("ADD RECIPE", "GOTO STEP");
-            }
-        });
     }
 
     //get Photo's path
@@ -145,38 +117,72 @@ public class AddMenuFragment extends Fragment{
 
         File _picDirect = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
         String _picPath = _picDirect.getPath();
+        Log.d("ADD MENU", _picPath);
 
-        //path image
-        _imgStr = _picPath;
-
-        Uri uri = Uri.parse(_picPath);
-
-        intent.setDataAndType(uri, "image/*");
-
-        startActivityForResult(intent, IMG_GALLERY_REQUEST);
+        intent.setType("image/*");
+        startActivityForResult(intent, select);
     }
 
     //set Photo to fragment_addrecipe
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(resultCode == getActivity().RESULT_OK){
+        switch (requestCode) {
+            case select:
+                if (resultCode == RESULT_OK) {
+                    uriImage = data.getData();
 
-            if(requestCode == IMG_GALLERY_REQUEST){
-                Uri imgUri = data.getData();
-                try{
-                    Bitmap _bitmap = BitmapFactory.decodeStream(
-                            getActivity()
-                                    .getContentResolver()
-                                    .openInputStream(imgUri)
-                    );
+                    image.setUriImage(uriImage);
 
-                    imageView = getView().findViewById(R.id.add_recipe_img);
-                    imageView.setImageBitmap(_bitmap);
-                } catch (FileNotFoundException e){
-                    e.printStackTrace();
-                    Toast.makeText(getActivity(), "File not Found", Toast.LENGTH_SHORT).show();
+                    try {
+                        Bitmap _bitmap = BitmapFactory.decodeStream(
+                                getActivity()
+                                        .getContentResolver()
+                                        .openInputStream(uriImage)
+                        );
+                        _imageView.setImageBitmap(_bitmap);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+
+                    _nextBtn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            _name = getView().findViewById(R.id.add_recipe_name);
+                            _desc = getView().findViewById(R.id.add_recipe_desc);
+                            _time = getView().findViewById(R.id.add_recipe_time);
+                            _ing = getView().findViewById(R.id.add_recipe_ing);
+
+                            _nameStr = _name.getText().toString();
+                            _descStr = _desc.getText().toString();
+                            _timeStr = _time.getText().toString();
+                            _ingStr = _ing.getText().toString();
+
+                            ContentValues _row = new ContentValues();
+                            _row.put("name", _nameStr);
+                            _row.put("description", _descStr);
+                            _row.put("type", _typeStr);
+                            _row.put("time", _timeStr);
+                            _row.put("ingredient", _ingStr);
+
+                            mySQL.insert("menu", null, _row);
+
+                            Log.d("ADD RECIPE", "INSERT ALREADY");
+
+                            //create Bundle
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable("uriImage", image); //Uri Image
+
+                            AddStepFragment obj = new AddStepFragment();
+                            obj.setArguments(bundle);
+
+                            Log.d("ADD RECIPE", "GOTO STEP");
+                            getActivity().getSupportFragmentManager()
+                                    .beginTransaction()
+                                    .replace(R.id.main_view, obj)
+                                    .commit();
+                        }
+                    });
                 }
-            }
         }
     }
 }
