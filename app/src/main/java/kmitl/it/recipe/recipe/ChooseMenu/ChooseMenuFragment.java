@@ -97,14 +97,14 @@ public class ChooseMenuFragment extends Fragment {
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                     List<String> list = new ArrayList<>();
                     if (task.isSuccessful()) {
-//                        ListView _menuView = getView().findViewById(R.id.choose_menu_list);
+                        ListView _menuView = getView().findViewById(R.id.choose_menu_list);
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             list.add(document.getId());
                             _menuList.add(document.toObject(Menu.class));
 
                             _menuAdapter = new ChooseMenuAdapter(getActivity(), R.layout.item_show_menu, _menuList);
                         }
-//                        _menuView.setAdapter(_menuAdapter);
+                        _menuView.setAdapter(_menuAdapter);
                         Log.d("CHOOSE_MENU", "+" +list.toString());
 
                         if (list.isEmpty()) {

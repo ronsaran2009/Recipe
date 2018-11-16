@@ -64,7 +64,6 @@ public class RecipeFragment extends Fragment {
 
         Bundle b = new Bundle();
         if (b != null){
-            Log.d("Recipe", "set String = "+b.getString("mymenu"));
             menuName = getArguments().getString("myMenuName");
             menuType = getArguments().getString("myMenuType");
             Toast.makeText(getActivity(),menuName+" " +menuType,Toast.LENGTH_SHORT).show();
