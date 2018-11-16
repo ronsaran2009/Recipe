@@ -2,63 +2,77 @@
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark">
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-            <LinearLayout
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!--Image profile-->
+            <ImageView
+                android:id="@+id/profile_image_menu_recipe"
+                android:layout_width="250dp"
+                android:layout_height="250dp"
+                android:layout_gravity="center"
+                android:src="@mipmap/ic_launcher" />
+
+            <!--Topic-->
+            <TextView
+                android:id="@+id/menu_topic_recipe"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:text="@string/sample_menu"
+                android:textColor="@color/colorPrimary"
+                android:fontFamily="@font/lamoon"
+                android:textAlignment="center"
+                android:textSize="30sp"/>
 
-                <!--Image profile-->
-                <ImageView
-                    android:id="@+id/profile_image_menu_recipe"
-                    android:layout_width="300dp"
-                    android:layout_height="300dp"
-                    android:layout_gravity="center"
-                    android:src="@mipmap/ic_launcher" />
+            <!--prepare-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="0dp"
+                android:text="@string/prepare_topic"
+                android:fontFamily="@font/lamoon"
+                android:textAlignment="textStart"
+                android:paddingLeft="20dp"
+                android:textColor="@color/colorPrimary"
+                android:textSize="25sp" />
+            <TextView
+                android:id="@+id/ingredient_item_recipe"
+                android:layout_width="match_parent"
+                android:paddingLeft="10dp"
+                android:layout_height="wrap_content"
+                android:text="@string/sample_prepare_item"
+                android:textSize="20sp"
+                android:fontFamily="@font/lamoon"
+                android:textAlignment="textStart"/>
 
-                <!--Topic-->
-                <TextView
-                    android:id="@+id/menu_topic_recipe"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/sample_menu"
-                    android:textAlignment="center"
-                    android:textSize="30sp"/>
+            <!--Step-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/step_topic"
+                android:fontFamily="@font/lamoon"
+                android:textSize="25sp"
+                android:paddingLeft="20dp"
+                android:textAlignment="textStart"
+                android:textColor="@color/colorPrimary"/>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycle_recipe"
+                android:layout_width="wrap_content"
+                android:paddingLeft="10dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+            </android.support.v7.widget.RecyclerView>
 
-                <!--prepare-->
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="0dp"
-                    android:text="@string/prepare_topic"
-                    android:textAlignment="center"
-                    android:textSize="20sp" />
-                <TextView
-                    android:id="@+id/ingredient_item_recipe"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/sample_prepare_item"
-                    android:textAlignment="center"/>
-
-                <!--Step-->
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="@string/step_topic"
-                    android:textSize="20sp"
-                    android:textAlignment="center"/>
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/recycle_recipe"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp">
-                </android.support.v7.widget.RecyclerView>
-
-           </LinearLayout>
+        </LinearLayout>
     </ScrollView>
 </android.support.constraint.ConstraintLayout>
