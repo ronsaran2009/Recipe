@@ -13,9 +13,8 @@ public class Menu {
     private String time;
     private String profileMenu;
 
-    String _writer;
-    String _step;
-    String _link;
+    String writer;
+    String link;
 
     public Menu(){
 
@@ -26,28 +25,16 @@ public class Menu {
         this.picture =picture;
     }
 
-    public Menu(String menuName, ArrayList<String> step, ArrayList<String> picture, String ingredient, String description, String category, String time, String profileMenu) {
+    public Menu(String profileMenu, String menuName, String description, String category, String time, String ingredient, String writer, ArrayList<String> step, String link) {
+        this.profileMenu = profileMenu;
         this.menuName = menuName;
+        this.description = description;
+        this.category = category;
+        this.time = time;
+        this.ingredient = ingredient;
+        this.writer = writer;
         this.step = step;
-        this.picture = picture;
-        this.ingredient = ingredient;
-        this.description = description;
-        this.category = category;
-        this.time = time;
-        this.profileMenu = profileMenu;
-    }
-
-    //test ของอายเอง
-    public Menu(String profileMenu, String menuName, String description, String category, String time, String ingredient, String writer, String step, String link) {
-        this.profileMenu = profileMenu;
-        this.menuName = menuName;
-        this.description = description;
-        this.category = category;
-        this.time = time;
-        this.ingredient = ingredient;
-        this._writer = writer;
-        _step = step;
-        _link = link;
+        this.link = link;
     }
 
     public String getMenuName() {
@@ -114,7 +101,7 @@ public class Menu {
         this.profileMenu = profileMenu;
     }
 
-    public String getWriter() { return _writer; }
+    public String getWriter() { return writer; }
 
-    public void setWriter(String writer) { this._writer = writer; }
+    public void setWriter(String writer) { this.writer = writer; }
 }
