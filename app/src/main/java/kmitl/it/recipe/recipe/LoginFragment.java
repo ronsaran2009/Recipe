@@ -27,6 +27,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 
 import kmitl.it.recipe.recipe.ChooseMenu.ChooseMenuFragment;
+import kmitl.it.recipe.recipe.ChooseMenu.TabAdapter;
 import kmitl.it.recipe.recipe.Register.RegisterFragment;
 import kmitl.it.recipe.recipe.Register.User;
 
@@ -177,12 +178,12 @@ public class LoginFragment extends Fragment {
         getActivity().setContentView(R.layout.category_main);
         viewPager = getActivity().findViewById(R.id.viewPager);
         tabLayout = getActivity().findViewById(R.id.tabLayout);
-        tabAdapter = new TabAdapter(getActivity().getSupportFragmentManager());
-        tabAdapter.addFragment(new ChooseMenuFragment(), " ต้ม - แกง ");
-        tabAdapter.addFragment(new ChooseMenuFragment(), " ผัด - ทอด ");
-        tabAdapter.addFragment(new ChooseMenuFragment(), " อบ - ตุ๋น ");
-        tabAdapter.addFragment(new ChooseMenuFragment(), " ปิ้ง - ย่าง ");
-        tabAdapter.addFragment(new ChooseMenuFragment(), " อาหารจานเดียว");
+//        tabAdapter = new TabAdapter(getActivity().getSupportFragmentManager());
+//        tabAdapter.addFragment(new ChooseMenuFragment(), " ต้ม - แกง ");
+//        tabAdapter.addFragment(new ChooseMenuFragment(), " ผัด - ทอด ");
+//        tabAdapter.addFragment(new ChooseMenuFragment(), " อบ - ตุ๋น ");
+//        tabAdapter.addFragment(new ChooseMenuFragment(), " ปิ้ง - ย่าง ");
+//        tabAdapter.addFragment(new ChooseMenuFragment(), " อาหารจานเดียว");
         viewPager.setAdapter(tabAdapter);
         tabLayout.setupWithViewPager(viewPager);
     }
