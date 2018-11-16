@@ -1,7 +1,11 @@
 package kmitl.it.recipe.recipe;
 
 
+import android.app.ProgressDialog;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -24,12 +28,20 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 
 import kmitl.it.recipe.recipe.ChooseMenu.ChooseMenuFragment;
 import kmitl.it.recipe.recipe.ChooseMenu.TabAdapter;
 import kmitl.it.recipe.recipe.Register.RegisterFragment;
 import kmitl.it.recipe.recipe.Register.User;
+import kmitl.it.recipe.recipe.model.Image;
 
 public class LoginFragment extends Fragment {
 
@@ -42,6 +54,9 @@ public class LoginFragment extends Fragment {
     private TabAdapter tabAdapter;
     private TabLayout tabLayout;
     private ViewPager viewPager;
+
+
+
 
     @Nullable
     @Override
@@ -173,6 +188,9 @@ public class LoginFragment extends Fragment {
             }
         });
     }
+
+
+
 
     void callCate() {
         getActivity().setContentView(R.layout.category_main);

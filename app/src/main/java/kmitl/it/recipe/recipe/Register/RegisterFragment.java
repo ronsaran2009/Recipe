@@ -1,7 +1,11 @@
 package kmitl.it.recipe.recipe.Register;
 
 
+import android.app.ProgressDialog;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -26,15 +30,32 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 
 import kmitl.it.recipe.recipe.LoginFragment;
 import kmitl.it.recipe.recipe.R;
+import kmitl.it.recipe.recipe.model.Image;
 
 public class RegisterFragment extends Fragment {
     private FirebaseAuth mailAuth;
     FirebaseFirestore _firestore;
     private ActionBarDrawerToggle _abdt;
     private DrawerLayout _drawMain;
+
+    //image
+    Image image;
+    ProgressDialog progressDialog;
+    UploadTask uploadTask;
+    String _imgStr, _nameStr, _descStr, _typeStr, _timeStr, _ingStr, uidUser, stepStr, linkStr, _writer;
+    FirebaseStorage storage;
+    StorageReference storageRef, imgRef;
+    String _uid;
 
     @Nullable
     @Override
@@ -45,7 +66,7 @@ public class RegisterFragment extends Fragment {
         _drawMain = getActivity().findViewById(R.id.drawMain);
         _abdt = new ActionBarDrawerToggle(getActivity(), _drawMain, R.string.open, R.string.close);
         _abdt.setDrawerIndicatorEnabled(false);
-
+        _uid = mailAuth.getCurrentUser().getUid();
 
 
         getActivity().setTitle("REGISTER");
@@ -95,9 +116,10 @@ public class RegisterFragment extends Fragment {
                     mailAuth.createUserWithEmailAndPassword(_emailStr,_passwordStr).addOnSuccessListener(new OnSuccessListener<AuthResult>(){
                         public void onSuccess(AuthResult authResult) {
                             sendVerifiedEmail(authResult.getUser());
-                            String _uid = mailAuth.getCurrentUser().getUid();
-                            User _data = new User(_emailStr, _displayStr);
+
+                            User _data = new User(_emailStr, _displayStr,_imgStr);
                             Log.d("reg", "before");
+                            //uploadImage();
                             _firestore.collection("User")
                                     .document(_uid)
                                     .set(_data)
@@ -175,6 +197,68 @@ public class RegisterFragment extends Fragment {
         });
     }
 
+    //Get URL image
+    void uploadImage(){
+        storage = FirebaseStorage.getInstance();
+        storageRef = storage.getReference();
+        Bundle bundle = getArguments();
+        if(bundle != null){
+            image = (Image) bundle.getSerializable("uriImage");
+            Log.d("ADD STEP", "Bundle");
+        } else {
+            Log.d("ADD STEP", "Bundle Null");
+        }
+
+        Uri uriImage = image.getUriImage();
+
+        imgRef = storageRef.child("profile/"+_uid+"/"+"pic"); //+ typeFood + nameFood
+
+        Bitmap bmp = null;
+        try {
+            bmp = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), uriImage);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.JPEG, 20, baos); //resize image
+        byte[] data = baos.toByteArray();
+
+        progressDialog = new ProgressDialog(getContext());
+        progressDialog.setMax(100);
+        progressDialog.setMessage("Uploading...");
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        progressDialog.show();
+        progressDialog.setCancelable(false);
+
+        uploadTask = imgRef.putBytes(data);
+
+        uploadTask.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                double progress = (100 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+                progressDialog.incrementProgressBy((int) progress);
+            }
+        });
+
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(getActivity(), "FAIL", Toast.LENGTH_SHORT).show();
+                progressDialog.dismiss();
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Uri downloadUrl = taskSnapshot.getUploadSessionUri();
+                String urlImage = downloadUrl.toString();
+                progressDialog.dismiss();
+
+                _imgStr = urlImage; //get URL image
+
+            }
+        });
+    }
 
 
 }

@@ -70,7 +70,7 @@ public class RecipeFragment extends Fragment {
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         documentSnapshot.getData();
                         _menu = documentSnapshot.toObject(Menu.class);
-                        Log.d("RECIPE", "SUCCESS : "+documentSnapshot.toObject(Menu.class).getMenuName());
+                        //Log.d("RECIPE", "SUCCESS : "+documentSnapshot.toObject(Menu.class).getMenuName());
                         //set data
                         Log.d("RECIPE", "Menu = "+_menu);
                         if(_menu != null){
