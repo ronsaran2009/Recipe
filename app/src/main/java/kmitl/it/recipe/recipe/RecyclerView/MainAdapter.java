@@ -39,7 +39,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull MainAdapter.ViewHolder viewHolder, final int position) {
-        Log.d("MAIN_ADAPTER", "onBindViewHolder: called.");
+        Log.d("MAIN_ADAPTER", "onBindViewHolder: called. + dataset : "+_dataset);
         viewHolder.mTextView.setText(_dataset.get(position));
 
         viewHolder.parentLayout.setOnClickListener(new View.OnClickListener() {
@@ -63,7 +63,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
 
         public ViewHolder(View itemView){
             super(itemView);
-            //mTextView = itemView.findViewById(R.id.title_recipe_item);
+            mTextView = itemView.findViewById(R.id.title_recipe_item);
             parentLayout = itemView.findViewById(R.id.parentLayout);
         }
     }

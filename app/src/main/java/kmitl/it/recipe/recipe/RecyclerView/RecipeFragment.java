@@ -58,9 +58,8 @@ public class RecipeFragment extends Fragment {
     private void getObjOnFirebase(){
         Log.d("Recipe", "get Bundle");
 
-        String menuName = "  ";
-        String menuType = "  ";
-        ;
+        String menuName = "";
+        String menuType = "";
 
         Bundle b = new Bundle();
         if (b != null){
@@ -71,13 +70,10 @@ public class RecipeFragment extends Fragment {
 
         }
 
-        category = "ต้ม";
-      //  menuName = "ต้มยำจุ้ง";
-
         //get data
         _fbfs.collection("Menu")
-                .document(category)
-                .collection(menuName)
+                .document(menuType)
+                .collection("menu")
                 .document(menuName)
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
