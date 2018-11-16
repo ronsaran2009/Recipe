@@ -66,10 +66,6 @@ public class MyMenuFragment extends Fragment
 
         Log.d("MyMenuFragment", "UID : " + uidUser);
 
-        if (!myMenuArrayList.isEmpty() || !menuArrayList.isEmpty()){
-            menuArrayList.clear();
-            myMenuArrayList.clear();
-        }
         getDataResults();
         initAddBtn();
 
@@ -77,7 +73,7 @@ public class MyMenuFragment extends Fragment
 
 
     @Override
-    public void onMyMenuItemClick(String _recipeId) {
+    public void onMyMenuItemClick(String _recipeId, String _type) {
         Log.d("MyMenuFragment", "goto RecipeFragment " + _recipeId);
 
         if (_recipeId == null) {
@@ -92,8 +88,8 @@ public class MyMenuFragment extends Fragment
 
             //Log.d("MyMenuFragment", "Set Bundle");
 
-            b.putString("Mymenu",_recipeId);
-
+            b.putString("myMenuName",_recipeId);
+            b.putString("myMenuType", _type);
             Fragment fragment = new RecipeFragment();
 
             //Log.d("MyMenuFragment", "Sent Bundle");
@@ -105,6 +101,9 @@ public class MyMenuFragment extends Fragment
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
             Log.d("MyMenuFragment", "GOTO RECIPE");
+
+          myMenuArrayList.clear();
+          menuArrayList.clear();
 
         }
     }
@@ -123,26 +122,39 @@ public class MyMenuFragment extends Fragment
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         list.add(document.getId());
                         myMenuArrayList.add((document.toObject(Mymenu.class)));
+
                     }
+                    if (!myMenuArrayList.isEmpty()) {
+                        getImage(myMenuArrayList);
+                        Log.d("MyMenuFragment", ""+!menuArrayList.isEmpty());
+
+                    }
+                    Log.d("MyMenuFragment", ""+menuArrayList.size());
+
+
                     if (list.isEmpty()) {
                         Log.d("MyMenuFragment", "MYMENU_EMPTY");
                     }
                     Log.d("MyMenuFragment", "ListMenu " + list.toString());
-                    if (!menuArrayList.isEmpty()) {
-                        getImage(myMenuArrayList);
-                    }
+
 
                 } else {
                     Log.d("MyMenuFragment", "Error getting documents: ", task.getException());
                 }
+
             }
         });
     }
 
     private void setMyMenuAdapter(ArrayList<Menu> _menus) {
-        myMenuAdapter = new MyMenuAdapter(_menus, MyMenuFragment.this);
-        recyclerView.setAdapter(myMenuAdapter);
-    }
+        if (!_menus.isEmpty()) {
+            myMenuAdapter = new MyMenuAdapter(_menus, MyMenuFragment.this);
+            recyclerView.setAdapter(myMenuAdapter);
+
+
+        }
+
+ }
 
     private void initAddBtn() {
         if (!myMenuArrayList.isEmpty() || !menuArrayList.isEmpty()){
@@ -162,7 +174,7 @@ public class MyMenuFragment extends Fragment
         );
     }
 
-    private void getImage(ArrayList<Mymenu> _menus) {
+    private void getImage(final ArrayList<Mymenu> _menus) {
         cate = getCategoryStr(_menus);
                 //get data
                 _fbfs.collection("Menu")
@@ -175,7 +187,11 @@ public class MyMenuFragment extends Fragment
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 list.add(document.getId());
-                                menuArrayList.add((document.toObject(Menu.class)));
+                                if ((_menus.get(0) != null) &&
+                                        ((_menus.get(0).getWriter()).equals(document.toObject(Menu.class).getWriter())))
+                                {
+                                    menuArrayList.add((document.toObject(Menu.class)));
+                                }
                                 Log.d("MyMenuFragment", "GET IMAGE "+menuArrayList.size());
                             }
                             if (list.isEmpty()) {

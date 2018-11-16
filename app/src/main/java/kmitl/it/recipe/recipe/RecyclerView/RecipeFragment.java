@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -55,9 +56,23 @@ public class RecipeFragment extends Fragment {
     }
 
     private void getObjOnFirebase(){
+        Log.d("Recipe", "get Bundle");
+
+        String menuName = "  ";
+        String menuType = "  ";
+        ;
+
+        Bundle b = new Bundle();
+        if (b != null){
+            Log.d("Recipe", "set String = "+b.getString("mymenu"));
+            menuName = getArguments().getString("myMenuName");
+            menuType = getArguments().getString("myMenuType");
+            Toast.makeText(getActivity(),menuName+" " +menuType,Toast.LENGTH_SHORT).show();
+
+        }
 
         category = "ต้ม";
-        menuName = "ต้มยำจุ้ง";
+      //  menuName = "ต้มยำจุ้ง";
 
         //get data
         _fbfs.collection("Menu")
@@ -97,6 +112,8 @@ public class RecipeFragment extends Fragment {
         Glide.with(getContext()).load(_menu.getProfileMenu()).into(profileImg);
 
         //set step
+
+        Toast.makeText(getActivity(),menuName,Toast.LENGTH_SHORT).show();
         _step = _menu.getstep();
         setRecyclerView();
     }
