@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -24,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import kmitl.it.recipe.recipe.R;
+import kmitl.it.recipe.recipe.RecyclerView.RecipeFragment;
 import kmitl.it.recipe.recipe.model.Menu;
 
 public class ChooseMenuFragment extends Fragment {
@@ -86,6 +88,7 @@ public class ChooseMenuFragment extends Fragment {
     private void showMenu () {
 
         String[] cate = {"ต้ม - แกง", "ผัด - ทอด", "อบ - ตุ๋น", "ปิ้ง - ย่าง", "อาหารจานเดียว"};
+        final ListView _menuView = getView().findViewById(R.id.choose_menu_list);
 
         //get data
         for (int i=0; i<cate.length; i++) {
@@ -97,14 +100,14 @@ public class ChooseMenuFragment extends Fragment {
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                     List<String> list = new ArrayList<>();
                     if (task.isSuccessful()) {
-//                        ListView _menuView = getView().findViewById(R.id.choose_menu_list);
+                        //ListView _menuView = getView().findViewById(R.id.choose_menu_list);
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             list.add(document.getId());
                             _menuList.add(document.toObject(Menu.class));
 
                             _menuAdapter = new ChooseMenuAdapter(getActivity(), R.layout.item_show_menu, _menuList);
                         }
-//                        _menuView.setAdapter(_menuAdapter);
+                        _menuView.setAdapter(_menuAdapter);
                         Log.d("CHOOSE_MENU", "+" +list.toString());
 
                         if (list.isEmpty()) {
@@ -116,6 +119,28 @@ public class ChooseMenuFragment extends Fragment {
                 }
             });
         }
+
+        //Click Item List
+        _menuView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                id = _menuView.getItemIdAtPosition(position);
+                Log.d("CHOOSE_MENU", "Position = " + id + "_id = " + (id+1));
+
+                Bundle bundle = new Bundle();
+                bundle.putInt("id", position);
+
+                RecipeFragment fragment = new RecipeFragment();
+                fragment.setArguments(bundle);
+
+                getActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.main_view, fragment)
+                        .addToBackStack(null)
+                        .commit();
+                Log.d("CHOOSE_MENU", "GOTO Recipe");
+            }
+        });
     }
 
     //มี Tabs
