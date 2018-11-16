@@ -234,11 +234,12 @@ public class RegisterFragment extends Fragment {
                                         _imgStr = urlImage; //get URL image
                                         Log.d("REGISTER", "URL imageUser = " + _imgStr);
                                         Log.d("REGISTER", "Detail" + _displayStr + _emailStr);
-
-                                        User user = new User(_emailStr, _displayStr, _imgStr);
-                                        Log.d("REGISTER", "before");
-
+                                        if(mailAuth.getCurrentUser() != null){
                                         _uidStr = mailAuth.getCurrentUser().getUid();
+                                        User user = new User(_uidStr,_emailStr, _displayStr, _imgStr);
+
+
+
                                         //uploadImage();
                                         _firestore.collection("User")
                                                 .document(_uidStr)
@@ -267,8 +268,19 @@ public class RegisterFragment extends Fragment {
 
                                                 Toast.makeText(getActivity(), "ERROR = " + e.getMessage(), Toast.LENGTH_SHORT).show();
                                                 Log.d("REGISTER", "ERROR = " + e.getMessage());
+
                                             }
                                         });
+                                        }
+                                        else {
+                                            getActivity().getSupportFragmentManager()
+                                                    .beginTransaction()
+                                                    .addToBackStack(null)
+                                                    .replace(R.id.main_view, new RegisterFragment())
+                                                    .commit();
+                                            Toast.makeText(getActivity(), "Fail", Toast.LENGTH_SHORT).show();
+                                        }
+
                                         Log.d("REGISTER", "after");
                                     }
                                 });

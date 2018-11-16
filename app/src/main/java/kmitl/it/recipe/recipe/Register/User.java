@@ -1,16 +1,26 @@
 package kmitl.it.recipe.recipe.Register;
 
 public class User {
+    String uid;
     String email;
     String displayname;
     String pictureUser;
 
     public User(){ }
 
-    public User(String email, String displayname, String pictureUser){
+    public User(String uid,String email, String displayname, String pictureUser){
+        this.uid = uid;
         this.email = email;
         this.displayname = displayname;
         this.pictureUser = pictureUser;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     public String getDisplayname() {
