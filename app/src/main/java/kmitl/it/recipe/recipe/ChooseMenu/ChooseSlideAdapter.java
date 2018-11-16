@@ -27,26 +27,26 @@ public class ChooseSlideAdapter extends PagerAdapter {
     //Array
     public int[] list_images = {
 
-            0,
+            R.drawable.cat_yum,
             R.drawable.cat_boiled,
-            R.drawable.cat_boiled,
-            R.drawable.cat_boiled
+            R.drawable.cat_baked,
+            R.drawable.cat_fastfood
     };
 
     public String[] list_title = {
 
             "เมนูแนะนำ",
-            "แกงส้ม",
-            "แกงส้ม",
-            "แกงส้ม"
+            "ต้มยำกุ้ง",
+            "กุ้งอบวุ้นเส้น",
+            "สปาเก็ตตี้"
     };
 
     public String[] list_description = {
 
             "เลื่อน >",
-            "แกงเขียวหวานนั่นแสนอร่อย",
-            "แกงเขียวหวานนั่นแสนอร่อย",
-            "แกงเขียวหวานนั่นแสนอร่อย"
+            "ต้มยำกุ้งรสเด็ด แซ็บเว่อร์",
+            "กุ้งอบวุ้นเส้น ที่เน้นกุ้งตัวใหญ่ๆ",
+            "สปาเกตตี้ น้ำซอสรสชาติเยี่ยม"
     };
 
 

@@ -78,10 +78,7 @@ public class LoginFragment extends Fragment {
             _uid = _auth.getUid();
             getData();
 
-
         } else {
-
-
             initLoginBtn();
             initRegisterBtn();
         }
@@ -156,7 +153,11 @@ public class LoginFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Log.d("Login", "GOTO REGISTER");
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.main_view, new RegisterFragment()).commit();
+                getActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .addToBackStack(null)
+                        .replace(R.id.main_view, new RegisterFragment())
+                        .commit();
             }
         });
     }

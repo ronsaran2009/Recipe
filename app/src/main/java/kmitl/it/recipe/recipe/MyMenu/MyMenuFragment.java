@@ -49,6 +49,7 @@ public class MyMenuFragment extends Fragment
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        getActivity().setTitle("My Menu");
 
 
         recyclerView = getView().findViewById(R.id.mymenu_list);
@@ -58,8 +59,8 @@ public class MyMenuFragment extends Fragment
         recyclerView.setLayoutManager(llm);
 
         mAuth = FirebaseAuth.getInstance();
-        //uidUser = mAuth.getUid();
-        uidUser = "2MhZA4yBJtPmVO0WhTlub6Zdb922";
+        uidUser = mAuth.getUid();
+        //uidUser = "2MhZA4yBJtPmVO0WhTlub6Zdb922";
         Log.d("MyMenuFragment", uidUser);
 
         getDataResults();
@@ -119,6 +120,9 @@ public class MyMenuFragment extends Fragment
     }
 
     private void initAddBtn() {
+        if(!_menus.isEmpty()){
+            _menus.clear();
+        }
         Button addBtn = getView().findViewById(R.id.mymenu_addBtn);
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override

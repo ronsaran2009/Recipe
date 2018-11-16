@@ -89,9 +89,9 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private TabAdapter tabAdapter;
-    private TabLayout tabLayout;
-    private ViewPager viewPager;
+//    private TabAdapter tabAdapter;
+//    private TabLayout tabLayout;
+//    private ViewPager viewPager;
 
     private void checkSelectNavigation() {
         NavigationView nav_view = findViewById(R.id.nav_view);
@@ -113,24 +113,26 @@ public class MainActivity extends AppCompatActivity {
                     if (id == R.id.nav_menu_category) {
                         Toast.makeText(MainActivity.this, "CATEGORY", Toast.LENGTH_SHORT).show();
 
-                        setContentView(R.layout.category_main);
+//                        setContentView(R.layout.category_main);
+//
+//                        viewPager = findViewById(R.id.viewPager);
+//                        tabLayout = findViewById(R.id.tabLayout);
+//
+//                        tabAdapter = new TabAdapter(getSupportFragmentManager(),viewPager,tabLayout);
+//
+//                        tabAdapter.addFragment( " ต้ม - แกง ");
+//                        tabAdapter.addFragment( " ผัด - ทอด ");
+//                        tabAdapter.addFragment( " อบ - ตุ๋น ");
+//                        tabAdapter.addFragment( " ปิ้ง - ย่าง ");
+//                        tabAdapter.addFragment( " อาหารจานเดียว");
+//
+//                        viewPager.setAdapter(tabAdapter);
 
-                        viewPager = findViewById(R.id.viewPager);
-                        tabLayout = findViewById(R.id.tabLayout);
-
-                        tabAdapter = new TabAdapter(getSupportFragmentManager(),viewPager,tabLayout);
-
-
-                        tabAdapter.addFragment( " ต้ม - แกง ");
-                        tabAdapter.addFragment( " ผัด - ทอด ");
-                        tabAdapter.addFragment( " อบ - ตุ๋น ");
-                        tabAdapter.addFragment( " ปิ้ง - ย่าง ");
-                        tabAdapter.addFragment( " อาหารจานเดียว");
-
-
-                        viewPager.setAdapter(tabAdapter);
-
-
+                        getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.main_view, new ChooseMenuFragment())
+                                .addToBackStack(null)
+                                .commit();
 
                         Log.d("NAV_MENU", "GOTO_CATEGORY mPgaer "+ String.valueOf(item));
                         _drawMain.closeDrawers();
