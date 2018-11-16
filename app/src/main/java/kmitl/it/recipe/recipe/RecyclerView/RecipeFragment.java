@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.youtube.player.YouTubePlayerSupportFragment;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -43,6 +45,9 @@ public class RecipeFragment extends Fragment {
     //firebase
     private FirebaseFirestore _fbfs = FirebaseFirestore.getInstance();
 
+    //youtube
+    Button youtubeBtn;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_recipe, container, false);
@@ -53,6 +58,23 @@ public class RecipeFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         getActivity().setTitle("Recipe");
         getObjOnFirebase();
+        initYoutubeBtnPressed();
+    }
+
+    void initYoutubeBtnPressed(){
+        youtubeBtn = (Button)getView().findViewById(R.id.btnYoutube);
+        youtubeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity()
+                        .getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.main_view, new YouTubePlayerSupportFragment())
+                        .addToBackStack(null)
+                        .commit();
+
+            }
+        });
     }
 
     private void getObjOnFirebase(){

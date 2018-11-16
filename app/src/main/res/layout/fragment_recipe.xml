@@ -92,7 +92,9 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/button_ok"
                 android:text="เล่นวิดีโอ"
-                android:textSize="20dp" />
+                android:fontFamily="@font/lamoon"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="15dp" />
 
 
 
