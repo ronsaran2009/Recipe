@@ -46,8 +46,6 @@ public class RecipeFragment extends Fragment {
     //firebase
     private FirebaseFirestore _fbfs = FirebaseFirestore.getInstance();
 
-    //youtube
-    Button youtubeBtn;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -59,23 +57,6 @@ public class RecipeFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         getActivity().setTitle("Recipe");
         getObjOnFirebase();
-        initYoutubeBtnPressed();
-    }
-
-    void initYoutubeBtnPressed(){
-        youtubeBtn = (Button)getView().findViewById(R.id.btnYoutube);
-        youtubeBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity()
-                        .getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.main_view, new YouTubePlayerSupportFragment())
-                        .addToBackStack(null)
-                        .commit();
-
-            }
-        });
     }
 
     private void getObjOnFirebase(){
