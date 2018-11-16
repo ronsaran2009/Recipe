@@ -52,6 +52,7 @@ public class MyMenuFragment extends Fragment
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        getActivity().setTitle("My Menu");
 
 
         recyclerView = getView().findViewById(R.id.mymenu_list);
