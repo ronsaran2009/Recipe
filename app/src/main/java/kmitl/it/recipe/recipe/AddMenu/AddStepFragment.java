@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -35,8 +36,10 @@ import com.google.firebase.storage.UploadTask;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 
+import kmitl.it.recipe.recipe.Dynamic.DynamicView;
 import kmitl.it.recipe.recipe.MyMenu.MyMenuFragment;
 import kmitl.it.recipe.recipe.R;
 import kmitl.it.recipe.recipe.model.Image;
@@ -63,6 +66,13 @@ public class AddStepFragment  extends Fragment{
 
     Image image;
 
+    //Add Step
+    private Button _addBtn;
+    private DynamicView _dynamicView;
+    private LinearLayout _mLayout;
+    private int count = 0;
+    private ArrayList<String> _step;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -72,6 +82,8 @@ public class AddStepFragment  extends Fragment{
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        _dynamicView = new DynamicView(getContext());
 
         //get UID
         mAuth = FirebaseAuth.getInstance();
@@ -97,27 +109,47 @@ public class AddStepFragment  extends Fragment{
         getWriter(uidUser);
 
         initSubmitBtn();
+        initAddBtn();
     }
 
     void initSubmitBtn() {
+        _step = new ArrayList<>();
         _submitBtn = getView().findViewById(R.id.step_submit);
         _submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Step info
-                EditText step = getView().findViewById(R.id.step);
                 EditText link = getView().findViewById(R.id.step_link);
-
+                for(int i = 1; i <= _dynamicView.getTotal(); i++){
+                    _step.add(((EditText)(getView().findViewById(i))).getText().toString());
+                    Log.d("ADD RECIPE", "id : "+i+"\n step : "+_step);
+                }
                 //Step info
-                stepStr = step.getText().toString();
                 linkStr = link.getText().toString();
 
                 Log.d("ADD RECIPE", _nameStr + _descStr
-                        + _typeStr + _timeStr + _ingStr + _writer + _imgStr + stepStr + linkStr);
+                        + _typeStr + _timeStr + _ingStr + _writer + _imgStr + _step + linkStr);
 
                 Log.d("ADD STEP", "GOTO MY_MENU");
                 //Set data to Mymenu
                 setMyMenu();
+            }
+        });
+    }
+
+    private void initAddBtn(){
+        _addBtn = getView().findViewById(R.id.add_btn_dynamic);
+        _mLayout = getView().findViewById(R.id.mLayout_dynamic);
+        //first time
+        if(count == 0){
+            _mLayout.addView(_dynamicView.descriptionTextView(getContext(), "ขั้นตอนที่ : "+(++count)));
+            _mLayout.addView(_dynamicView.recieveQuantityEdittext(getContext()));
+        }
+        _addBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                _mLayout.addView(_dynamicView.descriptionTextView(getContext(), "ขั้นตอนที่ : "+(++count)));
+                _mLayout.addView(_dynamicView.recieveQuantityEdittext(getContext()));
             }
         });
     }
