@@ -85,12 +85,10 @@ public class RegisterFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_register, container, false);}
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
+        getActivity().setTitle("Register");
         Log.d("REGISTER", "1");
 
-        _drawMain = getActivity().findViewById(R.id.drawMain);
-        _abdt = new ActionBarDrawerToggle(getActivity(), _drawMain, R.string.open, R.string.close);
-        _abdt.setDrawerIndicatorEnabled(false);
+
         Log.d("REGISTER", "2");
 
         getActivity().setTitle("REGISTER");
@@ -309,6 +307,12 @@ public class RegisterFragment extends Fragment {
                                 "ERROR : " + e.getMessage(),
                                 Toast.LENGTH_SHORT
                         ).show();
+                        getActivity().getSupportFragmentManager()
+                                .beginTransaction()
+                                .addToBackStack(null)
+                                .replace(R.id.main_view, new RegisterFragment())
+                                .commit();
+                        Toast.makeText(getActivity(), "Fail", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -316,6 +320,12 @@ public class RegisterFragment extends Fragment {
             public void onFailure(Exception e) {
                 Toast.makeText(getActivity(), "ERROR : " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 Log.d("reg", "ERROR : " + e.getMessage());
+                getActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .addToBackStack(null)
+                        .replace(R.id.main_view, new RegisterFragment())
+                        .commit();
+
             }
         });
     }
