@@ -327,7 +327,7 @@ public class RegisterFragment extends Fragment {
                         .addToBackStack(null)
                         .replace(R.id.main_view, new RegisterFragment())
                         .commit();
-                
+
             }
         });
     }

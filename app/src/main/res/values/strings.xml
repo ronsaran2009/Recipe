@@ -10,6 +10,7 @@
     <string name="logout">Log out</string>
     <string name="login">Log in</string>
     <string name="display">Display Name</string>
+    <string name="home">Home</string>
 
     <string name="open">Open</string>
     <string name="close">Close</string>
