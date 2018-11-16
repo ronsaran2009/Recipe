@@ -82,7 +82,7 @@ class MymenuViewHolder extends RecyclerView.ViewHolder {
         v.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MymenuViewHolder.this.myMenuItemClickListener.onMyMenuItemClick(menu.getMenuName());
+                MymenuViewHolder.this.myMenuItemClickListener.onMyMenuItemClick(menu.getMenuName(), menu.getCategory());
             }
         });
     }
