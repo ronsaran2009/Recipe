@@ -12,13 +12,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -26,9 +24,7 @@ import java.util.ArrayList;
 
 import kmitl.it.recipe.recipe.R;
 import kmitl.it.recipe.recipe.RecyclerView.MainAdapter;
-import kmitl.it.recipe.recipe.Register.User;
 import kmitl.it.recipe.recipe.model.Menu;
-import kmitl.it.recipe.recipe.model.Mymenu;
 
 public class RecipeFragment extends Fragment {
 
@@ -47,10 +43,6 @@ public class RecipeFragment extends Fragment {
     //firebase
     private FirebaseFirestore _fbfs = FirebaseFirestore.getInstance();
 
-    FirebaseAuth _auth ;
-
-    Mymenu mymenu;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_recipe, container, false);
@@ -60,35 +52,53 @@ public class RecipeFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         getActivity().setTitle("Recipe");
-        _auth = FirebaseAuth.getInstance();
         getObjOnFirebase();
     }
 
     private void getObjOnFirebase(){
-//get data
+        Log.d("Recipe", "get Bundle");
 
+        String menuName = "  ";
+        String menuType = "  ";
+        ;
+
+        Bundle b = new Bundle();
+        if (b != null){
+            Log.d("Recipe", "set String = "+b.getString("mymenu"));
+            menuName = getArguments().getString("myMenuName");
+            menuType = getArguments().getString("myMenuType");
+            Toast.makeText(getActivity(),menuName+" " +menuType,Toast.LENGTH_SHORT).show();
+
+        }
+
+        category = "ต้ม";
+      //  menuName = "ต้มยำจุ้ง";
+
+        //get data
         _fbfs.collection("Menu")
-                .document(mymenu.getType())
-                .collection("menu")
-                .document(mymenu.getMenu())
-                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                .document(category)
+                .collection(menuName)
+                .document(menuName)
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        documentSnapshot.getData();
+                        _menu = documentSnapshot.toObject(Menu.class);
+                        //Log.d("RECIPE", "SUCCESS : "+documentSnapshot.toObject(Menu.class).getMenuName());
+                        //set data
+                        Log.d("RECIPE", "Menu = "+_menu);
+                        if(_menu != null){
+                            setPage();
+                        }
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
             @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    _menu = task.getResult().toObject(Menu.class);
-                    TextView topic = getActivity().findViewById(R.id.menu_topic_recipe);
-                    topic.setText(_menu.getMenuName());
-                    TextView ing = getActivity().findViewById(R.id.ingredient_item_recipe);
-                    ing.setText(_menu.getIngredient());
-                    TextView step = getActivity().findViewById(R.id.step_recipe);
-                    step.setText(_menu.get_step());
-
-                    Log.d("RECIPE", "Menu = " + _menu.getMenuName());
+            public void onFailure(@NonNull Exception e) {
+                Log.d("RECIPE", "Get data from firebase FAILED!!");
             }
-
-
-
-    }});}
+        });
+    }
 
     private void setPage(){
         //set name Menu
@@ -102,6 +112,8 @@ public class RecipeFragment extends Fragment {
         Glide.with(getContext()).load(_menu.getProfileMenu()).into(profileImg);
 
         //set step
+
+        Toast.makeText(getActivity(),menuName,Toast.LENGTH_SHORT).show();
         _step = _menu.getstep();
         setRecyclerView();
     }
