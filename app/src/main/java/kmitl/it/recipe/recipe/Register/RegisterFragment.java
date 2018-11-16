@@ -63,15 +63,16 @@ public class RegisterFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_register, container, false);}
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        _firestore = FirebaseFirestore.getInstance();
+        mailAuth = FirebaseAuth.getInstance();
         _drawMain = getActivity().findViewById(R.id.drawMain);
         _abdt = new ActionBarDrawerToggle(getActivity(), _drawMain, R.string.open, R.string.close);
         _abdt.setDrawerIndicatorEnabled(false);
-        _uid = mailAuth.getCurrentUser().getUid();
+
 
 
         getActivity().setTitle("REGISTER");
-        _firestore = FirebaseFirestore.getInstance();
-        mailAuth = FirebaseAuth.getInstance();
+
         initRegisterBtn();
 
     }
@@ -120,6 +121,7 @@ public class RegisterFragment extends Fragment {
                             User _data = new User(_emailStr, _displayStr,_imgStr);
                             Log.d("reg", "before");
                             //uploadImage();
+                            _uid = mailAuth.getCurrentUser().getUid();
                             _firestore.collection("User")
                                     .document(_uid)
                                     .set(_data)
@@ -199,6 +201,7 @@ public class RegisterFragment extends Fragment {
 
     //Get URL image
     void uploadImage(){
+        _uid = mailAuth.getCurrentUser().getUid();
         storage = FirebaseStorage.getInstance();
         storageRef = storage.getReference();
         Bundle bundle = getArguments();
