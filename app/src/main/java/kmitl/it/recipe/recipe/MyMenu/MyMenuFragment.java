@@ -80,7 +80,7 @@ public class MyMenuFragment extends Fragment
     public void onMyMenuItemClick(String _recipeId) {
         Log.d("MyMenuFragment", "goto RecipeFragment " + _recipeId);
 
-        if (_recipeId == "ยังไม่มีข้อมูล") {
+        if (_recipeId == null) {
             Toast.makeText(getActivity(), "เมนูยังว่างอยู่", Toast.LENGTH_LONG).show();
             Log.d("MyMenuFragment", "goto RecipeFragment " + _recipeId);
         } else {
@@ -128,7 +128,10 @@ public class MyMenuFragment extends Fragment
                         Log.d("MyMenuFragment", "MYMENU_EMPTY");
                     }
                     Log.d("MyMenuFragment", "ListMenu " + list.toString());
-                    getImage(myMenuArrayList);
+                    if (!menuArrayList.isEmpty()) {
+                        getImage(myMenuArrayList);
+                    }
+
                 } else {
                     Log.d("MyMenuFragment", "Error getting documents: ", task.getException());
                 }
