@@ -12,6 +12,7 @@ public class Menu {
     private String category;
     private String time;
     private String profileMenu;
+    private String profileUser;
 
     String imgUser;
     String writer;
@@ -101,6 +102,14 @@ public class Menu {
 
     public void setProfileMenu(String profileMenu) {
         this.profileMenu = profileMenu;
+    }
+
+    public String getProfileUser() {
+        return profileUser;
+    }
+
+    public void setProfileUser(String profileMenu) {
+        this.profileUser = profileUser;
     }
 
     public String getWriter() { return writer; }
