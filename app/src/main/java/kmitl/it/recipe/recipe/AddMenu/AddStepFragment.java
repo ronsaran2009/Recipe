@@ -61,7 +61,7 @@ public class AddStepFragment  extends Fragment{
 
     SQLiteDatabase mySQL;
 
-    String _imgStr, _nameStr, _descStr, _typeStr, _timeStr, _ingStr, uidUser, stepStr, linkStr, _writer;
+    String _imgStr, _nameStr, _descStr, _typeStr, _timeStr, _ingStr, uidUser, linkStr, _writer, _imgUser;
     Button _submitBtn;
 
     Image image;
@@ -162,6 +162,7 @@ public class AddStepFragment  extends Fragment{
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         _writer = documentSnapshot.get("displayname").toString();
+                        _imgUser = documentSnapshot.get("pictureUser").toString();
                     }
                 }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -273,8 +274,9 @@ public class AddStepFragment  extends Fragment{
 
     //Set data to Menu
     void setMenu(){
+//        Log.d("ADD STEP", _imgStr + " " + _imgUser);
 
-        Menu menu = new Menu(_imgStr, _nameStr, _descStr, _typeStr, _timeStr, _ingStr, _writer, _step, linkStr);
+        Menu menu = new Menu(_imgStr, _nameStr, _descStr, _typeStr, _timeStr, _ingStr, _writer, _step, linkStr, _imgUser);
 
         myDB.collection("Menu")
                 .document(_typeStr)
