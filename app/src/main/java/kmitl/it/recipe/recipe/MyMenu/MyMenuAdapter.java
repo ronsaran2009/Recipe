@@ -10,33 +10,35 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.List;
 
 import kmitl.it.recipe.recipe.R;
-import kmitl.it.recipe.recipe.model.Mymenu;
+import kmitl.it.recipe.recipe.model.Menu;
 
 
 public class MyMenuAdapter extends RecyclerView.Adapter<MymenuViewHolder> {
-    private List<Mymenu> _menus;
+    private List<Menu> _menus;
     private MyMenuItemClickListener myMenuItemClickListener;
 
-
-    public MyMenuAdapter(List<Mymenu> _menus, MyMenuItemClickListener myMenuItemClickListener) {
+    public MyMenuAdapter(List<Menu> _menus, MyMenuItemClickListener myMenuItemClickListener) {
         this._menus = _menus;
         this.myMenuItemClickListener = myMenuItemClickListener;
     }
-
 
     @Override
     public void onBindViewHolder(@NonNull MymenuViewHolder mymenuViewHolder, int i) {
         Log.d("MyMenuAdapter", "onBindViewHolder");
 
-
-        Mymenu _menu = _menus.get(i);
+        Menu _menu = _menus.get(i);
         mymenuViewHolder.setMymenu(_menu);
-        mymenuViewHolder._menuTitle.setText(_menu.getMenu());
+        mymenuViewHolder._menuTitle.setText(_menu.getMenuName());
         mymenuViewHolder._menuWriter.setText(_menu.getWriter());
 
+        Glide.with(mymenuViewHolder._menuImg.getContext())
+                .load(_menu.getProfileMenu())
+                .into(mymenuViewHolder._menuImg);
     }
 
     @Override
@@ -56,7 +58,7 @@ public class MyMenuAdapter extends RecyclerView.Adapter<MymenuViewHolder> {
 class MymenuViewHolder extends RecyclerView.ViewHolder {
 
     private MyMenuItemClickListener myMenuItemClickListener;
-    private Mymenu menu;
+    private Menu menu;
     protected ImageView _menuImg;
     protected TextView _menuTitle, _menuWriter;
 
@@ -77,19 +79,16 @@ class MymenuViewHolder extends RecyclerView.ViewHolder {
             _menuTitle = v.findViewById(R.id.show_menu_name);
             _menuWriter = v.findViewById(R.id.show_menu_username);
 
-
         v.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MymenuViewHolder.this.myMenuItemClickListener.onMyMenuItemClick(menu.getMenu());
-                Log.d("MyMenuAdapter", "setOnClickListener Menu "+ menu.getMenu());
+                MymenuViewHolder.this.myMenuItemClickListener.onMyMenuItemClick(menu.getMenuName());
             }
         });
     }
 
-    public void setMymenu(Mymenu menu) {
+    public void setMymenu(Menu menu) {
         this.menu = menu;
-        Log.d("MyMenuAdapter", "setMymenu Menu "+ menu.getMenu());
     }
 
 }
