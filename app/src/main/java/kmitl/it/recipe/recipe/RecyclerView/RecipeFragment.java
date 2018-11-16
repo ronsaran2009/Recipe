@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,13 +18,13 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.youtube.player.YouTubePlayerSupportFragment;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 
 import kmitl.it.recipe.recipe.R;
-import kmitl.it.recipe.recipe.RecyclerView.MainAdapter;
 import kmitl.it.recipe.recipe.model.Menu;
 
 public class RecipeFragment extends Fragment {
@@ -40,6 +41,9 @@ public class RecipeFragment extends Fragment {
     private String menuName;
     private ImageView profileImg;
 
+    //youtube
+    Button btnYoutube;
+
     //firebase
     private FirebaseFirestore _fbfs = FirebaseFirestore.getInstance();
 
@@ -53,9 +57,25 @@ public class RecipeFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         getActivity().setTitle("Recipe");
         getObjOnFirebase();
+        initBtnYoutube();
     }
 
-    private void getObjOnFirebase(){
+    void initBtnYoutube(){
+        btnYoutube = (Button)getView().findViewById(R.id.btnYoutube);
+        btnYoutube.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity()
+                        .getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.main_view, new YouTubePlayerSupportFragment())
+                        .commit();
+
+            }
+        });
+    }
+
+    private void getObjOnFirebase() {
         Log.d("Recipe", "get Bundle");
 
         String menuName = "  ";
@@ -63,16 +83,16 @@ public class RecipeFragment extends Fragment {
         ;
 
         Bundle b = new Bundle();
-        if (b != null){
-            Log.d("Recipe", "set String = "+b.getString("mymenu"));
+        if (b != null) {
+            Log.d("Recipe", "set String = " + b.getString("mymenu"));
             menuName = getArguments().getString("myMenuName");
             menuType = getArguments().getString("myMenuType");
-            Toast.makeText(getActivity(),menuName+" " +menuType,Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), menuName + " " + menuType, Toast.LENGTH_SHORT).show();
 
         }
 
         category = "ต้ม";
-      //  menuName = "ต้มยำจุ้ง";
+        //  menuName = "ต้มยำจุ้ง";
 
         //get data
         _fbfs.collection("Menu")
@@ -87,8 +107,8 @@ public class RecipeFragment extends Fragment {
                         _menu = documentSnapshot.toObject(Menu.class);
                         //Log.d("RECIPE", "SUCCESS : "+documentSnapshot.toObject(Menu.class).getMenuName());
                         //set data
-                        Log.d("RECIPE", "Menu = "+_menu);
-                        if(_menu != null){
+                        Log.d("RECIPE", "Menu = " + _menu);
+                        if (_menu != null) {
                             setPage();
                         }
                     }
@@ -100,7 +120,8 @@ public class RecipeFragment extends Fragment {
         });
     }
 
-    private void setPage(){
+
+    private void setPage() {
         //set name Menu
         ((TextView) getView().findViewById(R.id.menu_topic_recipe)).setText(_menu.getMenuName());
 
@@ -113,22 +134,22 @@ public class RecipeFragment extends Fragment {
 
         //set step
 
-        Toast.makeText(getActivity(),menuName,Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), menuName, Toast.LENGTH_SHORT).show();
         _step = _menu.getstep();
         setRecyclerView();
     }
 
-    private void setRecyclerView(){
+    private void setRecyclerView() {
         mRecyclerView = getView().findViewById(R.id.recycle_recipe);
-        Log.d("RECIPE", "Prepare set : "+getView().findViewById(R.id.recycle_recipe).toString());
-        if(mRecyclerView != null){
+        Log.d("RECIPE", "Prepare set : " + getView().findViewById(R.id.recycle_recipe).toString());
+        if (mRecyclerView != null) {
             mRecyclerView.setHasFixedSize(true);
             mLayoutManager = new LinearLayoutManager(this.getContext(),
                     LinearLayoutManager.HORIZONTAL, false);
             mRecyclerView.setLayoutManager(mLayoutManager);
             mAdapter = new MainAdapter(this.getContext(), _step);
             mRecyclerView.setAdapter(mAdapter);
-        }else{
+        } else {
             Log.d("RECIPE", "RecyclerView has empty");
         }
 
