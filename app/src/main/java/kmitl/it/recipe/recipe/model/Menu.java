@@ -49,7 +49,7 @@ public class Menu {
         _step = step;
         _link = link;
     }
-
+    public String get_step(){return _step;}
     public String getMenuName() {
         return menuName;
     }
