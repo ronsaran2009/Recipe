@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimaryDark">
@@ -27,52 +26,63 @@
                 android:id="@+id/menu_topic_recipe"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/sample_menu"
-                android:textColor="@color/colorPrimary"
                 android:fontFamily="@font/lamoon"
+                android:text="@string/sample_menu"
                 android:textAlignment="center"
-                android:textSize="30sp"/>
+                android:textColor="@color/colorPrimary"
+                android:textSize="30sp" />
 
             <!--prepare-->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/lamoon"
+                android:paddingLeft="20dp"
                 android:paddingBottom="0dp"
                 android:text="@string/prepare_topic"
-                android:fontFamily="@font/lamoon"
                 android:textAlignment="textStart"
-                android:paddingLeft="20dp"
                 android:textColor="@color/colorPrimary"
                 android:textSize="25sp" />
+
             <TextView
                 android:id="@+id/ingredient_item_recipe"
                 android:layout_width="match_parent"
-                android:paddingLeft="10dp"
                 android:layout_height="wrap_content"
-                android:text="@string/sample_prepare_item"
-                android:textSize="20sp"
                 android:fontFamily="@font/lamoon"
-                android:textAlignment="textStart"/>
+                android:paddingLeft="10dp"
+                android:text="@string/sample_prepare_item"
+                android:textAlignment="textStart"
+                android:textSize="20sp" />
 
             <!--Step-->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="@string/step_topic"
                 android:fontFamily="@font/lamoon"
-                android:textSize="25sp"
                 android:paddingLeft="20dp"
+                android:text="@string/step_topic"
                 android:textAlignment="textStart"
-                android:textColor="@color/colorPrimary"/>
+                android:textColor="@color/colorPrimary"
+                android:textSize="25sp" />
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycle_recipe"
                 android:layout_width="wrap_content"
-                android:paddingLeft="10dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp">
-            </android.support.v7.widget.RecyclerView>
-
+                android:layout_marginTop="10dp"
+                android:paddingLeft="10dp"></android.support.v7.widget.RecyclerView>
+            <!--youtube-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/lamoon"
+                android:paddingLeft="20dp"
+                android:text="วิดีโอ"
+                android:textAlignment="textStart"
+                android:textColor="@color/colorPrimary"
+                android:textSize="25sp" />
         </LinearLayout>
     </ScrollView>
 </android.support.constraint.ConstraintLayout>
