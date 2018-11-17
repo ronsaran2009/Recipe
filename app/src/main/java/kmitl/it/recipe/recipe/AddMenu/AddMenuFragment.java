@@ -192,6 +192,7 @@ public class AddMenuFragment extends Fragment{
                                 Log.d("ADD RECIPE", "GOTO STEP");
                                 getActivity().getSupportFragmentManager()
                                         .beginTransaction()
+                                        .addToBackStack(null)
                                         .replace(R.id.main_view, obj)
                                         .commit();
                             }

@@ -177,27 +177,32 @@ public class LoginFragment extends Fragment {
                 .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
+                if (task.isSuccessful() && (_auth.getCurrentUser() != null) && !_auth.getCurrentUser().isEmailVerified()) {
                     user = task.getResult().toObject(User.class);
                     Log.d("Login", user.getEmail() + "  :  " + user.getDisplayname());
                     TextView name = getActivity().findViewById(R.id.nav_head_text);
                     name.setText(user.getDisplayname());
-                    Log.d("Login", "GETDATA()  :  SETNAME   " + user.getDisplayname());
+
                     if (!user.getDisplayname().isEmpty()) {
                         profileUrl = user.getPictureUser();
                         setImageProfile();
                     }
-                    for (int i = 0 ; i<=100;i++){
-                        Log.d("Login", "time : "+ i);
+                    Log.d("Login", "GETDATA()  :  SETNAME   " + user.getDisplayname());
+
+                    for (int i = 0; i <= 100; i++) {
+                        Log.d("Login", "time : " + i);
+
+                        Log.d("Login", "GETDATA()  :  SETNAME   " + user.getDisplayname());
+//                        getImange();
+                        //callCate();
+                        getActivity().getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.main_view, new ChooseMenuFragment()).commit();///ชั่วคราว
                     }
-                    //callCate();
-                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.main_view, new ChooseMenuFragment()).commit();///ชั่วคราว
                 }
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.main_view, new RegisterFragment()).commit();
+                getActivity().getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.main_view, new RegisterFragment()).commit();
             }
         });
     }
