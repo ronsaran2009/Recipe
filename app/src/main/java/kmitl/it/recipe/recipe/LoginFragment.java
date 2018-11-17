@@ -17,9 +17,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -55,7 +57,9 @@ public class LoginFragment extends Fragment {
     private TabLayout tabLayout;
     private ViewPager viewPager;
 
+    String profileUrl;
 
+    ImageView profileUser;
 
 
     @Nullable
@@ -169,11 +173,17 @@ public class LoginFragment extends Fragment {
                 .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+
                 if (task.isSuccessful()) {
                     user = task.getResult().toObject(User.class);
                     Log.d("Login", user.getEmail() + "  :  " + user.getDisplayname());
                     TextView name = getActivity().findViewById(R.id.nav_head_text);
+
                     name.setText(user.getDisplayname());
+                    if(!user.getDisplayname().isEmpty()){
+                            profileUrl = user.getPictureUser();
+                            setImageProfile();
+                    }
                     Log.d("Login", "GETDATA()  :  SETNAME   " + user.getDisplayname());
                     for (int i = 0 ; i<=100;i++){
                         Log.d("Login", "time : "+ i);
@@ -191,7 +201,11 @@ public class LoginFragment extends Fragment {
     }
 
 
-
+    private void setImageProfile(){
+            profileUser =   getActivity().findViewById(R.id.nav_img);
+            Glide.with(getContext()).load(profileUrl)
+                    .into(profileUser);
+    }
 
     void callCate() {
         getActivity().setContentView(R.layout.category_main);
