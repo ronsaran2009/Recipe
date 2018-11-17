@@ -116,4 +116,12 @@ public class Menu {
     public String getWriter() { return writer; }
 
     public void setWriter(String writer) { this.writer = writer; }
+
+    public String getLink() {
+        return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
+    }
 }
