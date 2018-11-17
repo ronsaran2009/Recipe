@@ -181,7 +181,7 @@ public class LoginFragment extends Fragment {
                 .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
+                if (task.isSuccessful() && (_auth.getCurrentUser() != null) && !_auth.getCurrentUser().isEmailVerified()) {
                     user = task.getResult().toObject(User.class);
                     Log.d("Login", user.getEmail() + "  :  " + user.getDisplayname());
                     TextView name = getActivity().findViewById(R.id.nav_head_text);
