@@ -12,9 +12,12 @@ public class Menu {
     private String category;
     private String time;
     private String profileMenu;
+    private String profileUser;
 
+    String imgUser;
     String writer;
     String link;
+    String _step;
 
     public Menu(){
 
@@ -25,7 +28,7 @@ public class Menu {
         this.picture =picture;
     }
 
-    public Menu(String profileMenu, String menuName, String description, String category, String time, String ingredient, String writer, ArrayList<String> step, String link) {
+    public Menu(String profileMenu, String menuName, String description, String category, String time, String ingredient, String writer, ArrayList<String> step, String link, String imgUser) {
         this.profileMenu = profileMenu;
         this.menuName = menuName;
         this.description = description;
@@ -35,8 +38,9 @@ public class Menu {
         this.writer = writer;
         this.step = step;
         this.link = link;
+        this.imgUser = imgUser;
     }
-
+    public String get_step(){return _step;}
     public String getMenuName() {
         return menuName;
     }
@@ -99,6 +103,14 @@ public class Menu {
 
     public void setProfileMenu(String profileMenu) {
         this.profileMenu = profileMenu;
+    }
+
+    public String getProfileUser() {
+        return profileUser;
+    }
+
+    public void setProfileUser(String profileMenu) {
+        this.profileUser = profileUser;
     }
 
     public String getWriter() { return writer; }

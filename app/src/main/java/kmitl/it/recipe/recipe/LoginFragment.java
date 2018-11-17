@@ -3,6 +3,7 @@ package kmitl.it.recipe.recipe;
 
 import android.app.ProgressDialog;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -21,7 +22,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -34,9 +34,11 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.google.protobuf.compiler.PluginProtos;
 
 
 import java.io.ByteArrayOutputStream;
+
 import java.io.IOException;
 
 import kmitl.it.recipe.recipe.ChooseMenu.ChooseMenuFragment;
@@ -57,9 +59,13 @@ public class LoginFragment extends Fragment {
     private TabLayout tabLayout;
     private ViewPager viewPager;
 
-    String profileUrl;
+    //image
+    StorageReference storageRef;
+    FirebaseStorage storage;
+    StorageReference propic;
 
-    ImageView profileUser;
+
+
 
 
     @Nullable
@@ -173,18 +179,13 @@ public class LoginFragment extends Fragment {
                 .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-
                 if (task.isSuccessful()) {
                     user = task.getResult().toObject(User.class);
                     Log.d("Login", user.getEmail() + "  :  " + user.getDisplayname());
                     TextView name = getActivity().findViewById(R.id.nav_head_text);
-
                     name.setText(user.getDisplayname());
-                    if(!user.getDisplayname().isEmpty()){
-                            profileUrl = user.getPictureUser();
-                            setImageProfile();
-                    }
                     Log.d("Login", "GETDATA()  :  SETNAME   " + user.getDisplayname());
+                    getImange();
                     for (int i = 0 ; i<=100;i++){
                         Log.d("Login", "time : "+ i);
                     }
@@ -201,24 +202,31 @@ public class LoginFragment extends Fragment {
     }
 
 
-    private void setImageProfile(){
-            profileUser =   getActivity().findViewById(R.id.nav_img);
-            Glide.with(getContext()).load(profileUrl)
-                    .into(profileUser);
-    }
 
-    void callCate() {
-        getActivity().setContentView(R.layout.category_main);
-        viewPager = getActivity().findViewById(R.id.viewPager);
-        tabLayout = getActivity().findViewById(R.id.tabLayout);
-//        tabAdapter = new TabAdapter(getActivity().getSupportFragmentManager());
-//        tabAdapter.addFragment(new ChooseMenuFragment(), " ต้ม - แกง ");
-//        tabAdapter.addFragment(new ChooseMenuFragment(), " ผัด - ทอด ");
-//        tabAdapter.addFragment(new ChooseMenuFragment(), " อบ - ตุ๋น ");
-//        tabAdapter.addFragment(new ChooseMenuFragment(), " ปิ้ง - ย่าง ");
-//        tabAdapter.addFragment(new ChooseMenuFragment(), " อาหารจานเดียว");
-        viewPager.setAdapter(tabAdapter);
-        tabLayout.setupWithViewPager(viewPager);
+
+    void getImange() {
+        storage = FirebaseStorage.getInstance();
+        storageRef = storage.getReferenceFromUrl(user.getPictureUser());
+
+
+        propic = storageRef.child(_auth.getCurrentUser().getEmail()+"/pic.jpeg");
+        final long ONE_MEGABYTE = 1024 * 1024;
+        propic.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+            @Override
+            public void onSuccess(byte[] bytes) {
+                ImageView proimg = getActivity().findViewById(R.id.nav_head_imange);
+                proimg.setImageDrawable(Drawable.createFromPath("images/pic.jpeg"));
+                Log.d("Login", "Success Imange : ");
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                Log.d("Login", "fail Imange : "+exception);
+                Log.d("Login", "fail Imange : "+storage.getReferenceFromUrl(user.getPictureUser()));
+
+            }
+        });
     }
 
 

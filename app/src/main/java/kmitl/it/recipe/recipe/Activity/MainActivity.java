@@ -16,7 +16,11 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import kmitl.it.recipe.recipe.ChooseMenu.ChooseMenuFragment;
 import kmitl.it.recipe.recipe.LoginFragment;
@@ -35,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth _auth;
     private DrawerLayout _drawMain;
     private ActionBarDrawerToggle _abdt;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,10 +73,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void callNavigationBar() {
+
+
         _auth = FirebaseAuth.getInstance();
         _drawMain = findViewById(R.id.drawMain);
         _abdt = new ActionBarDrawerToggle(this, _drawMain, R.string.open, R.string.close);
         _abdt.setDrawerIndicatorEnabled(true);
+
+
+
 
         _drawMain.addDrawerListener(_abdt);
         _abdt.syncState();

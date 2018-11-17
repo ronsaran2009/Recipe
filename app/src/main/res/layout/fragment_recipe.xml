@@ -73,16 +73,43 @@
                 android:layout_marginTop="10dp"
                 android:paddingLeft="10dp"></android.support.v7.widget.RecyclerView>
             <!--youtube-->
+
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/lamoon"
                 android:paddingLeft="20dp"
-                android:text="วิดีโอ"
+                android:text="วิดีโอประกอบ"
                 android:textAlignment="textStart"
                 android:textColor="@color/colorPrimary"
                 android:textSize="25sp" />
+
+
+            <TextView
+                android:id="@+id/link_youtube"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/lamoon"
+                android:paddingLeft="10dp"
+                android:text="https://www.youtube.com/watch?v=hvLznzKDjlk"
+                android:textAlignment="textStart"
+                android:textSize="20sp" />
+
+            <!--<Button-->
+            <!--android:id="@+id/btnYoutube"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:background="@drawable/button_ok"-->
+            <!--android:text="เล่นวิดีโอ"-->
+            <!--android:fontFamily="@font/lamoon"-->
+            <!--android:textColor="@color/colorPrimaryDark"-->
+            <!--android:textSize="15dp" />-->
+
+
+
+
         </LinearLayout>
     </ScrollView>
 </android.support.constraint.ConstraintLayout>

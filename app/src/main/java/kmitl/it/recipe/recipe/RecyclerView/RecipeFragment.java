@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,6 +23,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 
+import kmitl.it.recipe.recipe.ChooseMenu.ChooseMenuFragment;
 import kmitl.it.recipe.recipe.R;
 import kmitl.it.recipe.recipe.RecyclerView.MainAdapter;
 import kmitl.it.recipe.recipe.model.Menu;
@@ -42,6 +44,7 @@ public class RecipeFragment extends Fragment {
 
     //firebase
     private FirebaseFirestore _fbfs = FirebaseFirestore.getInstance();
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -112,10 +115,17 @@ public class RecipeFragment extends Fragment {
         Glide.with(getContext()).load(_menu.getProfileMenu()).into(profileImg);
 
         //set step
-
-        Toast.makeText(getActivity(),menuName,Toast.LENGTH_SHORT).show();
         _step = _menu.getstep();
-        setRecyclerView();
+        if(_step != null){
+            Log.d("RECIPE", "Call Recycler view");
+            setRecyclerView();
+        }else{
+            Log.d("RECIPE", "Step is null");
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.main_view, new ChooseMenuFragment()).addToBackStack(null).commit();
+            Toast.makeText(getActivity(),"ไม่พบข้อมูลขั้นตอนการทำอาหาร",Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     private void setRecyclerView(){
