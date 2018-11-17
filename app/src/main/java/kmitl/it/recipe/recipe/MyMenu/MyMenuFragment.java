@@ -16,8 +16,11 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -28,6 +31,7 @@ import java.util.List;
 import kmitl.it.recipe.recipe.AddMenu.AddMenuFragment;
 import kmitl.it.recipe.recipe.R;
 import kmitl.it.recipe.recipe.RecyclerView.RecipeFragment;
+import kmitl.it.recipe.recipe.Register.User;
 import kmitl.it.recipe.recipe.model.Menu;
 import kmitl.it.recipe.recipe.model.Mymenu;
 
@@ -40,6 +44,7 @@ public class MyMenuFragment extends Fragment
 
     FirebaseAuth mAuth;
     String uidUser, cate;
+    String _proFileUser = " ";
     MyMenuAdapter myMenuAdapter;
 
     private ArrayList<Mymenu> myMenuArrayList = new ArrayList<>();
@@ -66,8 +71,8 @@ public class MyMenuFragment extends Fragment
 
         Log.d("MyMenuFragment", "UID : " + uidUser);
 
-        getDataResults();
         initAddBtn();
+        getImgprofile();
 
     }
 
@@ -81,10 +86,7 @@ public class MyMenuFragment extends Fragment
             Log.d("MyMenuFragment", "goto RecipeFragment " + _recipeId);
         } else {
 
-            //Log.d("MyMenuFragment", "Create Bundle");
-
             Bundle b = new Bundle();
-
 
             //Log.d("MyMenuFragment", "Set Bundle");
 
@@ -108,6 +110,30 @@ public class MyMenuFragment extends Fragment
         }
     }
 
+    private void getImgprofile(){
+
+        _fbfs.collection("User")
+                .document(uidUser)
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        documentSnapshot.getData();
+                        _proFileUser = documentSnapshot.toObject(User.class).getPictureUser();
+
+                        Log.d("MyMenuFragment", " "+ _proFileUser);
+                            getDataResults();
+
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("MyMenuFragment", "--- BYE");
+            }
+        });
+
+    }
+
     private void getDataResults() {
         Log.d("MyMenuFragment", "GO TO DB");
 
@@ -122,7 +148,6 @@ public class MyMenuFragment extends Fragment
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         list.add(document.getId());
                         myMenuArrayList.add((document.toObject(Mymenu.class)));
-
                     }
                     if (!myMenuArrayList.isEmpty()) {
                         getImage(myMenuArrayList);
@@ -146,11 +171,10 @@ public class MyMenuFragment extends Fragment
         });
     }
 
-    private void setMyMenuAdapter(ArrayList<Menu> _menus) {
+    private void setMyMenuAdapter(ArrayList<Menu> _menus, String profileImg) {
         if (!_menus.isEmpty()) {
-            myMenuAdapter = new MyMenuAdapter(_menus, MyMenuFragment.this);
+            myMenuAdapter = new MyMenuAdapter(_menus,profileImg, MyMenuFragment.this);
             recyclerView.setAdapter(myMenuAdapter);
-
 
         }
 
@@ -198,7 +222,7 @@ public class MyMenuFragment extends Fragment
                                 Log.d("MyMenuFragment", "MYMENU_EMPTY");
                             }
                             // setMyMenuAdapter(_menus);
-                            setMyMenuAdapter(menuArrayList);
+                            setMyMenuAdapter(menuArrayList, _proFileUser);
                         } else {
                             Log.d("MyMenuFragment", "Error getting documents: ", task.getException());
                         }

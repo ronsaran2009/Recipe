@@ -1,72 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark">
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-            <LinearLayout
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!--Image profile-->
+            <ImageView
+                android:id="@+id/profile_image_menu_recipe"
+                android:layout_width="250dp"
+                android:layout_height="250dp"
+                android:layout_gravity="center"
+                android:src="@mipmap/ic_launcher" />
+
+            <!--Topic-->
+            <TextView
+                android:id="@+id/menu_topic_recipe"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:fontFamily="@font/lamoon"
+                android:text="@string/sample_menu"
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimary"
+                android:textSize="30sp" />
 
-                <!--Image profile-->
-                <ImageView
-                    android:id="@+id/profile_image_menu_recipe"
-                    android:layout_width="300dp"
-                    android:layout_height="300dp"
-                    android:layout_gravity="center"
-                    android:src="@mipmap/ic_launcher" />
+            <!--prepare-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/lamoon"
+                android:paddingLeft="20dp"
+                android:paddingBottom="0dp"
+                android:text="@string/prepare_topic"
+                android:textAlignment="textStart"
+                android:textColor="@color/colorPrimary"
+                android:textSize="25sp" />
 
-                <!--Topic-->
-                <TextView
-                    android:id="@+id/menu_topic_recipe"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/sample_menu"
-                    android:textAlignment="center"
-                    android:textSize="30sp"/>
+            <TextView
+                android:id="@+id/ingredient_item_recipe"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/lamoon"
+                android:paddingLeft="10dp"
+                android:text="@string/sample_prepare_item"
+                android:textAlignment="textStart"
+                android:textSize="20sp" />
 
-                <!--prepare-->
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="0dp"
-                    android:text="@string/prepare_topic"
-                    android:textAlignment="center"
-                    android:textSize="20sp" />
-                <TextView
-                    android:id="@+id/ingredient_item_recipe"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/sample_prepare_item"
-                    android:textAlignment="center"/>
+            <!--Step-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/lamoon"
+                android:paddingLeft="20dp"
+                android:text="@string/step_topic"
+                android:textAlignment="textStart"
+                android:textColor="@color/colorPrimary"
+                android:textSize="25sp" />
 
-                <!--Step-->
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="@string/step_topic"
-                    android:textSize="20sp"
-                    android:textAlignment="center"/>
-                <TextView
-                    android:id="@+id/step_recipe"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="@string/step_topic"
-                    android:textSize="20sp"
-                    android:textAlignment="center"/>
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/recycle_recipe"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp">
-                </android.support.v7.widget.RecyclerView>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycle_recipe"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="10dp"></android.support.v7.widget.RecyclerView>
+            <!--youtube-->
 
-           </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/lamoon"
+                android:paddingLeft="20dp"
+                android:text="วิดีโอประกอบ"
+                android:textAlignment="textStart"
+                android:textColor="@color/colorPrimary"
+                android:textSize="25sp" />
+
+
+            <TextView
+                android:id="@+id/link_youtube"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/lamoon"
+                android:paddingLeft="10dp"
+                android:text="https://www.youtube.com/watch?v=hvLznzKDjlk"
+                android:textAlignment="textStart"
+                android:textSize="20sp" />
+
+            <!--<Button-->
+            <!--android:id="@+id/btnYoutube"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:background="@drawable/button_ok"-->
+            <!--android:text="เล่นวิดีโอ"-->
+            <!--android:fontFamily="@font/lamoon"-->
+            <!--android:textColor="@color/colorPrimaryDark"-->
+            <!--android:textSize="15dp" />-->
+
+
+
+
+        </LinearLayout>
     </ScrollView>
 </android.support.constraint.ConstraintLayout>

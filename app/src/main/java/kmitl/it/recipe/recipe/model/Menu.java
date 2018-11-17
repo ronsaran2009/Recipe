@@ -12,10 +12,11 @@ public class Menu {
     private String category;
     private String time;
     private String profileMenu;
+    private String profileUser;
 
-    String _writer;
-    String _step;
-    String _link;
+    String imgUser;
+    String writer;
+    String link;
 
     public Menu(){
 
@@ -26,28 +27,17 @@ public class Menu {
         this.picture =picture;
     }
 
-    public Menu(String menuName, ArrayList<String> step, ArrayList<String> picture, String ingredient, String description, String category, String time, String profileMenu) {
+    public Menu(String profileMenu, String menuName, String description, String category, String time, String ingredient, String writer, ArrayList<String> step, String link, String imgUser) {
+        this.profileMenu = profileMenu;
         this.menuName = menuName;
+        this.description = description;
+        this.category = category;
+        this.time = time;
+        this.ingredient = ingredient;
+        this.writer = writer;
         this.step = step;
-        this.picture = picture;
-        this.ingredient = ingredient;
-        this.description = description;
-        this.category = category;
-        this.time = time;
-        this.profileMenu = profileMenu;
-    }
-
-    //test ของอายเอง
-    public Menu(String profileMenu, String menuName, String description, String category, String time, String ingredient, String writer, String step, String link) {
-        this.profileMenu = profileMenu;
-        this.menuName = menuName;
-        this.description = description;
-        this.category = category;
-        this.time = time;
-        this.ingredient = ingredient;
-        this._writer = writer;
-        _step = step;
-        _link = link;
+        this.link = link;
+        this.imgUser = imgUser;
     }
     public String get_step(){return _step;}
     public String getMenuName() {
@@ -114,7 +104,15 @@ public class Menu {
         this.profileMenu = profileMenu;
     }
 
-    public String getWriter() { return _writer; }
+    public String getProfileUser() {
+        return profileUser;
+    }
 
-    public void setWriter(String writer) { this._writer = writer; }
+    public void setProfileUser(String profileMenu) {
+        this.profileUser = profileUser;
+    }
+
+    public String getWriter() { return writer; }
+
+    public void setWriter(String writer) { this.writer = writer; }
 }

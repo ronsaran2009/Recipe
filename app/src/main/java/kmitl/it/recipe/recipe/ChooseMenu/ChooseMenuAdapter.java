@@ -8,8 +8,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,19 +42,16 @@ public class ChooseMenuAdapter extends ArrayAdapter<Menu> {
         View _menuItem = LayoutInflater.from(context)
                 .inflate(R.layout.item_show_menu, parent, false);
 
-        //เรียกตัวแปรจากหน้า item_show_menu
-        //TextView _image = _menuItem.findViewById(R.id.show_menu_img);
+        ImageView _image = _menuItem.findViewById(R.id.show_menu_img);
         //TextView _profile = _menuItem.findViewById(R.id.show_menu_profile);
         TextView _menuName = _menuItem.findViewById(R.id.show_menu_name);
         TextView _user = _menuItem.findViewById(R.id.show_menu_username);
 
         Menu _row = _menu.get(position);
-        //_image.setText(_row.getProfileMenu());
-        //_profile.setText(_row.getProfileMenu()); //แก้เป็นภาพของคนเขียน
+        Glide.with(getContext()).load(_row.getProfileMenu()).into(_image);
+        //Glide.with(getContext()).load(_row.getProfileUser()).into(_image);
         _menuName.setText(_row.getMenuName());
         _user.setText("Written by "+_row.getWriter());
-
-        //Log.d("MENU_ADAP", "menu in adap : " + _row);
 
         return _menuItem;
     }

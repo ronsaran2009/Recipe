@@ -27,6 +27,7 @@ import kmitl.it.recipe.recipe.LoginFragment;
 import kmitl.it.recipe.recipe.MyMenu.MyMenuFragment;
 import kmitl.it.recipe.recipe.R;
 import kmitl.it.recipe.recipe.ChooseMenu.TabAdapter;
+import kmitl.it.recipe.recipe.RecyclerView.RecipeFragment;
 
 public class MainActivity extends AppCompatActivity {
 
