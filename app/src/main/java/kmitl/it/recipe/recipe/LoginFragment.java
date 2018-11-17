@@ -199,14 +199,14 @@ public class LoginFragment extends Fragment {
                         Log.d("Login", "GETDATA()  :  SETNAME   " + user.getDisplayname());
 //                        getImange();
                         //callCate();
-                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.main_view, new ChooseMenuFragment()).commit();///ชั่วคราว
+                        getActivity().getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.main_view, new ChooseMenuFragment()).commit();///ชั่วคราว
                     }
                 }
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.main_view, new RegisterFragment()).commit();
+                getActivity().getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.main_view, new RegisterFragment()).commit();
             }
         });
     }
