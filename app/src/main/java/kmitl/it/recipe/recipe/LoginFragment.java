@@ -22,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -51,9 +52,10 @@ public class LoginFragment extends Fragment {
 
     FirebaseAuth _auth;
     FirebaseFirestore _firestore;
-    String _uid;
+    String _uid, profileUrl;
     User user;
 
+    ImageView profileUser;
     //Category
     private TabAdapter tabAdapter;
     private TabLayout tabLayout;
@@ -63,10 +65,6 @@ public class LoginFragment extends Fragment {
     StorageReference storageRef;
     FirebaseStorage storage;
     StorageReference propic;
-
-
-
-
 
     @Nullable
     @Override
@@ -185,7 +183,10 @@ public class LoginFragment extends Fragment {
                     TextView name = getActivity().findViewById(R.id.nav_head_text);
                     name.setText(user.getDisplayname());
                     Log.d("Login", "GETDATA()  :  SETNAME   " + user.getDisplayname());
-                    getImange();
+                    if (!user.getDisplayname().isEmpty()) {
+                        profileUrl = user.getPictureUser();
+                        setImageProfile();
+                    }
                     for (int i = 0 ; i<=100;i++){
                         Log.d("Login", "time : "+ i);
                     }
@@ -202,32 +203,9 @@ public class LoginFragment extends Fragment {
     }
 
 
-
-
-    void getImange() {
-        storage = FirebaseStorage.getInstance();
-        storageRef = storage.getReferenceFromUrl(user.getPictureUser());
-
-
-        propic = storageRef.child(_auth.getCurrentUser().getEmail()+"/pic.jpeg");
-        final long ONE_MEGABYTE = 1024 * 1024;
-        propic.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-            @Override
-            public void onSuccess(byte[] bytes) {
-                ImageView proimg = getActivity().findViewById(R.id.nav_head_imange);
-                proimg.setImageDrawable(Drawable.createFromPath("images/pic.jpeg"));
-                Log.d("Login", "Success Imange : ");
-
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                Log.d("Login", "fail Imange : "+exception);
-                Log.d("Login", "fail Imange : "+storage.getReferenceFromUrl(user.getPictureUser()));
-
-            }
-        });
+    private void setImageProfile(){
+        profileUser =   getActivity().findViewById(R.id.nav_head_imange);
+        Glide.with(getContext()).load(profileUrl)
+                .into(profileUser);
     }
-
-
 }
