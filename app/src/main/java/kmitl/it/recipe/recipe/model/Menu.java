@@ -17,6 +17,7 @@ public class Menu {
     String imgUser;
     String writer;
     String link;
+    String _step;
 
     public Menu(){
 
@@ -39,7 +40,7 @@ public class Menu {
         this.link = link;
         this.imgUser = imgUser;
     }
-
+    public String get_step(){return _step;}
     public String getMenuName() {
         return menuName;
     }
