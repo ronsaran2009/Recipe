@@ -106,7 +106,7 @@ public class Menu {
     }
 
     public String getProfileUser() {
-        return profileUser;
+        return imgUser;
     }
 
     public void setProfileUser(String profileMenu) {

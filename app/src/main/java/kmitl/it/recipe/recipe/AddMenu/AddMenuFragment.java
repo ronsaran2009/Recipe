@@ -148,7 +148,8 @@ public class AddMenuFragment extends Fragment{
                                         .getContentResolver()
                                         .openInputStream(uriImage)
                         );
-                        _imageView.setImageBitmap(_bitmap);
+                        Bitmap _bitmap2 = Bitmap.createScaledBitmap(_bitmap, 300, 300, true);
+                        _imageView.setImageBitmap(_bitmap2);
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     }
@@ -194,6 +195,7 @@ public class AddMenuFragment extends Fragment{
                                         .beginTransaction()
                                         .addToBackStack(null)
                                         .replace(R.id.main_view, obj)
+                                        .addToBackStack(null)
                                         .commit();
                             }
 
