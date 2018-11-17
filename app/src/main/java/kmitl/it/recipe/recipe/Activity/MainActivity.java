@@ -93,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
     private void goToNextPage() {
         getSupportFragmentManager()
                 .beginTransaction()
+                .addToBackStack(null)
                 .setCustomAnimations(R.anim.fade_out, R.anim.fade_in)
                 .replace(R.id.main_view, new LoginFragment())
                 .commit();
@@ -117,12 +118,13 @@ public class MainActivity extends AppCompatActivity {
                     getSupportFragmentManager()
                             .beginTransaction()
                             .setCustomAnimations(R.anim.fade_out, R.anim.fade_in)
+                            .addToBackStack(null)
                             .replace(R.id.main_view, new LoginFragment())
                             .commit();
                     _drawMain.closeDrawers();
                 }else {
                     if (id == R.id.nav_menu_category) {
-                        Toast.makeText(MainActivity.this, "CATEGORY", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "Home", Toast.LENGTH_SHORT).show();
 
 //                        setContentView(R.layout.category_main);
 //
@@ -150,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
 
 
                     }else if (id == R.id.nav_menu_mymenu) {
-                        // Toast.makeText(MainActivity.this, "MYMENU", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "MYMENU", Toast.LENGTH_SHORT).show();
 
                         getSupportFragmentManager()
                                 .beginTransaction()
@@ -182,6 +184,7 @@ public class MainActivity extends AppCompatActivity {
                         _auth.signOut();
                         getSupportFragmentManager()
                                 .beginTransaction()
+                                .addToBackStack(null)
                                 .setCustomAnimations(R.anim.fade_out, R.anim.fade_in)
                                 .replace(R.id.main_view, new LoginFragment())
                                 .commit();
