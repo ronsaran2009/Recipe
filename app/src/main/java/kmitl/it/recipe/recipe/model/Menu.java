@@ -17,6 +17,7 @@ public class Menu {
     String imgUser;
     String writer;
     String link;
+    String _step;
 
     public Menu(){
 
