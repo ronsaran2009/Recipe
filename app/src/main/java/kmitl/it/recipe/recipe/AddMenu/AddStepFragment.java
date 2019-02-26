@@ -112,6 +112,7 @@ public class AddStepFragment  extends Fragment{
         initAddBtn();
     }
 
+    private boolean check = true;
     void initSubmitBtn() {
         _step = new ArrayList<>();
         _submitBtn = getView().findViewById(R.id.step_submit);
@@ -119,20 +120,32 @@ public class AddStepFragment  extends Fragment{
             @Override
             public void onClick(View v) {
                 //Step info
-                EditText link = getView().findViewById(R.id.step_link);
                 for(int i = 1; i <= _dynamicView.getTotal(); i++){
-                    _step.add(((EditText)(getView().findViewById(i))).getText().toString());
-                    Log.d("ADD RECIPE", "id : "+i+"\n step : "+_step.get(_step.size()-1));
+                    String _stepDetail = ((EditText)(getView().findViewById(i))).getText().toString();
+                    if(_stepDetail.isEmpty()){
+                        Log.d("ADD STEP", "step is empty >> "+i);
+                        check = false;
+                        break;
+                    }else{
+                        _step.add(_stepDetail);
+                        Log.d("ADD STEP", "id : "+i+"\n step : "+_step.get(_step.size()-1));
+                    }
                 }
-                //Step info
-                linkStr = link.getText().toString();
 
-                Log.d("ADD RECIPE", _nameStr + _descStr
+                Log.d("ADD STEP", _nameStr + _descStr
                         + _typeStr + _timeStr + _ingStr + _writer + _imgStr + _step + linkStr);
 
                 Log.d("ADD STEP", "GOTO MY_MENU");
                 //Set data to Mymenu
-                setMyMenu();
+                if(check == false){
+                    Toast.makeText(getActivity(), "กรุณากรอกข้อมูลให้ครบ", Toast.LENGTH_SHORT).show();
+                    Log.d("ADD STEP", "step is empty >> "+_step);
+                    check = true;
+                    _step.clear();
+                }else {
+                    setMyMenu();
+                }
+
             }
         });
     }
@@ -148,8 +161,13 @@ public class AddStepFragment  extends Fragment{
         _addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                _mLayout.addView(_dynamicView.descriptionTextView(getContext(), "ขั้นตอนที่ : "+(++count)));
-                _mLayout.addView(_dynamicView.recieveQuantityEdittext(getContext()));
+                if(count < 20){
+                    _mLayout.addView(_dynamicView.descriptionTextView(getContext(), "ขั้นตอนที่ : "+(++count)));
+                    _mLayout.addView(_dynamicView.recieveQuantityEdittext(getContext()));
+                }else {
+                    Toast.makeText(getActivity(), "มีขั้นตอนได้ไม่เกิน 20 ขั้นตอน", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
     }
@@ -163,6 +181,7 @@ public class AddStepFragment  extends Fragment{
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         _writer = documentSnapshot.get("displayname").toString();
                         _imgUser = documentSnapshot.get("pictureUser").toString();
+                        Log.d("ADD STEP", _imgUser);
                     }
                 }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -274,7 +293,7 @@ public class AddStepFragment  extends Fragment{
 
     //Set data to Menu
     void setMenu(){
-//        Log.d("ADD STEP", _imgStr + " " + _imgUser);
+        Log.d("ADD STEP", _imgStr + " " + _imgUser);
 
         Menu menu = new Menu(_imgStr, _nameStr, _descStr, _typeStr, _timeStr, _ingStr, _writer, _step, linkStr, _imgUser);
 

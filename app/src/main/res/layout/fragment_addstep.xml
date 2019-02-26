@@ -14,13 +14,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="8dp"
         android:fontFamily="@font/lamoon"
         android:text="เพิ่มขั้นตอนการทำ"
         android:textColor="@color/colorPrimary"
         android:textSize="35dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/topic_step" />
 
     <Button
         android:id="@+id/step_submit"
@@ -37,51 +37,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!--Link youtube-->
-    <TextView
-        android:id="@+id/topic_link"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
-        android:fontFamily="@font/lamoon"
-        android:text="ลิ้ง Youtube"
-        android:textColor="@color/colorFont"
-        android:textSize="25dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/topic_add_step" />
-
-    <EditText
-        android:id="@+id/step_link"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
-        android:background="@drawable/rounded"
-        android:ems="10"
-        android:fontFamily="@font/lamoon"
-        android:inputType="textPersonName"
-        android:textAlignment="center"
-        android:textColor="@color/colorPrimary"
-        android:textSize="25dp"
-        app:layout_constraintBottom_toBottomOf="@+id/topic_link"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/topic_link"
-        app:layout_constraintTop_toTopOf="@+id/topic_link" />
-
     <!--step-->
     <TextView
         android:id="@+id/topic_step"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="20dp"
         android:fontFamily="@font/lamoon"
         android:text="วิธีทำ"
         android:textColor="@color/colorFont"
         android:textSize="25dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/topic_link" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/add_btn_dynamic"
@@ -98,16 +66,14 @@
         android:textSize="26dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/topic_step" />
+        app:layout_constraintTop_toBottomOf="@+id/topic_add_step" />
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="221dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/add_btn_dynamic">

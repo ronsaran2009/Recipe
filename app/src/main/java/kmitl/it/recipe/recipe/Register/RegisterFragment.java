@@ -161,13 +161,13 @@ public class RegisterFragment extends Fragment {
                             _passwordStr = _password.getText().toString();
                             _repasswordStr = _repassword.getText().toString();
 
-                            if (_passwordStr.length() < 6) {
+                            if (_displayStr.isEmpty() || _emailStr.isEmpty() || _passwordStr.isEmpty() || _repasswordStr.isEmpty() || _imgStr.isEmpty()) {
                                 Toast.makeText(
                                         getActivity(),
-                                        "Password ต้องมีความกว้างขั้นต่ำ 6 ตัวอักษร",
+                                        "กรุณากรอกข้อมูลให้ครบ",
                                         Toast.LENGTH_SHORT
                                 ).show();
-                                Log.d("REGISTER", "PASSWORD LENGHT < 6");
+                                Log.d("REGISTER", "INFORMATION IS EMPTY");
                             } else if (!_passwordStr.equals(_repasswordStr)) {
                                 Toast.makeText(
                                         getActivity(),
@@ -175,13 +175,14 @@ public class RegisterFragment extends Fragment {
                                         Toast.LENGTH_SHORT
                                 ).show();
                                 Log.d("REGISTER", "PASSWORD IS NOT EXIST");
-                            } else if (_displayStr.isEmpty() || _emailStr.isEmpty() || _passwordStr.isEmpty() || _repasswordStr.isEmpty() || _imgStr.isEmpty()) {
+                            } else if
+                                    (_passwordStr.length() < 6 || _passwordStr.length() > 12) {
                                 Toast.makeText(
                                         getActivity(),
-                                        "กรุณากรอกข้อมูลให้ครบ",
+                                        "Password ต้องมีความยาว 6-12 ตัวอักษร",
                                         Toast.LENGTH_SHORT
                                 ).show();
-                                Log.d("REGISTER", "INFORMATION IS EMPTY");
+                                Log.d("REGISTER", "PASSWORD LENGHT < 6");
                             } else {
                                 sendVerifiedEmail();
 

@@ -116,11 +116,6 @@ public class RecipeFragment extends Fragment {
         profileImg = getView().findViewById(R.id.profile_image_menu_recipe);
         Glide.with(getContext()).load(_menu.getProfileMenu()).into(profileImg);
 
-        //set Link Youtube
-        link_youtube = getView().findViewById(R.id.link_youtube);
-        link_youtube.setText(_menu.getLink());
-        link_youtube.setMovementMethod(LinkMovementMethod.getInstance());
-
         //set step
         _step = _menu.getstep();
         if(_step != null){
