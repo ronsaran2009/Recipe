@@ -63,14 +63,10 @@ public class RegisterFragment extends Fragment {
 
     private FirebaseAuth mailAuth;
     FirebaseFirestore _firestore;
-    FirebaseUser _mUser;
     FirebaseStorage storage;
     StorageReference storageRef, imgRef;
 
-    private ActionBarDrawerToggle _abdt;
-    private DrawerLayout _drawMain;
-
-    String _imgStr, _uidStr;
+    String _imgStr = "null", _uidStr;
 
     //Att. for registerUser
     EditText _display, _email, _password, _repassword;
@@ -102,29 +98,28 @@ public class RegisterFragment extends Fragment {
         storageRef = storage.getReference();
 
         _regBtn = getView().findViewById(R.id.register_registerbtn);
-
         _imgBtn = getView().findViewById(R.id.register_img_btn);
 
-        //choose Image
-        _imgBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onGalleryClick();
-            }
-        });
+        onGalleryClick();
+        registerBtn();
     }
 
     //get Photo's path
     public void onGalleryClick() {
-        Intent intent = new Intent(Intent.ACTION_PICK);
+        _imgBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_PICK);
 
-        File _picDirect = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-        String _picPath = _picDirect.getPath();
-        _imgStr = _picPath;
-        Log.d("ADD MENU", _picPath);
+                File _picDirect = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+                String _picPath = _picDirect.getPath();
+                _imgStr = _picPath;
+                Log.d("ADD MENU", _picPath);
 
-        intent.setType("image/*");
-        startActivityForResult(intent, select);
+                intent.setType("image/*");
+                startActivityForResult(intent, select);
+            }
+        });
     }
 
     //set Photo to fragment_addrecipe
@@ -146,110 +141,6 @@ public class RegisterFragment extends Fragment {
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     }
-
-                    //Click Register
-                    _regBtn.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            _display = getView().findViewById(R.id.register_display);
-                            _email = getView().findViewById(R.id.register_email);
-                            _password = getView().findViewById(R.id.register_password);
-                            _repassword = getView().findViewById(R.id.register_repassword);
-
-                            _displayStr = _display.getText().toString();
-                            _emailStr = _email.getText().toString();
-                            _passwordStr = _password.getText().toString();
-                            _repasswordStr = _repassword.getText().toString();
-
-                            if (_displayStr.isEmpty() || _emailStr.isEmpty() || _passwordStr.isEmpty() || _repasswordStr.isEmpty() || _imgStr.isEmpty()) {
-                                Toast.makeText(
-                                        getActivity(),
-                                        "กรุณากรอกข้อมูลให้ครบ",
-                                        Toast.LENGTH_SHORT
-                                ).show();
-                                Log.d("REGISTER", "INFORMATION IS EMPTY");
-                            } else if (!_passwordStr.equals(_repasswordStr)) {
-                                Toast.makeText(
-                                        getActivity(),
-                                        "Password ไม่ตรงกัน",
-                                        Toast.LENGTH_SHORT
-                                ).show();
-                                Log.d("REGISTER", "PASSWORD IS NOT EXIST");
-                            } else if
-                                    (_passwordStr.length() < 6 || _passwordStr.length() > 12) {
-                                Toast.makeText(
-                                        getActivity(),
-                                        "Password ต้องมีความยาว 6-12 ตัวอักษร",
-                                        Toast.LENGTH_SHORT
-                                ).show();
-                                Log.d("REGISTER", "PASSWORD LENGHT < 6");
-                            } else {
-                                sendVerifiedEmail();
-
-                                //upload imageUser to FireStorage
-                                Bitmap bmp = null;
-                                try {
-                                    bmp = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), uriImage);
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-
-                                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                                bmp.compress(Bitmap.CompressFormat.JPEG, 10, baos); //resize image
-
-                                byte[] byteArray = baos.toByteArray();
-
-                                progressDialog = new ProgressDialog(getContext());
-                                progressDialog.setMax(100);
-                                progressDialog.setMessage("Registering...");
-                                progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-                                progressDialog.show();
-                                progressDialog.setCancelable(false);
-
-                                imgRef = storageRef.child("profile/" + _emailStr + "/" + "pic"); //+ _emailStr
-                                uploadTask = imgRef.putBytes(byteArray);
-
-                                uploadTask.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                                    @Override
-                                    public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                                        double progress = (100 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
-                                        progressDialog.incrementProgressBy((int) progress);
-                                    }
-                                });
-
-                                uploadTask.addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        Toast.makeText(getActivity(), "FAIL", Toast.LENGTH_SHORT).show();
-                                        progressDialog.dismiss();
-                                    }
-                                }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                                    @Override
-                                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                        storageRef.child("profile/" + _emailStr + "/" + "pic").getDownloadUrl()
-                                                .addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                                    @Override
-                                                    public void onSuccess(Uri uri) {
-                                                        _imgStr = uri.toString();
-                                                        Log.d("REGISTER", "URL imageUser = " + _imgStr);
-
-                                                        progressDialog.dismiss();
-                                                        Log.d("REGISTER", "REGISTERING...");
-                                                        registerUser();
-                                                    }
-                                                }).addOnFailureListener(new OnFailureListener() {
-                                                    @Override
-                                                    public void onFailure(@NonNull Exception e) {
-                                                        Toast.makeText(getActivity(), "Fail", Toast.LENGTH_SHORT).show();
-                                                    }
-                                                });
-
-                                    }
-                                });
-
-                            }
-                        }
-                    });
                 }
         }
     }
@@ -306,11 +197,10 @@ public class RegisterFragment extends Fragment {
     void sendVerifiedEmail() {
         mailAuth.createUserWithEmailAndPassword(_emailStr, _passwordStr).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
             public void onSuccess(AuthResult authResult) {
-                authResult.getUser()
-                        .sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
+                authResult.getUser().sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        Log.d("reg", "SEND VERIFIED EMAIL");
+                        Log.d("REGISTER", "SEND VERIFIED EMAIL");
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -339,6 +229,115 @@ public class RegisterFragment extends Fragment {
                         .replace(R.id.main_view, new RegisterFragment())
                         .commit();
 
+            }
+        });
+    }
+
+    void registerBtn(){
+
+        _regBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                _display = getView().findViewById(R.id.register_display);
+                _email = getView().findViewById(R.id.register_email);
+                _password = getView().findViewById(R.id.register_password);
+                _repassword = getView().findViewById(R.id.register_repassword);
+
+                _displayStr = _display.getText().toString();
+                _emailStr = _email.getText().toString();
+                _passwordStr = _password.getText().toString();
+                _repasswordStr = _repassword.getText().toString();
+
+                Log.d("REGISTER", "check"+_imgStr.equals("null"));
+
+                if (_displayStr.isEmpty() || _emailStr.isEmpty() || _passwordStr.isEmpty() || _repasswordStr.isEmpty()  || _imgStr.equals("null")) {
+                    Toast.makeText(
+                            getActivity(),
+                            "กรุณากรอกข้อมูลให้ครบ",
+                            Toast.LENGTH_SHORT
+                    ).show();
+                    Log.d("REGISTER", "INFORMATION IS EMPTY");
+                } else if (_passwordStr.length() < 6 || _passwordStr.length() > 12) {
+                    Toast.makeText(
+                            getActivity(),
+                            "Password ต้องมีความยาว 6-12 ตัวอักษร",
+                            Toast.LENGTH_SHORT
+                    ).show();
+                    Log.d("REGISTER", "PASSWORD LENGHT < 6");
+                } else if (!_passwordStr.equals(_repasswordStr)) {
+                    Toast.makeText(
+                            getActivity(),
+                            "Password ไม่ตรงกัน",
+                            Toast.LENGTH_SHORT
+                    ).show();
+                    Log.d("REGISTER", "PASSWORD IS NOT MATCH");
+                } else {
+                    sendVerifiedEmail();
+
+                    //upload imageUser to FireStorage
+                    Bitmap bmp = null;
+                    try {
+                        bmp = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), uriImage);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    bmp.compress(Bitmap.CompressFormat.JPEG, 10, baos); //resize image
+
+                    byte[] byteArray = baos.toByteArray();
+
+                    progressDialog = new ProgressDialog(getContext());
+                    progressDialog.setMax(100);
+                    progressDialog.setMessage("Registering...");
+                    progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+                    progressDialog.show();
+                    progressDialog.setCancelable(false);
+
+                    imgRef = storageRef.child("profile/" + _emailStr + "/" + "pic"); //+ _emailStr
+                    uploadTask = imgRef.putBytes(byteArray);
+
+                    uploadTask.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                            double progress = (100 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+                            progressDialog.incrementProgressBy((int) progress);
+                        }
+                    });
+
+                    uploadTask.addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(getActivity(), "FAIL", Toast.LENGTH_SHORT).show();
+                            progressDialog.dismiss();
+                        }
+                    }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            storageRef.child("profile/" + _emailStr + "/" + "pic").getDownloadUrl()
+                                    .addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                        @Override
+                                        public void onSuccess(Uri uri) {
+                                            _imgStr = uri.toString();
+                                            Log.d("REGISTER", "URL imageUser = " + _imgStr);
+
+                                            progressDialog.dismiss();
+                                            Log.d("REGISTER", "REGISTERING...");
+                                            registerUser();
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.d("REGISTER", "UploadTask Fail");
+                                    Toast.makeText(getActivity(), "Fail", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+
+                        }
+
+                    });
+                }
             }
         });
     }
