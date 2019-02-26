@@ -46,7 +46,7 @@ public class AddMenuFragment extends Fragment{
     ImageView _imageView;
 
     EditText _name, _desc, _time, _ing;
-    String _nameStr, _descStr, _typeStr, _timeStr, _ingStr;
+    String _nameStr, _descStr, _typeStr, _timeStr, _ingStr, _imgStr="null";
 
     ImageView _imgBtn;
     Button  _nextBtn;
@@ -77,8 +77,6 @@ public class AddMenuFragment extends Fragment{
         //get FirebaseFirestore
         mDB = FirebaseFirestore.getInstance();
 
-        checkMenuName();
-
         //create SQLite
         mySQL = getActivity().openOrCreateDatabase("my.db", MODE_PRIVATE, null);
         mySQL.execSQL(
@@ -90,13 +88,14 @@ public class AddMenuFragment extends Fragment{
         _imageView = getView().findViewById(R.id.add_recipe_img);
         _nextBtn = getView().findViewById(R.id.add_recipe_next_btn);
 
+        //Categories
+        checkMenuName();
+
         //click Add Photo
-        _imgBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onGalleryClick();
-            }
-        });
+        onGalleryClick();
+
+        //click Next Step
+        nextBtn();
 
         //Array Food's type - DROPDOWN
         _typeSpin = getView().findViewById(R.id.add_recipe_spinner_type);
@@ -120,16 +119,77 @@ public class AddMenuFragment extends Fragment{
         });
     }
 
+    void nextBtn(){
+        _nextBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                _nextBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        _name = getView().findViewById(R.id.add_recipe_name);
+                        _desc = getView().findViewById(R.id.add_recipe_desc);
+                        _time = getView().findViewById(R.id.add_recipe_time);
+                        _ing = getView().findViewById(R.id.add_recipe_ing);
+
+                        _nameStr = _name.getText().toString();
+                        _descStr = _desc.getText().toString();
+                        _timeStr = _time.getText().toString();
+                        _ingStr = _ing.getText().toString();
+
+                        if(allMenu.contains(_nameStr)){
+                            Toast.makeText(getActivity(), "ชื่อเมนูนี้ มีผู้ใช้แล้ว", Toast.LENGTH_SHORT).show();
+                        } else if(_nameStr.isEmpty() || _descStr.isEmpty() || _typeStr.isEmpty() || _timeStr.isEmpty() || _ingStr.isEmpty() || _imgStr.equals("null")){
+                            Toast.makeText(getActivity(), "กรุณากรอกข้อมูลให้ครบ", Toast.LENGTH_SHORT).show();
+                        } else {
+                            ContentValues _row = new ContentValues();
+                            _row.put("name", _nameStr);
+                            _row.put("description", _descStr);
+                            _row.put("type", _typeStr);
+                            _row.put("time", _timeStr);
+                            _row.put("ingredient", _ingStr);
+
+                            mySQL.insert("menu", null, _row);
+
+                            Log.d("ADD RECIPE", "INSERT ALREADY");
+
+                            //create Bundle
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable("uriImage", image); //Uri Image
+
+                            AddStepFragment obj = new AddStepFragment();
+                            obj.setArguments(bundle);
+
+                            Log.d("ADD RECIPE", "GOTO STEP");
+                            getActivity().getSupportFragmentManager()
+                                    .beginTransaction()
+                                    .addToBackStack(null)
+                                    .replace(R.id.main_view, obj)
+                                    .addToBackStack(null)
+                                    .commit();
+                        }
+
+                    }
+                });
+            }
+        });
+    }
+
     //get Photo's path
     public void onGalleryClick(){
-        Intent intent = new Intent(Intent.ACTION_PICK);
+        _imgBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_PICK);
 
-        File _picDirect = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-        String _picPath = _picDirect.getPath();
-        Log.d("ADD MENU", _picPath);
+                File _picDirect = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+                String _picPath = _picDirect.getPath();
+                _imgStr = _picPath;
+                Log.d("ADD MENU", _picPath);
 
-        intent.setType("image/*");
-        startActivityForResult(intent, select);
+                intent.setType("image/*");
+                startActivityForResult(intent, select);
+            }
+        });
     }
 
     //set Photo to fragment_addrecipe
@@ -154,53 +214,7 @@ public class AddMenuFragment extends Fragment{
                         e.printStackTrace();
                     }
 
-                    _nextBtn.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            _name = getView().findViewById(R.id.add_recipe_name);
-                            _desc = getView().findViewById(R.id.add_recipe_desc);
-                            _time = getView().findViewById(R.id.add_recipe_time);
-                            _ing = getView().findViewById(R.id.add_recipe_ing);
 
-                            _nameStr = _name.getText().toString();
-                            _descStr = _desc.getText().toString();
-                            _timeStr = _time.getText().toString();
-                            _ingStr = _ing.getText().toString();
-
-                            if(allMenu.contains(_nameStr)){
-                                Toast.makeText(getActivity(), "ชื่อเมนูนี้ มีผู้ใช้แล้ว", Toast.LENGTH_SHORT).show();
-                            } else if(_nameStr.isEmpty() || _descStr.isEmpty() || _typeStr.isEmpty() || _timeStr.isEmpty() || _ingStr.isEmpty()){
-                                Toast.makeText(getActivity(), "กรุณากรอกข้อมูลให้ครบ", Toast.LENGTH_SHORT).show();
-                            } else {
-                                ContentValues _row = new ContentValues();
-                                _row.put("name", _nameStr);
-                                _row.put("description", _descStr);
-                                _row.put("type", _typeStr);
-                                _row.put("time", _timeStr);
-                                _row.put("ingredient", _ingStr);
-
-                                mySQL.insert("menu", null, _row);
-
-                                Log.d("ADD RECIPE", "INSERT ALREADY");
-
-                                //create Bundle
-                                Bundle bundle = new Bundle();
-                                bundle.putSerializable("uriImage", image); //Uri Image
-
-                                AddStepFragment obj = new AddStepFragment();
-                                obj.setArguments(bundle);
-
-                                Log.d("ADD RECIPE", "GOTO STEP");
-                                getActivity().getSupportFragmentManager()
-                                        .beginTransaction()
-                                        .addToBackStack(null)
-                                        .replace(R.id.main_view, obj)
-                                        .addToBackStack(null)
-                                        .commit();
-                            }
-
-                        }
-                    });
                 }
         }
     }
