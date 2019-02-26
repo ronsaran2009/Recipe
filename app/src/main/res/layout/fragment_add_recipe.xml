@@ -44,7 +44,7 @@
         android:background="@drawable/rounded"
         android:ems="10"
         android:fontFamily="@font/lamoon"
-        android:hint="60 นาที"
+        android:hint="เวลา (นาที)"
         android:inputType="number"
         android:textAlignment="center"
         android:textColor="@color/colorPrimary"

@@ -136,36 +136,45 @@ public class AddMenuFragment extends Fragment{
                         _timeStr = _time.getText().toString();
                         _ingStr = _ing.getText().toString();
 
-                        if(allMenu.contains(_nameStr)){
-                            Toast.makeText(getActivity(), "ชื่อเมนูนี้ มีผู้ใช้แล้ว", Toast.LENGTH_SHORT).show();
-                        } else if(_nameStr.isEmpty() || _descStr.isEmpty() || _typeStr.isEmpty() || _timeStr.isEmpty() || _ingStr.isEmpty() || _imgStr.equals("null")){
-                            Toast.makeText(getActivity(), "กรุณากรอกข้อมูลให้ครบ", Toast.LENGTH_SHORT).show();
-                        } else {
-                            ContentValues _row = new ContentValues();
-                            _row.put("name", _nameStr);
-                            _row.put("description", _descStr);
-                            _row.put("type", _typeStr);
-                            _row.put("time", _timeStr);
-                            _row.put("ingredient", _ingStr);
+                        try {
+                            if(allMenu.contains(_nameStr)){
+                                Toast.makeText(getActivity(), "ชื่อเมนูนี้ มีผู้ใช้แล้ว", Toast.LENGTH_SHORT).show();
+                            } else if(_nameStr.isEmpty() || _descStr.isEmpty() || _typeStr.isEmpty() || _timeStr.isEmpty() || _ingStr.isEmpty() || _imgStr.equals("null")){
+                                Toast.makeText(getActivity(), "กรุณากรอกข้อมูลให้ครบ", Toast.LENGTH_SHORT).show();
+                            } else if(Integer.parseInt(_timeStr) < 1 || Integer.parseInt(_timeStr) > 2880 ){
+                                Toast.makeText(getActivity(), "เวลาอยู่ในช่วง 1-2880 นาที", Toast.LENGTH_SHORT).show();
+                            } else {
+                                ContentValues _row = new ContentValues();
+                                _row.put("name", _nameStr);
+                                _row.put("description", _descStr);
+                                _row.put("type", _typeStr);
+                                _row.put("time", _timeStr);
+                                _row.put("ingredient", _ingStr);
 
-                            mySQL.insert("menu", null, _row);
+                                mySQL.insert("menu", null, _row);
 
-                            Log.d("ADD RECIPE", "INSERT ALREADY");
+                                Log.d("ADD RECIPE", "INSERT ALREADY");
 
-                            //create Bundle
-                            Bundle bundle = new Bundle();
-                            bundle.putSerializable("uriImage", image); //Uri Image
+                                //create Bundle
+                                Bundle bundle = new Bundle();
+                                bundle.putSerializable("uriImage", image); //Uri Image
 
-                            AddStepFragment obj = new AddStepFragment();
-                            obj.setArguments(bundle);
+                                AddStepFragment obj = new AddStepFragment();
+                                obj.setArguments(bundle);
 
-                            Log.d("ADD RECIPE", "GOTO STEP");
-                            getActivity().getSupportFragmentManager()
-                                    .beginTransaction()
-                                    .addToBackStack(null)
-                                    .replace(R.id.main_view, obj)
-                                    .addToBackStack(null)
-                                    .commit();
+                                Log.d("ADD RECIPE", "GOTO STEP");
+                                getActivity().getSupportFragmentManager()
+                                        .beginTransaction()
+                                        .addToBackStack(null)
+                                        .replace(R.id.main_view, obj)
+                                        .addToBackStack(null)
+                                        .commit();
+                            }
+
+                        }catch (Exception e){
+                            Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                            Log.e("ADD RECIPE", ""+e.getMessage());
+                            e.printStackTrace();
                         }
 
                     }

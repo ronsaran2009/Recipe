@@ -70,6 +70,7 @@ public class AddStepFragment  extends Fragment{
     private Button _addBtn;
     private DynamicView _dynamicView;
     private LinearLayout _mLayout;
+    private LinearLayout linearLayout;
     private int count = 0;
     private ArrayList<String> _step;
 
@@ -171,6 +172,7 @@ public class AddStepFragment  extends Fragment{
             }
         });
     }
+
 
     //Writer's name
     void getWriter(final String uidUser) {
